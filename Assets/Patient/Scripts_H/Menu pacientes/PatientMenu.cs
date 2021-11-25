@@ -374,7 +374,11 @@ public class PatientMenu : MonoBehaviour
         File.WriteAllText(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Desktop) + "/RoboticsLab_UC3M" + "/PatientSelected.txt",
             SaveInfoPatients_launch.Instance.SelectedPatient.ID1.ToString());
 
+        //Lanzco la APP
         Application.OpenURL(LaunchApps.instance.PathSelected);
+
+        //Cierro el Launcher con retardo para que se cierre una vez abierta la APP
+        Invoke(nameof(ExitGame), 2f);
     }
 
     public void OpenExitPanel()
