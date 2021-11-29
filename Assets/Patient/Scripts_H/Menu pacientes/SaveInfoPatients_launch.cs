@@ -530,7 +530,7 @@ public class PatientsNamesID
 
         var ff = File.CreateText(path);
         //ff.Dispose();
-        string data = "ID;Nombre completo;Mano afectada" + System.Environment.NewLine;
+        string data = "ID;Nombre completo;Mano amputada afectada" + System.Environment.NewLine;
 
         for (int i = 0; i < patients.Count; i++)
         {

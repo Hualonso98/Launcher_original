@@ -7,12 +7,16 @@ public class LaunchApps : MonoBehaviour
 {
     public static LaunchApps instance;
 
-    string[] paths = new string[4] { "", "", "", "" };
+    public GameObject panel_reminder;
+
+    string[] paths = new string[5] { "", "", "", "", "" }; //0: Launcher, 1: Gestures, 2: MT, 3: BBT, 4: Clothespin
     string path = "";
 
     string pathSelected = "";
 
     int appSelected = -1;
+
+    Coroutine wait_enter_coroutine;
 
     public string[] Paths { get => paths; set => paths = value; }
     public string PathSelected { get => pathSelected; set => pathSelected = value; }
@@ -23,8 +27,8 @@ public class LaunchApps : MonoBehaviour
     {
         instance = this; //Aunque no haga un DontDestroyOnLoad puedo acceder a los campos de este script desde otra escena a través del instance
 
-        path = Application.dataPath + "/Paths";
-        
+        path = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Desktop) + "/RoboticsLab_UC3M/Develop/Paths";
+
         ReadPaths();
     }
 
@@ -44,10 +48,79 @@ public class LaunchApps : MonoBehaviour
         }
     }
 
-    public void OpenGame(int number)
-    {
+    public void SelectGame(int number)
+    { //EL 0 ES EL LAUNCHER
+
         appSelected = number;
         pathSelected = paths[number];
+
+        switch (number)
+        {
+            case 1:
+                panel_reminder.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = "Recuerde tener desconectadas las gafas VR\n\nPresione Enter cuando esté correcto";
+             //   wait_enter_coroutine = StartCoroutine(WaitInput(0));
+                break;
+
+            case 2:
+                panel_reminder.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = "Recuerde conectar las gafas VR si se van a utilizar\n\nPresione Enter cuando esté correcto";
+             //   wait_enter_coroutine = StartCoroutine(WaitInput(2));
+                break;
+
+            case 3:
+                panel_reminder.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = "Recuerde conectar las gafas VR si se van a utilizar\n\nPresione Enter cuando esté correcto";
+             //   wait_enter_coroutine = StartCoroutine(WaitInput(2));
+                break;
+
+            case 4:
+                panel_reminder.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = "Recuerde tener conectadas las gafas VR\n\nPresione Enter cuando esté correcto";
+             //   wait_enter_coroutine = StartCoroutine(WaitInput(1));
+                break;
+        }
+
+        wait_enter_coroutine = StartCoroutine(WaitInput());
+
+        panel_reminder.SetActive(true);
+    }
+    
+    IEnumerator WaitInput()
+    { //vr: 0 → no vr, 1 → sí vr, 2 → ambas
+        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Return));
+
+        LoadPatientMenu();
+
+        StopCoroutine(wait_enter_coroutine);
+        //Código para comprobar si está o no conectadas las VR, pero solo puedo comprobar si se han desconectado, no puedo comprobar si se han conectado (no aparecen reflejadas)
+        /* List<UnityEngine.XR.XRDisplaySubsystem> xRDisplaySubsystems = new List<UnityEngine.XR.XRDisplaySubsystem>();
+         SubsystemManager.GetInstances<UnityEngine.XR.XRDisplaySubsystem>(xRDisplaySubsystems);
+
+         if (xRDisplaySubsystems.Count > 0)
+         {
+             if (xRDisplaySubsystems[0].running)
+             {
+                 if (vr == 0)
+                 {
+                     panel_reminder.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = "Aún no se han desconectado las gafas VR\n\nPresione Enter cuando esté correcto";
+                     StopCoroutine(wait_enter_coroutine);
+                     wait_enter_coroutine = StartCoroutine(WaitInput(0));
+                 }
+             }
+             else
+             { //Si había VR conectadas desde el inicio pero ahora están desconectadas
+
+             }
+         }
+         else
+         { //Si no hay VR conectadas desde el inicio
+             if (vr == 0) 
+             { 
+
+             }
+         }
+        */
+    }
+    
+    void LoadPatientMenu()
+    {
         UnityEngine.SceneManagement.SceneManager.LoadScene(2);
     }
 }

@@ -15,17 +15,18 @@ public class Inicio : MonoBehaviour
 
     private void Start()
     {
-        path = Application.dataPath + "/Paths";
-        if (!Directory.Exists(Application.dataPath + "/Paths"))
+        path = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Desktop) + "/RoboticsLab_UC3M/Develop/Paths";
+     //   path = Application.dataPath + "/Paths";
+        if (!Directory.Exists(path))
         {
-            Directory.CreateDirectory(Application.dataPath + "/Paths");
+            Directory.CreateDirectory(path);
         }
 
         if (!File.Exists(path + "/ApplicationsPaths.txt"))
         {
             File.Create(path + "/ApplicationsPaths.txt").Dispose();
 
-            string data = "0;0;0;0;";
+            string data = "0;0;0;0;0;";
             File.WriteAllText(path + "/ApplicationsPaths.txt", data);
         }
 
@@ -34,6 +35,8 @@ public class Inicio : MonoBehaviour
             canvas_error.SetActive(true);
             Invoke(nameof(CloseLauncher), 2f);
         }
+
+
     }
     public void CloseLauncher()
     {

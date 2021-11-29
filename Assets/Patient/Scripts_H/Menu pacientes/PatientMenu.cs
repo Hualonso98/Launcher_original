@@ -54,10 +54,10 @@ public class PatientMenu : MonoBehaviour
         string nameApp = "";
         switch (LaunchApps.instance.AppSelected)
         {
-            case 0: nameApp = "Gestures"; break;
-            case 1: nameApp = "MT"; break;
-            case 2: nameApp = "BBT"; break;
-            case 3: nameApp = "Clothespin"; break;
+            case 1: nameApp = "Gestures"; break;
+            case 2: nameApp = "MT"; break;
+            case 3: nameApp = "BBT"; break;
+            case 4: nameApp = "Clothespin"; break;
         }
         Debug.Log(LaunchApps.instance.AppSelected + "  " + nameApp);
 
