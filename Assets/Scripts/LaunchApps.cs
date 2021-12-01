@@ -28,7 +28,7 @@ public class LaunchApps : MonoBehaviour
         instance = this; //Aunque no haga un DontDestroyOnLoad puedo acceder a los campos de este script desde otra escena a través del instance
 
         path = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Desktop) + "/RoboticsLab_UC3M/Develop/Paths";
-
+        // path = Application.dataPath + "/Paths";
         ReadPaths();
     }
 
@@ -40,11 +40,11 @@ public class LaunchApps : MonoBehaviour
 
     public void ReadPaths()
     {
-        string data = File.ReadAllText(path + "/ApplicationsPaths.txt");
+        string[] data = File.ReadAllLines(path + "/ApplicationsPaths.txt");
 
         for (int i = 0; i < paths.Length; i++)
         {
-            paths[i] = data.Split(';')[i]; Debug.Log(paths[i]);
+            paths[i] = data[i]; Debug.Log(paths[i]);
         }
     }
 
@@ -58,22 +58,22 @@ public class LaunchApps : MonoBehaviour
         {
             case 1:
                 panel_reminder.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = "Recuerde tener desconectadas las gafas VR\n\nPresione Enter cuando esté correcto";
-             //   wait_enter_coroutine = StartCoroutine(WaitInput(0));
+                //   wait_enter_coroutine = StartCoroutine(WaitInput(0));
                 break;
 
             case 2:
                 panel_reminder.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = "Recuerde conectar las gafas VR si se van a utilizar\n\nPresione Enter cuando esté correcto";
-             //   wait_enter_coroutine = StartCoroutine(WaitInput(2));
+                //   wait_enter_coroutine = StartCoroutine(WaitInput(2));
                 break;
 
             case 3:
                 panel_reminder.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = "Recuerde conectar las gafas VR si se van a utilizar\n\nPresione Enter cuando esté correcto";
-             //   wait_enter_coroutine = StartCoroutine(WaitInput(2));
+                //   wait_enter_coroutine = StartCoroutine(WaitInput(2));
                 break;
 
             case 4:
                 panel_reminder.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = "Recuerde tener conectadas las gafas VR\n\nPresione Enter cuando esté correcto";
-             //   wait_enter_coroutine = StartCoroutine(WaitInput(1));
+                //   wait_enter_coroutine = StartCoroutine(WaitInput(1));
                 break;
         }
 
@@ -81,7 +81,7 @@ public class LaunchApps : MonoBehaviour
 
         panel_reminder.SetActive(true);
     }
-    
+
     IEnumerator WaitInput()
     { //vr: 0 → no vr, 1 → sí vr, 2 → ambas
         yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Return));
@@ -118,7 +118,7 @@ public class LaunchApps : MonoBehaviour
          }
         */
     }
-    
+
     void LoadPatientMenu()
     {
         UnityEngine.SceneManagement.SceneManager.LoadScene(2);

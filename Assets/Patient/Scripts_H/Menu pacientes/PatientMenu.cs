@@ -115,19 +115,19 @@ public class PatientMenu : MonoBehaviour
 
             switch (LaunchApps.instance.AppSelected)
             {//Actualizo la sesión
-                case 0:
+                case 1:
                     sessionText.text = "Última sesión Gestures: " + SaveInfoPatients_launch.Instance.SelectedPatient.LastSession_Gestures;
                     break;
 
-                case 1:
+                case 2:
                     sessionText.text = "Última sesión MT: " + SaveInfoPatients_launch.Instance.SelectedPatient.LastSession_MT;
                     break;
 
-                case 2:
+                case 3:
                     sessionText.text = "Última sesión BBT: " + SaveInfoPatients_launch.Instance.SelectedPatient.LastSession_BBT;
                     break;
 
-                case 3:
+                case 4:
                     sessionText.text = "Última sesión Clothespin: " + SaveInfoPatients_launch.Instance.SelectedPatient.LastSession_Clothespin;
                     break;
             }
@@ -163,6 +163,7 @@ public class PatientMenu : MonoBehaviour
             patientSurname2Input.text = "";
             patientPathologyInput.text = "";
             patientIdInput.text = "";
+            missLimb_toggle.isOn = false;
         }
 
         addPatientPanel.SetActive(!addPatientPanel.activeSelf);
@@ -275,19 +276,19 @@ public class PatientMenu : MonoBehaviour
 
             switch (LaunchApps.instance.AppSelected)
             {//Actualizo la sesión
-                case 0:
+                case 1:
                     sessionText.text = "Última sesión Gestures:  " + selectedPatient.LastSession_Gestures;
                     break;
 
-                case 1:
+                case 2:
                     sessionText.text = "Última sesión MT:  " + selectedPatient.LastSession_MT;
                     break;
 
-                case 2:
+                case 3:
                     sessionText.text = "Última sesión BBT:  " + selectedPatient.LastSession_BBT;
                     break;
 
-                case 3:
+                case 4:
                     sessionText.text = "Última sesión Clothespin:  " + selectedPatient.LastSession_Clothespin;
                     break;
             }
@@ -349,19 +350,19 @@ public class PatientMenu : MonoBehaviour
     {
         switch (LaunchApps.instance.AppSelected)
         {//Actualizo la sesión
-            case 0:
+            case 1:
                 SaveInfoPatients_launch.Instance.SelectedPatient.LastSession_Gestures++;
                 break;
 
-            case 1:
+            case 2:
                 SaveInfoPatients_launch.Instance.SelectedPatient.LastSession_MT++;
                 break;
 
-            case 2:
+            case 3:
                 SaveInfoPatients_launch.Instance.SelectedPatient.LastSession_BBT++;
                 break;
 
-            case 3:
+            case 4:
                 SaveInfoPatients_launch.Instance.SelectedPatient.LastSession_Clothespin++;
                 break;
         }
@@ -371,8 +372,8 @@ public class PatientMenu : MonoBehaviour
         SaveInfoPatients_launch.Instance.SelectedPatient.SaveCsvPatient(); //Para actualizar la session
 
         //Guardo en el text el paciente que selecciono antes de lanzar la APP
-        File.WriteAllText(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Desktop) + "/RoboticsLab_UC3M" + "/PatientSelected.txt",
-            SaveInfoPatients_launch.Instance.SelectedPatient.ID1.ToString());
+        File.WriteAllText(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Desktop) + "/RoboticsLab_UC3M/Develop" + "/PatientSelected.txt",
+            SaveInfoPatients_launch.Instance.SelectedPatient.ID1.ToString() + System.Environment.NewLine + LaunchApps.instance.AppSelected);
 
         //Lanzco la APP
         Application.OpenURL(LaunchApps.instance.PathSelected);

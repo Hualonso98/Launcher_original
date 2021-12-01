@@ -1,1 +1,5 @@
-C:\Users\equipo\Desktop\Ejecutables Noviembre\Ejecutables launcher\Gestures\SeriousGames.exe;C:\Users\equipo\Desktop\Ejecutables Noviembre\Ejecutables launcher\MT\SeriousGames for MirrorTherapy_VR.exe;1;C:\Users\equipo\Desktop\Ejecutables Noviembre\Ejecutables launcher\Clothespin\Clothespin VR_2019.4.30f1.exe;
+0;
+123;
+456;
+789;
+1011;

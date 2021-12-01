@@ -6,8 +6,11 @@ using System.IO;
 public class Inicio : MonoBehaviour
 {
     public GameObject canvas_error;
-    string path = "";
+    public GameObject yes_button;
+    public GameObject no_button;
 
+    string path = "";
+    int app_selected = 0;
     public void StartApplication()
     {
         UnityEngine.SceneManagement.SceneManager.LoadScene(1);
@@ -16,7 +19,7 @@ public class Inicio : MonoBehaviour
     private void Start()
     {
         path = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Desktop) + "/RoboticsLab_UC3M/Develop/Paths";
-     //   path = Application.dataPath + "/Paths";
+        // path = Application.dataPath + "/Paths";
         if (!Directory.Exists(path))
         {
             Directory.CreateDirectory(path);
@@ -26,7 +29,7 @@ public class Inicio : MonoBehaviour
         {
             File.Create(path + "/ApplicationsPaths.txt").Dispose();
 
-            string data = "0;0;0;0;0;";
+            string data = "0;" + System.Environment.NewLine + "0;" + System.Environment.NewLine + "0;" + System.Environment.NewLine + "0;" + System.Environment.NewLine + "0;";
             File.WriteAllText(path + "/ApplicationsPaths.txt", data);
         }
 
@@ -36,8 +39,61 @@ public class Inicio : MonoBehaviour
             Invoke(nameof(CloseLauncher), 2f);
         }
 
+        if (File.Exists(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Desktop) + "/RoboticsLab_UC3M/Develop/" + "PatientSelected.txt"))
+        {
+            if ((File.ReadAllLines(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Desktop) + "/RoboticsLab_UC3M/Develop/" + "PatientSelected.txt"))[0] != "--")
+            {
+                string[] lines = File.ReadAllLines(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Desktop) + "/RoboticsLab_UC3M/Develop/" + "PatientSelected.txt");
+                int ID = int.Parse(lines[0]);
+                app_selected = int.Parse(lines[1]);
+                string name_app = "";
+                switch (app_selected)
+                {
+                    case 1:
+                        name_app = "Gestures";
+                        break;
+                    case 2:
+                        name_app = "MT";
+                        break;
+                    case 3:
+                        name_app = "BBT";
+                        break;
+                    case 4:
+                        name_app = "Clothespin";
+                        break;
+                }
+                canvas_error.SetActive(true);
+                canvas_error.GetComponentInChildren<TMPro.TextMeshProUGUI>().fontSize = 40;
+                canvas_error.GetComponentInChildren<TMPro.TextMeshProUGUI>().transform.localPosition += new Vector3(0, 40);
+                canvas_error.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = "Hay una sesión abierta en\n" + name_app + "\ncon el paciente\n" + ID + "\n¿Desea continuarla?";
+                yes_button.SetActive(true);
+                no_button.SetActive(true);
+            }
+        }
+        else
+        {
+            string path_patient = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Desktop) + "/RoboticsLab_UC3M/Develop/" + "PatientSelected.txt";
+            File.Create(path_patient).Dispose();
+            File.WriteAllText(path_patient, "--" + System.Environment.NewLine + "0");
 
+            Debug.Log("No existe");
+        }
     }
+
+    public void ContinueSession()
+    {
+        string path_selected = File.ReadAllLines(path + "/ApplicationsPaths.txt")[app_selected];
+        Application.OpenURL(path_selected);
+        CloseLauncher();
+    }
+
+    public void ExitSession()
+    {
+        //Sobreescribo la info: el patient selected a "--" y la app a 0
+        File.WriteAllText(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Desktop) + "/RoboticsLab_UC3M/Develop/" + "PatientSelected.txt", "--" + System.Environment.NewLine + "0");
+        StartApplication();
+    }
+
     public void CloseLauncher()
     {
         Application.Quit();
