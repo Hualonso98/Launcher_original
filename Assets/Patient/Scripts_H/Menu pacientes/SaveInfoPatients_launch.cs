@@ -61,13 +61,14 @@ public class SaveInfoPatients_launch: MonoBehaviour
             Directory.CreateDirectory(Application.dataPath + "/Paths");
         }
 
-        if (!File.Exists(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Desktop) + "/RoboticsLab_UC3M" + "/PatientSelected.txt"))
+        if (!File.Exists(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Desktop) + "/RoboticsLab_UC3M/Develop" + "/PatientSelected.txt"))
         {
-            File.Create(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Desktop) + "/RoboticsLab_UC3M" + "/PatientSelected.txt").Dispose();
+            File.Create(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Desktop) + "/RoboticsLab_UC3M/Develop" + "/PatientSelected.txt").Dispose();
         }
         else
         {
-            File.WriteAllText(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Desktop) + "/RoboticsLab_UC3M" + "/PatientSelected.txt", "-1");
+            File.WriteAllText(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Desktop) + "/RoboticsLab_UC3M/Develop" + "/PatientSelected.txt", 
+                "-1" + System.Environment.NewLine + SavingData_launch.appSelected + System.Environment.NewLine + "0");
         }
     }
 

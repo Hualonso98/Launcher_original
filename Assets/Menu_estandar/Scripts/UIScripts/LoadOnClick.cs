@@ -97,6 +97,10 @@ public class LoadOnClick : MonoBehaviour
 
     public void ExitGame()
     {
+        //Reseteo ID, App, y coloco la escena 0 de inicio
+        File.WriteAllText(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Desktop) + "/RoboticsLab_UC3M/Develop/PatientSelected.txt",
+            "--" + System.Environment.NewLine + "0" + System.Environment.NewLine + "0");
+
         Application.Quit();
     }
     public void ReturnToLauncher()

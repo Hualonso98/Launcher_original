@@ -52,14 +52,14 @@ public class PatientMenu : MonoBehaviour
     public void LoadAppImage()
     {
         string nameApp = "";
-        switch (LaunchApps.instance.AppSelected)
+        switch (SavingData_launch.appSelected)
         {
             case 1: nameApp = "Gestures"; break;
             case 2: nameApp = "MT"; break;
             case 3: nameApp = "BBT"; break;
             case 4: nameApp = "Clothespin"; break;
         }
-        Debug.Log(LaunchApps.instance.AppSelected + "  " + nameApp);
+        Debug.Log(SavingData_launch.appSelected + "  " + nameApp);
 
         GameObject.Find("APP seleccionada").GetComponent<Image>().sprite = Resources.Load<Sprite>(nameApp);
     }
@@ -113,7 +113,7 @@ public class PatientMenu : MonoBehaviour
             deleteButton.interactable = true;
             startButton.interactable = true;
 
-            switch (LaunchApps.instance.AppSelected)
+            switch (SavingData_launch.appSelected)
             {//Actualizo la sesión
                 case 1:
                     sessionText.text = "Última sesión Gestures: " + SaveInfoPatients_launch.Instance.SelectedPatient.LastSession_Gestures;
@@ -274,7 +274,7 @@ public class PatientMenu : MonoBehaviour
 
             sessionText.gameObject.SetActive(true);
 
-            switch (LaunchApps.instance.AppSelected)
+            switch (SavingData_launch.appSelected)
             {//Actualizo la sesión
                 case 1:
                     sessionText.text = "Última sesión Gestures:  " + selectedPatient.LastSession_Gestures;
@@ -348,7 +348,7 @@ public class PatientMenu : MonoBehaviour
     }
     public void StartGame()
     {
-        switch (LaunchApps.instance.AppSelected)
+        switch (SavingData_launch.appSelected)
         {//Actualizo la sesión
             case 1:
                 SaveInfoPatients_launch.Instance.SelectedPatient.LastSession_Gestures++;
@@ -373,10 +373,10 @@ public class PatientMenu : MonoBehaviour
 
         //Guardo en el text el paciente que selecciono antes de lanzar la APP
         File.WriteAllText(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Desktop) + "/RoboticsLab_UC3M/Develop" + "/PatientSelected.txt",
-            SaveInfoPatients_launch.Instance.SelectedPatient.ID1.ToString() + System.Environment.NewLine + LaunchApps.instance.AppSelected);
+            SaveInfoPatients_launch.Instance.SelectedPatient.ID1.ToString() + System.Environment.NewLine + SavingData_launch.appSelected + System.Environment.NewLine + "0");
 
         //Lanzco la APP
-        Application.OpenURL(LaunchApps.instance.PathSelected);
+        Application.OpenURL(SavingData_launch.pathSelected);
 
         //Cierro el Launcher con retardo para que se cierre una vez abierta la APP
         Invoke(nameof(ExitGame), 2f);

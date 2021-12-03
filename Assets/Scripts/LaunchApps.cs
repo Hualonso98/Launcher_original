@@ -51,8 +51,8 @@ public class LaunchApps : MonoBehaviour
     public void SelectGame(int number)
     { //EL 0 ES EL LAUNCHER
 
-        appSelected = number;
-        pathSelected = paths[number];
+        appSelected = number; SavingData_launch.appSelected = appSelected;
+        pathSelected = paths[number]; SavingData_launch.pathSelected = pathSelected;
 
         switch (number)
         {

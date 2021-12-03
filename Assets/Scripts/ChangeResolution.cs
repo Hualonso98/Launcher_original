@@ -22,6 +22,8 @@ public class ChangeResolution : MonoBehaviour
         }
 
         changeResolution_coroutine = StartCoroutine(ChangeResolutionFunction());
+
+        Screen.fullScreen = true;
     }
 
     IEnumerator ChangeResolutionFunction()
