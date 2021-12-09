@@ -68,7 +68,7 @@ public class SaveInfoPatients_launch: MonoBehaviour
         else
         {
             File.WriteAllText(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Desktop) + "/RoboticsLab_UC3M/Develop" + "/PatientSelected.txt", 
-                "-1" + System.Environment.NewLine + SavingData_launch.appSelected + System.Environment.NewLine + "0");
+                "--" + System.Environment.NewLine + SavingData_launch.appSelected + System.Environment.NewLine + "0");
         }
     }
 

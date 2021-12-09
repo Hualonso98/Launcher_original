@@ -110,7 +110,7 @@ public class Inicio : MonoBehaviour
     {
         //Sobreescribo la info: el patient selected a "--" y la app a 0
         File.WriteAllText(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Desktop) + "/RoboticsLab_UC3M/Develop/" + "PatientSelected.txt", 
-            "--" + System.Environment.NewLine + "0" + System.Environment.NewLine);
+            "--" + System.Environment.NewLine + "0" + System.Environment.NewLine + "0");
         StartApplication();
     }
 

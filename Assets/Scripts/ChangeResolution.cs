@@ -1,12 +1,35 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.IO;
 
 public class ChangeResolution : MonoBehaviour
 {
     public static ChangeResolution instance;
 
     Coroutine changeResolution_coroutine;
+
+    public int width;
+    public int height;
+
+    private void Awake()
+    {
+        string resol_path = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Desktop) + "/RoboticsLab_UC3M/Develop/" + "MaxScreenResolution.txt";
+
+        if (!File.Exists(resol_path))
+        {
+            File.Create(resol_path).Dispose();
+            File.WriteAllText(resol_path, 1280 + System.Environment.NewLine + 720);
+            Screen.SetResolution(1280, 720, true);
+        }
+        else
+        {
+            int w = int.Parse(File.ReadAllLines(resol_path)[0]);
+            int h = int.Parse(File.ReadAllLines(resol_path)[1]);
+
+            Screen.SetResolution(w, h, true);
+        }
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -21,9 +44,8 @@ public class ChangeResolution : MonoBehaviour
             Destroy(gameObject);
         }
 
+        //Con Alt + Enter también funciona por defecto
         changeResolution_coroutine = StartCoroutine(ChangeResolutionFunction());
-
-        Screen.fullScreen = true;
     }
 
     IEnumerator ChangeResolutionFunction()
@@ -45,4 +67,82 @@ public class ChangeResolution : MonoBehaviour
     {
         changeResolution_coroutine = StartCoroutine(ChangeResolutionFunction());
     }
+
+    private void Update()
+    {
+        /*if (Input.GetKeyDown(KeyCode.A))
+        {
+            Screen.SetResolution(Screen.width, Screen.height, true);
+        }*/
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            Debug.Log(Screen.width + "/" + Screen.height);
+            GameObject.Find("Resol").GetComponent<TMPro.TextMeshProUGUI>().text = Screen.width + "/" + Screen.height;
+        }
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            float w = Screen.width;
+            float h = Screen.height;
+            float r = w / h;
+
+            //Con esto puedo fijar una resolución de 16:9, pero maximizando la calidad de la imagen
+            if ((r - 16f / 9f) > 0.001f)
+            { //R > 16:9
+                while ((r - 16f / 9f) > 0.001f)
+                {
+                    h++;
+                    r = w / h;
+                }
+            }
+            else
+            { //R < 16:9
+                while ((r - 16f / 9f) < 0.001f)
+                {
+                    h--;
+                    r = w / h;
+                }
+            }
+
+            string resol_path = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Desktop) + "/RoboticsLab_UC3M/Develop/" + "MaxScreenResolution.txt";
+            
+            File.WriteAllText(resol_path, w + System.Environment.NewLine + h);
+
+            GameObject.Find("Resol").GetComponent<TMPro.TextMeshProUGUI>().text = w + "/" + h;
+            Screen.SetResolution((int)w, (int)h, true);
+        }
+        /* if (Input.GetKey(KeyCode.W))
+         {
+             if (Input.GetKeyDown(KeyCode.KeypadPlus))
+             {
+                 width++;
+                 GameObject.Find("Resol").GetComponent<TMPro.TextMeshProUGUI>().text = width + "/" + height;
+             }
+             if (Input.GetKeyDown(KeyCode.KeypadMinus))
+             {
+                 width--;
+                 GameObject.Find("Resol").GetComponent<TMPro.TextMeshProUGUI>().text = width + "/" + height;
+             }
+         }
+         if (Input.GetKey(KeyCode.H))
+         {
+             if (Input.GetKeyDown(KeyCode.KeypadPlus))
+             {
+                 height++;
+                 GameObject.Find("Resol").GetComponent<TMPro.TextMeshProUGUI>().text = width + "/" + height;
+             }
+             if (Input.GetKeyDown(KeyCode.KeypadMinus))
+             {
+                 height--;
+                 GameObject.Find("Resol").GetComponent<TMPro.TextMeshProUGUI>().text = width + "/" + height;
+             }
+         }
+         if (Input.GetKeyDown(KeyCode.T))
+         {
+             Screen.SetResolution(width, height, true);
+             GameObject.Find("Resol").GetComponent<TMPro.TextMeshProUGUI>().text = width + "/" + height;
+         }
+        */
+    }
+
 }
