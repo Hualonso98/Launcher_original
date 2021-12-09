@@ -394,7 +394,7 @@ public class Patient
             {
                 string line;
                 int i = 0;
-                string newLine;
+              //  string newLine;
                 while ((line = reader.ReadLine()) != null)
                 {
                     if (i == 1)

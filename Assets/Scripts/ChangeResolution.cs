@@ -9,8 +9,8 @@ public class ChangeResolution : MonoBehaviour
 
     Coroutine changeResolution_coroutine;
 
-    public int width;
-    public int height;
+    int width;
+    int height;
 
     private void Awake()
     {
@@ -29,6 +29,8 @@ public class ChangeResolution : MonoBehaviour
 
             Screen.SetResolution(w, h, true);
         }
+
+        //Puedo fijar una resolución de 1920*1080 directamente, que tiene ratio 16:9 y es la resolución más común ahora en pantallas
     }
 
     // Start is called before the first frame update
