@@ -167,6 +167,7 @@ public class Patient
     [SerializeField] private int lastSession_MT = 0;
     [SerializeField] private int lastSession_BBT = 0;
     [SerializeField] private int lastSession_Clothespin = 0;
+    [SerializeField] private int lastSession_Fruits = 0;
 
     [SerializeField] private float tolerance_pinch = 0.01f;
     [SerializeField] private float tolerance_exten = 0.005f;
@@ -253,6 +254,7 @@ public class Patient
     public int LastSession_MT { get => lastSession_MT; set => lastSession_MT = value; }
     public int LastSession_BBT { get => lastSession_BBT; set => lastSession_BBT = value; }
     public int LastSession_Clothespin { get => lastSession_Clothespin; set => lastSession_Clothespin = value; }
+    public int LastSession_Fruits { get => lastSession_Fruits; set => lastSession_Fruits = value; }
 
     /////////////////////////////////////////////////
     ///
@@ -276,9 +278,9 @@ public class Patient
         {
             var ff = File.CreateText(path);
 
-            string data = "Last session Gestures;Last session MT;Last session BBT;Last session Clothespin" + System.Environment.NewLine;
+            string data = "Last session Gestures;Last session MT;Last session BBT;Last session Clothespin;Last session Fruits" + System.Environment.NewLine;
 
-            data += lastSession_Gestures + ";" + lastSession_MT + ";" + lastSession_BBT + ";" + lastSession_Clothespin + System.Environment.NewLine;
+            data += lastSession_Gestures + ";" + lastSession_MT + ";" + lastSession_BBT + ";" + lastSession_Clothespin + ";" + lastSession_Fruits + System.Environment.NewLine;
 
             data += System.Environment.NewLine;
 
@@ -403,7 +405,7 @@ public class Patient
                         string[] split = line.Split(';');
 
                         split[0] = lastSession.ToString();*/
-                        line = lastSession_Gestures + ";" + lastSession_MT + ";" + lastSession_BBT + ";" + lastSession_Clothespin;
+                        line = lastSession_Gestures + ";" + lastSession_MT + ";" + lastSession_BBT + ";" + lastSession_Clothespin + ";" + lastSession_Fruits;
                     }
 
                     i++;
@@ -468,6 +470,7 @@ public class Patient
                     lastSession_MT = int.Parse(targetLineSplitted[1]);
                     lastSession_BBT = int.Parse(targetLineSplitted[2]);
                     lastSession_Clothespin = int.Parse(targetLineSplitted[3]);
+                    lastSession_Fruits = int.Parse(targetLineSplitted[4]);
                     break;
 
                 case 4: //la línea de los datos de paciente, AHORA SOLO EL ID Y PATHOLOGY

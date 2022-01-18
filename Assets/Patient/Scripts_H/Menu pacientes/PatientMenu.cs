@@ -58,6 +58,7 @@ public class PatientMenu : MonoBehaviour
             case 2: nameApp = "MT"; break;
             case 3: nameApp = "BBT"; break;
             case 4: nameApp = "Clothespin"; break;
+            case 5: nameApp = "Fruits"; break;
         }
         Debug.Log(SavingData_launch.appSelected + "  " + nameApp);
 
@@ -129,6 +130,9 @@ public class PatientMenu : MonoBehaviour
 
                 case 4:
                     sessionText.text = "Última sesión Clothespin: " + SaveInfoPatients_launch.Instance.SelectedPatient.LastSession_Clothespin;
+                    break;
+                case 5:
+                    sessionText.text = "Última sesión Fruits: " + SaveInfoPatients_launch.Instance.SelectedPatient.LastSession_Fruits;
                     break;
             }
         }
@@ -270,7 +274,7 @@ public class PatientMenu : MonoBehaviour
             startButton.interactable = true;
             deleteButton.interactable = true;
 
-          //  SaveInfoPatients_launch.Instance.SelectedPatient.SetSavingDataValues(); //Con esto guardo los valores cargados en el fichero SavingData
+            //  SaveInfoPatients_launch.Instance.SelectedPatient.SetSavingDataValues(); //Con esto guardo los valores cargados en el fichero SavingData
 
             sessionText.gameObject.SetActive(true);
 
@@ -290,6 +294,9 @@ public class PatientMenu : MonoBehaviour
 
                 case 4:
                     sessionText.text = "Última sesión Clothespin:  " + selectedPatient.LastSession_Clothespin;
+                    break;
+                case 5:
+                    sessionText.text = "Última sesión fruits:  " + selectedPatient.LastSession_Fruits;
                     break;
             }
 
@@ -364,6 +371,9 @@ public class PatientMenu : MonoBehaviour
 
             case 4:
                 SaveInfoPatients_launch.Instance.SelectedPatient.LastSession_Clothespin++;
+                break;
+            case 5:
+                SaveInfoPatients_launch.Instance.SelectedPatient.LastSession_Fruits++;
                 break;
         }
         //SavingData.session = SaveInfoPatients.Instance.SelectedPatient.LastSession; //La guardo en el SavingData para usarla (así evito crashes si no empiezo por esta escena)

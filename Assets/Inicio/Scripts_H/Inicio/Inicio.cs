@@ -29,7 +29,8 @@ public class Inicio : MonoBehaviour
         {
             File.Create(path + "/ApplicationsPaths.txt").Dispose();
 
-            string data = "0;" + System.Environment.NewLine + "0;" + System.Environment.NewLine + "0;" + System.Environment.NewLine + "0;" + System.Environment.NewLine + "0;";
+            string data = "0;" + System.Environment.NewLine + "0;" + System.Environment.NewLine + "0;" + System.Environment.NewLine +
+                "0;" + System.Environment.NewLine + "0;" + System.Environment.NewLine + "0;";
             File.WriteAllText(path + "/ApplicationsPaths.txt", data);
         }
 
@@ -61,6 +62,9 @@ public class Inicio : MonoBehaviour
                         break;
                     case 4:
                         name_app = "Clothespin";
+                        break;
+                    case 5:
+                        name_app = "Fruits";
                         break;
                 }
                 canvas_error.SetActive(true);

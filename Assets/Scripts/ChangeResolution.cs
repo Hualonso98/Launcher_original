@@ -12,6 +12,7 @@ public class ChangeResolution : MonoBehaviour
     int width;
     int height;
 
+
     private void Awake()
     {
         string resol_path = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Desktop) + "/RoboticsLab_UC3M/Develop/" + "MaxScreenResolution.txt";
@@ -58,7 +59,7 @@ public class ChangeResolution : MonoBehaviour
 
             Screen.fullScreen = !Screen.fullScreen;
 
-            Debug.Log(Screen.fullScreen);
+            // Debug.Log(Screen.fullScreen);
 
             Invoke(nameof(RestartCoroutine), .5f); //Necesito para y reiniciar la corrutina porque entraba dos veces seguidas si no la paraba
             StopCoroutine(changeResolution_coroutine);
@@ -107,10 +108,10 @@ public class ChangeResolution : MonoBehaviour
             }
 
             string resol_path = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Desktop) + "/RoboticsLab_UC3M/Develop/" + "MaxScreenResolution.txt";
-            
+
             File.WriteAllText(resol_path, w + System.Environment.NewLine + h);
 
-            GameObject.Find("Resol").GetComponent<TMPro.TextMeshProUGUI>().text = w + "/" + h;
+            //  GameObject.Find("Resol").GetComponent<TMPro.TextMeshProUGUI>().text = w + "/" + h;
             Screen.SetResolution((int)w, (int)h, true);
         }
         /* if (Input.GetKey(KeyCode.W))

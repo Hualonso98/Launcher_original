@@ -9,7 +9,7 @@ public class LaunchApps : MonoBehaviour
 
     public GameObject panel_reminder;
 
-    string[] paths = new string[5] { "", "", "", "", "" }; //0: Launcher, 1: Gestures, 2: MT, 3: BBT, 4: Clothespin
+    string[] paths = new string[6] { "", "", "", "", "", "" }; //0: Launcher, 1: Gestures, 2: MT, 3: BBT, 4: Clothespin
     string path = "";
 
     string pathSelected = "";
@@ -74,6 +74,9 @@ public class LaunchApps : MonoBehaviour
             case 4:
                 panel_reminder.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = "Recuerde tener conectadas las gafas VR\n\nPresione Enter cuando esté correcto";
                 //   wait_enter_coroutine = StartCoroutine(WaitInput(1));
+                break;
+            case 5:
+                panel_reminder.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = "Recuerde conectar las gafas VR si se van a utilizar\n\nPresione Enter cuando esté correcto";
                 break;
         }
 
