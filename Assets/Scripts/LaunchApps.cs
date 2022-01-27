@@ -57,17 +57,17 @@ public class LaunchApps : MonoBehaviour
         switch (number)
         {
             case 1:
-                panel_reminder.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = "Recuerde tener desconectadas las gafas VR\n\nPresione Enter cuando esté correcto";
+                panel_reminder.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = "Recuerde conectar las gafas VR ahora si se van a utilizar\n\nPresione Enter cuando esté correcto";
                 //   wait_enter_coroutine = StartCoroutine(WaitInput(0));
                 break;
 
             case 2:
-                panel_reminder.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = "Recuerde conectar las gafas VR si se van a utilizar\n\nPresione Enter cuando esté correcto";
+                panel_reminder.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = "Recuerde conectar las gafas VR ahora si se van a utilizar\n\nPresione Enter cuando esté correcto";
                 //   wait_enter_coroutine = StartCoroutine(WaitInput(2));
                 break;
 
             case 3:
-                panel_reminder.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = "Recuerde conectar las gafas VR si se van a utilizar\n\nPresione Enter cuando esté correcto";
+                panel_reminder.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = "Recuerde conectar las gafas VR ahora si se van a utilizar\n\nPresione Enter cuando esté correcto";
                 //   wait_enter_coroutine = StartCoroutine(WaitInput(2));
                 break;
 
@@ -76,7 +76,7 @@ public class LaunchApps : MonoBehaviour
                 //   wait_enter_coroutine = StartCoroutine(WaitInput(1));
                 break;
             case 5:
-                panel_reminder.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = "Recuerde conectar las gafas VR si se van a utilizar\n\nPresione Enter cuando esté correcto";
+                panel_reminder.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = "Recuerde conectar las gafas VR ahora si se van a utilizar\n\nPresione Enter cuando esté correcto";
                 break;
         }
 

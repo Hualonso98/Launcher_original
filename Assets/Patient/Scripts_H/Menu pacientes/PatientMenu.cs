@@ -296,7 +296,7 @@ public class PatientMenu : MonoBehaviour
                     sessionText.text = "Última sesión Clothespin:  " + selectedPatient.LastSession_Clothespin;
                     break;
                 case 5:
-                    sessionText.text = "Última sesión fruits:  " + selectedPatient.LastSession_Fruits;
+                    sessionText.text = "Última sesión Fruits:  " + selectedPatient.LastSession_Fruits;
                     break;
             }
 
