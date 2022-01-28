@@ -51,7 +51,7 @@ public class SaveInfoPatients_launch: MonoBehaviour
         }
 
         //Lo tengo que inicializar aquí porque si lo hago en la declaración no se modifica el valor y lo deja en 0.
-        index = -1;
+        index = -2; //Lo pongo en -2, porque desde PatientMenu, en el ChangeDrop, comparo el valor del drop con el index + 1, y si el drop es 0 (ningun paciente), el index = -1  + 1, es 0 y coincide
 
         patientsNamesId.LoadCsvPatientsName();
 
@@ -79,7 +79,7 @@ public class SaveInfoPatients_launch: MonoBehaviour
     public void ResetPatient()
     {
         selectedPatient = new Patient();
-        index = -1;
+        index = -2;
     }
 
     public string[] FromListToArray(List<string> list)
