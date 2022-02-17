@@ -45,7 +45,6 @@ public class PatientMenu : MonoBehaviour
         SaveInfoPatients_launch.Instance.ResetPatient(); //Reseteo el paciente que está seleccionado y el index de paciente
 
         EditDropdown();
-
         LoadAppImage();
     }
 
@@ -350,8 +349,13 @@ public class PatientMenu : MonoBehaviour
             startGamePanel.GetComponentInChildren<TextMeshProUGUI>().text = "Si comienza se inciará una nueva sesión con el paciente:\n" +
             patientsDrop.captionText.text + "\n\n¿Desea continuar?";
         }
+        else { }
 
         startGamePanel.SetActive(!startGamePanel.activeSelf);
+
+        //Para seleccionar directamente el botón de SÍ
+        if (startGamePanel.activeSelf) { startGamePanel.transform.Find("Sí").GetComponent<Button>().Select(); }
+
     }
     public void StartGame()
     {
