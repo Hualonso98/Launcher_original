@@ -15,20 +15,24 @@ public class ChangeResolution : MonoBehaviour
 
     private void Awake()
     {
-        string resol_path = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Desktop) + "/RoboticsLab_UC3M/Develop/" + "MaxScreenResolution.txt";
+        string directory_path = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Desktop) + "/RoboticsLab_UC3M/Develop/";
+        string resol_path = directory_path + "MaxScreenResolution.txt";
 
-        if (!File.Exists(resol_path))
+        if (Directory.Exists(directory_path))
         {
-            File.Create(resol_path).Dispose();
-            File.WriteAllText(resol_path, 1280 + System.Environment.NewLine + 720);
-            Screen.SetResolution(1280, 720, true);
-        }
-        else
-        {
-            int w = int.Parse(File.ReadAllLines(resol_path)[0]);
-            int h = int.Parse(File.ReadAllLines(resol_path)[1]);
+            if (!File.Exists(resol_path))
+            {
+                File.Create(resol_path).Dispose();
+                File.WriteAllText(resol_path, 1280 + System.Environment.NewLine + 720);
+                Screen.SetResolution(1280, 720, true);
+            }
+            else
+            {
+                int w = int.Parse(File.ReadAllLines(resol_path)[0]);
+                int h = int.Parse(File.ReadAllLines(resol_path)[1]);
 
-            Screen.SetResolution(w, h, true);
+                Screen.SetResolution(w, h, true);
+            }
         }
 
         //Puedo fijar una resolución de 1920*1080 directamente, que tiene ratio 16:9 y es la resolución más común ahora en pantallas

@@ -129,6 +129,7 @@ public class Patient
     [SerializeField] private string affectedHand;
 
     [SerializeField] private bool leftHandUsed;
+    [SerializeField] private int numHandModelType = 0; //0: reales   1: black   2: capsule   3: guante   4: skeleton   5: robot
 
     //Las opciones de juego llevan unos valores por defecto cada vez que creo un paciente
     [SerializeField] private bool modeGesture = true;
@@ -291,7 +292,14 @@ public class Patient
             data += System.Environment.NewLine;
 
             data += "Mano izquierda?" + System.Environment.NewLine;
+
             data += leftHandUsed + System.Environment.NewLine;
+
+            data += System.Environment.NewLine;
+
+            data += "Modelo de mano" + System.Environment.NewLine;
+
+            data += numHandModelType + System.Environment.NewLine;
 
             data += System.Environment.NewLine;
 
@@ -459,6 +467,7 @@ public class Patient
             //Línea 2: salto (¿lo detectará como endOfFile?)
             //Línea 3: cabecera de los datos
             //Línea 4: los datos
+            
 
             string targetLine = lines[line];
             string[] targetLineSplitted = targetLine.Split(';');
