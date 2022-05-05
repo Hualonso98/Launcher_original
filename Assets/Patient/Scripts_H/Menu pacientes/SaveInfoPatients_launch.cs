@@ -274,7 +274,7 @@ public class Patient
         }
 
         string path = desktopPath + "/Patients_Data/Exported Data/Patients/" + patientFolder + "/" + patientFolder + ".csv";
-        string pathSession = desktopPath + "/Patients_Data/Exported Data/Patients/" + patientFolder + "/Last session.csv";
+      
         if (!File.Exists(path)) //si no existe el archivo, es que es la primera vez
         {
             var ff = File.CreateText(path);
@@ -285,15 +285,9 @@ public class Patient
 
             data += System.Environment.NewLine;
 
-            data += "ID;Pathology;Mano afectada" + System.Environment.NewLine;
+            data += "ID;Pathology;Mano amputada" + System.Environment.NewLine;
 
             data += ID + ";" + pathology + ";" + affectedHand + System.Environment.NewLine;
-
-            data += System.Environment.NewLine;
-
-            data += "Mano izquierda?" + System.Environment.NewLine;
-
-            data += leftHandUsed + System.Environment.NewLine;
 
             data += System.Environment.NewLine;
 
@@ -301,135 +295,18 @@ public class Patient
 
             data += numHandModelType + System.Environment.NewLine;
 
-            data += System.Environment.NewLine;
-
-            data += "ModeGesture;ModeTimeGesture;Progressive;NumTheme;TimeGeneration;TimeFalling;LinePosition" + System.Environment.NewLine;
-            data += modeGesture + ";" + modeTimeGesture + ";" + progressive + ";" + numTheme + ";" + timeGeneration + ";" + timeFalling + ";" + linePosition + System.Environment.NewLine;
-
-            data += System.Environment.NewLine;
-
-            data += "GestGestures" + System.Environment.NewLine;
-            data += gest_Gestures[0] + ";" + gest_Gestures[1] + ";" + gest_Gestures[2] + ";" + gest_Gestures[3] + ";" + gest_Gestures[4] + System.Environment.NewLine;
-
-            data += System.Environment.NewLine;
-
-            data += "Length;ArkMode;SpeedPongValue;SpeedBall" + System.Environment.NewLine;
-            data += length + ";" + arkMode + ";" + speedPongValue + ";" + speedBall + System.Environment.NewLine;
-
-            data += System.Environment.NewLine;
-
-            data += "ArkGestures" + System.Environment.NewLine;
-            data += ark_Gestures[0] + ";" + ark_Gestures[1] + System.Environment.NewLine;
-
-            data += System.Environment.NewLine;
-
-            data += "Lives;TimeAttacks;SpeedShots;SpeedCraft;HeatTracking" + System.Environment.NewLine;
-            data += lives + ";" + timeAttacks + ";" + speedShots + ";" + speedCraft + ";" + heatTracking + System.Environment.NewLine;
-
-            data += System.Environment.NewLine;
-
-            data += "SpaGestures" + System.Environment.NewLine;
-            data += spa_Gestures[0] + ";" + spa_Gestures[1] + ";" + spa_Gestures[2] + System.Environment.NewLine;
-
-            data += System.Environment.NewLine;
-
-            data += "DifficultMode;TimeHolding" + System.Environment.NewLine;
-            data += difficultMode + ";" + timeHolding + System.Environment.NewLine;
-
-            data += System.Environment.NewLine;
-
-            data += "TresGestures" + System.Environment.NewLine;
-            data += tres_Gestures[0] + ";" + tres_Gestures[1] + ";" + tres_Gestures[2] + ";" + tres_Gestures[3] + ";" + tres_Gestures[4] + System.Environment.NewLine;
-
-            data += System.Environment.NewLine;
-
-            data += "AmmoSelected;FlotaHolding" + System.Environment.NewLine;
-            data += ammoSelected + ";" + flotaHolding + System.Environment.NewLine;
-
-            data += System.Environment.NewLine;
-
-            data += "FlotaGestures" + System.Environment.NewLine;
-            data += flota_Gestures[0] + ";" + flota_Gestures[1] + ";" + flota_Gestures[2] + ";" + flota_Gestures[3] + ";" + flota_Gestures[4] + System.Environment.NewLine;
-
-            data += System.Environment.NewLine;
-
-            data += "Tolerance pinch" + System.Environment.NewLine;
-            data += tolerance_pinch + System.Environment.NewLine;
-
-            data += System.Environment.NewLine;
-
-            data += "Tolerance exten" + System.Environment.NewLine;
-            data += tolerance_exten + System.Environment.NewLine;
-
-            data += System.Environment.NewLine;
-
-            data += "Tolerance Desv. Vertical" + System.Environment.NewLine;
-            data += tolerance_desv_vert + System.Environment.NewLine;
-
-            data += System.Environment.NewLine;
-
-            data += "Tolerance Desv. Horizontal" + System.Environment.NewLine;
-            data += tolerance_desv_hor + System.Environment.NewLine;
-
-            data += System.Environment.NewLine;
-
-            data += "Izq. Pinza indice;Izq. Pinza medio;Izq. Pinza anular;Izq. Pinza menique; Izq. Extension pulgar;Izq. Extension indice;" +
-                "Izq. Extension medio;Izq. Extension anular;Izq. Extension menique;Izq. Flexion; Izq. Extension; Izq. DesvRadial; Izq. DesvCubital;" +
-                "Izq. Pronacion;Izq. Supinacion;" +
-                "Dcha. Pinza indice;Dcha. Pinza medio;Dcha. Pinza anular;Dcha. Pinza menique; Dcha. Extension pulgar;Dcha. Extension indice;" +
-                "Dcha.Extension medio;Dcha. Extension anular;Izq. Extension menique;Izq. Flexion; Dcha. Extension; Dcha. DesvRadial; Dcha. DesvCubital;" +
-                "Dcha. Pronacion;Dcha. Supinacion" + System.Environment.NewLine;
-
-            data += last_left_indexPinchCalibValue + ";" + last_left_middlePinchCalibValue + ";" + last_left_ringPinchCalibValue + ";" + last_left_pinkyPinchCalibValue + ";" +
-                last_left_thumbExtensionCalibValue + ";" + last_left_indexExtensionCalibValue + ";" + last_left_middleExtensionCalibValue + ";" +
-                last_left_ringExtensionCalibValue + ";" + last_left_pinkyExtensionCalibValue + ";" + last_left_flexCalibValue + ";" +
-                last_left_extenCalibValue + ";" + last_left_desvRadCalibValue + ";" + last_left_desvCubitCalibValue + ";" +
-                last_left_pron + ";" + last_left_sup + ";" +
-                last_right_indexPinchCalibValue + ";" + last_right_middlePinchCalibValue + ";" + last_right_ringPinchCalibValue + ";" + last_right_pinkyPinchCalibValue + ";" +
-                last_right_thumbExtensionCalibValue + ";" + last_right_indexExtensionCalibValue + ";" + last_right_middleExtensionCalibValue + ";" +
-                last_right_ringExtensionCalibValue + ";" + last_right_pinkyExtensionCalibValue + ";" + last_right_flexCalibValue + ";" +
-                last_right_extenCalibValue + ";" + last_right_desvRadCalibValue + ";" + last_right_desvCubitCalibValue + ";" +
-                last_right_pron + ";" + last_right_sup + ";" + System.Environment.NewLine;
-
             ff.Write(data);
             ff.Close();
         }
         else
         {
-            //Esto es para modificar la Last Session nada más. Tengo que leer todo el texto y volverlo a escribir. Así que puedo usarlo para modificar 
-            //también las options y gestos
-            List<string> lines = new List<string>();
+            //Esto es para modificar la Last Session nada más.
 
-            using (StreamReader reader = new StreamReader(path))
-            {
-                string line;
-                int i = 0;
-              //  string newLine;
-                while ((line = reader.ReadLine()) != null)
-                {
-                    if (i == 1)
-                    {
-                        /*Debug.Log("qqq");
-                        string[] split = line.Split(';');
+            string[] arrLine = File.ReadAllLines(path);
 
-                        split[0] = lastSession.ToString();*/
-                        line = lastSession_Gestures + ";" + lastSession_MT + ";" + lastSession_BBT + ";" + lastSession_Clothespin + ";" + lastSession_Fruits;
-                    }
+            arrLine[1] = lastSession_Gestures + ";" + lastSession_MT + ";" + lastSession_BBT + ";" + lastSession_Clothespin + ";" + lastSession_Fruits;
 
-                    i++;
-                    lines.Add(line);
-                }
-                reader.Close();
-            }
-
-            using (StreamWriter writer = new StreamWriter(path, false))
-            {
-                foreach (string line in lines)
-                {
-                    writer.WriteLine(line);
-                }
-                writer.Close();
-            }
+            File.WriteAllLines(path, arrLine);
         }
     }
 
@@ -491,6 +368,8 @@ public class Patient
                     affectedHand = targetLineSplitted[2];
                     break;
             }
+
+            if (line == 4) { break; }
 
             line++;
         }
@@ -587,7 +466,7 @@ public class PatientsNamesID
             }
             string[] dataStringSplitted = data_String.Split(';');
 
-            //Línea 0: cabecera de ID y "Nombre comleto"
+            //Línea 0: cabecera de ID y "Nombre completo"
             //Línea 1 ... n: nombres de los pacientes
 
             if (line > 0) //Empiezo a sumar en la segunda fila (de índice 1)

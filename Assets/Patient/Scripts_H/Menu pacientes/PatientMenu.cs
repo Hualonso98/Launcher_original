@@ -205,7 +205,7 @@ public class PatientMenu : MonoBehaviour
                 messageAddedPatient.GetComponent<TextMeshProUGUI>().color = new Color(5f / 255f, 166f / 255f, 0f, 255f / 255f);
 
 
-                Patient newPatient = new Patient(patientNameInput.text, patientSurname1Input.text, patientSurname2Input.text, patientPathologyInput.text, int.Parse(patientIdInput.text), (missLimb_toggle.isOn) ? ((leftHandAffected.isOn) ? "IZQUIERDA" : "DERECHA") : "");
+                Patient newPatient = new Patient(patientNameInput.text, patientSurname1Input.text, patientSurname2Input.text, patientPathologyInput.text, int.Parse(patientIdInput.text), (missLimb_toggle.isOn) ? (((leftHandAffected.isOn) ? "IZQUIERDA" : "DERECHA")) : "-");
 
                 newPatient.SaveCsvPatient(); //Guardo el nuevo paciente, le paso null porque no voy a hacer append de ningún juego
 
