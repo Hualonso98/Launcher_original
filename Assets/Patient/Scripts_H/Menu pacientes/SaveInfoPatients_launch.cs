@@ -479,6 +479,7 @@ public class PatientsNamesID
                 string surname1 = dataStringSplitted[1].Split(' ')[1];
                 string surname2 = dataStringSplitted[1].Split(' ')[2];
                 Patient newPatient = new Patient(name, surname1, surname2, id);
+                newPatient.AffectedHand = dataStringSplitted[2]; //Recoge la mano afectada
                 patients.Add(newPatient);
             }
 

@@ -85,7 +85,7 @@ public class ChangeResolution : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.R))
         {
             Debug.Log(Screen.width + "/" + Screen.height);
-            GameObject.Find("Resol").GetComponent<TMPro.TextMeshProUGUI>().text = Screen.width + "/" + Screen.height;
+           // GameObject.Find("Resol").GetComponent<TMPro.TextMeshProUGUI>().text = Screen.width + "/" + Screen.height;
         }
         if (Input.GetKeyDown(KeyCode.F))
         {
