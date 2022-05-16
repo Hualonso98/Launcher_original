@@ -131,88 +131,89 @@ public class Patient
     [SerializeField] private bool leftHandUsed;
     [SerializeField] private int numHandModelType = 0; //0: reales   1: black   2: capsule   3: guante   4: skeleton   5: robot
 
-    //Las opciones de juego llevan unos valores por defecto cada vez que creo un paciente
-    [SerializeField] private bool modeGesture = true;
-    [SerializeField] private bool modeTimeGesture = true;
-    [SerializeField] private bool progressive = false;
-    [SerializeField] private int numTheme = 0;
-    [SerializeField] private float timeGeneration = 0.75f;
-    [SerializeField] private float timeFalling = 0.75f;
-    [SerializeField] private float linePosition = -150f;
-
-    [SerializeField] private bool length = true;
-    [SerializeField] private bool arkMode = true;
-    [SerializeField] private float speedPongValue = 0.75f;
-    [SerializeField] private bool speedBall = true;
-
-    [SerializeField] private int lives = 3;
-    [SerializeField] private float timeAttacks = 0.75f;
-    [SerializeField] private float speedShots = 0.75f;
-    [SerializeField] private float speedCraft = 0.75f;
-    [SerializeField] private bool heatTracking = false;
-
-    [SerializeField] private bool difficultMode = false;
-    [SerializeField] private int timeHolding = 3;
-
-    [SerializeField] private int ammoSelected = 13;
-    [SerializeField] private int flotaHolding = 3;
-
-
-    [SerializeField] private int[] gest_Gestures = new int[5] { 0, 1, 2, 3, 4 }; //Gesto1, Gesto2, Gesto3, Gesto4, Gesto5
-    [SerializeField] private int[] ark_Gestures = new int[2] { 0, 1 }; //Gesto1, Gesto2
-    [SerializeField] private int[] spa_Gestures = new int[3] { 0, 1, 2 };
-    [SerializeField] private int[] tres_Gestures = new int[5] { 0, 1, 2, 3, 4 };
-    [SerializeField] private int[] flota_Gestures = new int[5] { 0, 1, 2, 3, 4 };
-
     [SerializeField] private int lastSession_Gestures = 0;
     [SerializeField] private int lastSession_MT = 0;
     [SerializeField] private int lastSession_BBT = 0;
     [SerializeField] private int lastSession_Clothespin = 0;
     [SerializeField] private int lastSession_Fruits = 0;
 
-    [SerializeField] private float tolerance_pinch = 0.01f;
-    [SerializeField] private float tolerance_exten = 0.005f;
-    [SerializeField] private float tolerance_desv_vert = 5;
-    [SerializeField] private float tolerance_desv_hor = 5;
+    //Las opciones de juego llevan unos valores por defecto cada vez que creo un paciente
+    /*  [SerializeField] private bool modeGesture = true;
+      [SerializeField] private bool modeTimeGesture = true;
+      [SerializeField] private bool progressive = false;
+      [SerializeField] private int numTheme = 0;
+      [SerializeField] private float timeGeneration = 0.75f;
+      [SerializeField] private float timeFalling = 0.75f;
+      [SerializeField] private float linePosition = -150f;
 
-    [SerializeField] private float last_left_indexPinchCalibValue = SavingData.default_minIndexPinchDistance;
-    [SerializeField] private float last_left_middlePinchCalibValue = SavingData.default_minMiddlePinchDistance;
-    [SerializeField] private float last_left_ringPinchCalibValue = SavingData.default_minRingPinchDistance;
-    [SerializeField] private float last_left_pinkyPinchCalibValue = SavingData.default_minPinkyPinchDistance;
+      [SerializeField] private bool length = true;
+      [SerializeField] private bool arkMode = true;
+      [SerializeField] private float speedPongValue = 0.75f;
+      [SerializeField] private bool speedBall = true;
 
-    [SerializeField] private float last_left_thumbExtensionCalibValue = SavingData.default_maxThumbExtension;
-    [SerializeField] private float last_left_indexExtensionCalibValue = SavingData.default_maxIndexExtension;
-    [SerializeField] private float last_left_middleExtensionCalibValue = SavingData.default_maxMiddleExtension;
-    [SerializeField] private float last_left_ringExtensionCalibValue = SavingData.default_maxRingExtension;
-    [SerializeField] private float last_left_pinkyExtensionCalibValue = SavingData.default_maxPinkyExtension;
+      [SerializeField] private int lives = 3;
+      [SerializeField] private float timeAttacks = 0.75f;
+      [SerializeField] private float speedShots = 0.75f;
+      [SerializeField] private float speedCraft = 0.75f;
+      [SerializeField] private bool heatTracking = false;
 
-    [SerializeField] private float last_left_flexCalibValue = SavingData.default_maxVerticalAngleDown;
-    [SerializeField] private float last_left_extenCalibValue = SavingData.default_maxVerticalAngleUp;
-    [SerializeField] private float last_left_desvRadCalibValue = SavingData.default_maxHorizontalAngleRight;
-    [SerializeField] private float last_left_desvCubitCalibValue = SavingData.default_maxHorizontalAngleLeft;
+      [SerializeField] private bool difficultMode = false;
+      [SerializeField] private int timeHolding = 3;
 
-    [SerializeField] private float last_left_pron = SavingData.default_pron;
-    [SerializeField] private float last_left_sup = SavingData.default_left_sup;
+      [SerializeField] private int ammoSelected = 13;
+      [SerializeField] private int flotaHolding = 3;
 
-    [SerializeField] private float last_right_indexPinchCalibValue = SavingData.default_minIndexPinchDistance;
-    [SerializeField] private float last_right_middlePinchCalibValue = SavingData.default_minMiddlePinchDistance;
-    [SerializeField] private float last_right_ringPinchCalibValue = SavingData.default_minRingPinchDistance;
-    [SerializeField] private float last_right_pinkyPinchCalibValue = SavingData.default_minPinkyPinchDistance;
 
-    [SerializeField] private float last_right_thumbExtensionCalibValue = SavingData.default_maxThumbExtension;
-    [SerializeField] private float last_right_indexExtensionCalibValue = SavingData.default_maxIndexExtension;
-    [SerializeField] private float last_right_middleExtensionCalibValue = SavingData.default_maxMiddleExtension;
-    [SerializeField] private float last_right_ringExtensionCalibValue = SavingData.default_maxRingExtension;
-    [SerializeField] private float last_right_pinkyExtensionCalibValue = SavingData.default_maxRingExtension;
+      [SerializeField] private int[] gest_Gestures = new int[5] { 0, 1, 2, 3, 4 }; //Gesto1, Gesto2, Gesto3, Gesto4, Gesto5
+      [SerializeField] private int[] ark_Gestures = new int[2] { 0, 1 }; //Gesto1, Gesto2
+      [SerializeField] private int[] spa_Gestures = new int[3] { 0, 1, 2 };
+      [SerializeField] private int[] tres_Gestures = new int[5] { 0, 1, 2, 3, 4 };
+      [SerializeField] private int[] flota_Gestures = new int[5] { 0, 1, 2, 3, 4 };
 
-    [SerializeField] private float last_right_flexCalibValue = SavingData.default_maxVerticalAngleDown;
-    [SerializeField] private float last_right_extenCalibValue = SavingData.default_maxVerticalAngleUp;
-    [SerializeField] private float last_right_desvRadCalibValue = SavingData.default_maxHorizontalAngleLeft;
-    [SerializeField] private float last_right_desvCubitCalibValue = SavingData.default_maxHorizontalAngleRight;
 
-    [SerializeField] private float last_right_pron = SavingData.default_pron;
-    [SerializeField] private float last_right_sup = SavingData.default_right_sup;
+      [SerializeField] private float tolerance_pinch = 0.01f;
+      [SerializeField] private float tolerance_exten = 0.005f;
+      [SerializeField] private float tolerance_desv_vert = 5;
+      [SerializeField] private float tolerance_desv_hor = 5;
 
+      [SerializeField] private float last_left_indexPinchCalibValue = SavingData.default_minIndexPinchDistance;
+      [SerializeField] private float last_left_middlePinchCalibValue = SavingData.default_minMiddlePinchDistance;
+      [SerializeField] private float last_left_ringPinchCalibValue = SavingData.default_minRingPinchDistance;
+      [SerializeField] private float last_left_pinkyPinchCalibValue = SavingData.default_minPinkyPinchDistance;
+
+      [SerializeField] private float last_left_thumbExtensionCalibValue = SavingData.default_maxThumbExtension;
+      [SerializeField] private float last_left_indexExtensionCalibValue = SavingData.default_maxIndexExtension;
+      [SerializeField] private float last_left_middleExtensionCalibValue = SavingData.default_maxMiddleExtension;
+      [SerializeField] private float last_left_ringExtensionCalibValue = SavingData.default_maxRingExtension;
+      [SerializeField] private float last_left_pinkyExtensionCalibValue = SavingData.default_maxPinkyExtension;
+
+      [SerializeField] private float last_left_flexCalibValue = SavingData.default_maxVerticalAngleDown;
+      [SerializeField] private float last_left_extenCalibValue = SavingData.default_maxVerticalAngleUp;
+      [SerializeField] private float last_left_desvRadCalibValue = SavingData.default_maxHorizontalAngleRight;
+      [SerializeField] private float last_left_desvCubitCalibValue = SavingData.default_maxHorizontalAngleLeft;
+
+      [SerializeField] private float last_left_pron = SavingData.default_pron;
+      [SerializeField] private float last_left_sup = SavingData.default_left_sup;
+
+      [SerializeField] private float last_right_indexPinchCalibValue = SavingData.default_minIndexPinchDistance;
+      [SerializeField] private float last_right_middlePinchCalibValue = SavingData.default_minMiddlePinchDistance;
+      [SerializeField] private float last_right_ringPinchCalibValue = SavingData.default_minRingPinchDistance;
+      [SerializeField] private float last_right_pinkyPinchCalibValue = SavingData.default_minPinkyPinchDistance;
+
+      [SerializeField] private float last_right_thumbExtensionCalibValue = SavingData.default_maxThumbExtension;
+      [SerializeField] private float last_right_indexExtensionCalibValue = SavingData.default_maxIndexExtension;
+      [SerializeField] private float last_right_middleExtensionCalibValue = SavingData.default_maxMiddleExtension;
+      [SerializeField] private float last_right_ringExtensionCalibValue = SavingData.default_maxRingExtension;
+      [SerializeField] private float last_right_pinkyExtensionCalibValue = SavingData.default_maxRingExtension;
+
+      [SerializeField] private float last_right_flexCalibValue = SavingData.default_maxVerticalAngleDown;
+      [SerializeField] private float last_right_extenCalibValue = SavingData.default_maxVerticalAngleUp;
+      [SerializeField] private float last_right_desvRadCalibValue = SavingData.default_maxHorizontalAngleLeft;
+      [SerializeField] private float last_right_desvCubitCalibValue = SavingData.default_maxHorizontalAngleRight;
+
+      [SerializeField] private float last_right_pron = SavingData.default_pron;
+      [SerializeField] private float last_right_sup = SavingData.default_right_sup;
+      */
 
     public Patient() { } //Constructor base
     public Patient(string name, string surname1, string surname2, string pathology, int ID, string affectedHand)
