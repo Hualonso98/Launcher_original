@@ -359,9 +359,21 @@ public class PatientMenu : MonoBehaviour
     }
     public void StartGame()
     {
+       StartCoroutine(CoroutineForStartGame());
+    }
+
+    IEnumerator CoroutineForStartGame()
+    {
+        yield return new WaitForSeconds(0.1f);
         switch (SavingData_launch.appSelected)
         {//Actualizo la sesión
             case 1:
+                //Seteo el tipo de Tracking que quiero
+                TestProcess.Instance.SetLeapControl();
+                
+                startGamePanel.GetComponentInChildren<TextMeshProUGUI>().text = "Desconecte y vuelva conectar el Leap, por favor";
+
+                yield return new WaitForSeconds(3f);
                 SaveInfoPatients_launch.Instance.SelectedPatient.LastSession_Gestures++;
                 break;
 
@@ -394,6 +406,7 @@ public class PatientMenu : MonoBehaviour
 
         //Cierro el Launcher con retardo para que se cierre una vez abierta la APP
         Invoke(nameof(ExitGame), 2f);
+
     }
 
     public void OpenExitPanel()
