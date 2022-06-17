@@ -1,14 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+
 using System;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.IO;
+
+using System.Net;
+using System.Net.Sockets;
+using System.Text;
 
 public class AntiCopyGameV3 : MonoBehaviour
 {
-
     private long licenseTime = 12 * 7 * 24 * 60 * 60; // In Seconds, 12 semanas, 3 meses
     public GameObject canvas_timeoff;
 
@@ -33,6 +34,9 @@ public class AntiCopyGameV3 : MonoBehaviour
             PlayerPrefs.SetString(dateKey, firstDate); //Inicializo con first
             PlayerPrefs.SetString(lastDateKey, firstDate); //Inicializo con first
             PlayerPrefs.SetInt(numberKey, 1);
+
+            SavingData_launch.firstDate = firstDate;
+            SavingData_launch.lastDate = firstDate;
         }
         else if (val == 1)
         {
@@ -50,12 +54,14 @@ public class AntiCopyGameV3 : MonoBehaviour
 
             DateTimeOffset first;
             DateTimeOffset.TryParse(PlayerPrefs.GetString(dateKey, ""), out first); //Recupero la fecha de inicio
+            SavingData_launch.firstDate = PlayerPrefs.GetString(dateKey, "");
 
             DateTimeOffset lastDate;
             DateTimeOffset.TryParse(PlayerPrefs.GetString(lastDateKey, ""), out lastDate); //Recupero la última fecha guardada
+            SavingData_launch.lastDate = PlayerPrefs.GetString(lastDateKey, "");
 
             DateTimeOffset now = DateTimeOffset.Now.ToUniversalTime();
-           // Debug.Log(first.ToString("G") + " ... " + first.AddSeconds(double.Parse(licenseTime.ToString())).ToString("G"));
+            // Debug.Log(first.ToString("G") + " ... " + first.AddSeconds(double.Parse(licenseTime.ToString())).ToString("G"));
 
             long diff = now.ToUnixTimeSeconds() - first.ToUnixTimeSeconds(); //Saber si se ha atrasado el reloj antes de la fecha de inicio
             long diff_2 = now.ToUnixTimeSeconds() - lastDate.ToUnixTimeSeconds(); //Saber si se ha atrasado el reloj  antes de la última fecha
@@ -76,11 +82,11 @@ public class AntiCopyGameV3 : MonoBehaviour
                 {
                     Debug.Log("Tiempo modificado: LastDate > Now");
                 }
-               
+
                 canvas_timeoff.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = "Se ha alterado la fecha del sistema.\n\nPor favor, ajústela o contacte con el soporte.";
 
                 canvas_timeoff.SetActive(true);
-               // Invoke(nameof(QuitApp), 2f);
+                // Invoke(nameof(QuitApp), 2f);
             }
             else
             {

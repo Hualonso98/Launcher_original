@@ -12,7 +12,6 @@ public class TestProcess : MonoBehaviour
     Process ultraleap_process = new Process();
     Process leapProcess = new Process();
 
-    int hwnd = 0;
     // Start is called before the first frame update
 
     public const int SC_MINIMIZE = 6;
@@ -21,8 +20,8 @@ public class TestProcess : MonoBehaviour
     // [return: MarshalAs(UnmanagedType.Bool)]
     // private static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
 
-
-
+    bool leap_active = false;
+    bool ultraleap_active = false;
 
     [DllImport("user32.dll", EntryPoint = "FindWindow")]
     public static extern IntPtr FindWindowByCaption(IntPtr ZeroOnly, string lpWindowName);
@@ -34,28 +33,50 @@ public class TestProcess : MonoBehaviour
     private void Awake()
     {
         Instance = this;
+        /*
+         foreach (Process p in Process.GetProcesses())
+         {
+             if (p.ProcessName.Contains("Leap"))
+             {
+                 p.Kill();
+                 leap_active = true;
+             }
+             if (p.ProcessName.Contains("Tracking"))
+             {
+                 ultraleap_active = true;
 
-        foreach (Process p in Process.GetProcesses())
-        {
-            if (p.ProcessName.Contains("Leap"))
-            {
-                p.Kill();
-            }
-           /* if (p.ProcessName.Contains("Tracking"))
-            {
-                p.Kill();
-            }*/
-        }
+
+       //          Process p1 = new Process();
+       //          //p1.StartInfo.FileName = "C:\\Users\\hugoa\\OneDrive\\Escritorio\\c.bat";
+       //          p1.StartInfo.FileName = Application.dataPath + "/Bat/c.bat";
+       //          p1.StartInfo.Verb = "runas";
+       //          p1.StartInfo.WindowStyle = ProcessWindowStyle.Minimized;
+       //          p1.Start();
+
+
+             }
+         }*/
     }
 
     void Start()
     {
-        ultraleap_process.StartInfo.FileName = "C:\\Program Files\\Ultraleap\\TrackingControlPanel\\bin\\TrackingControlPanel.exe";
-        ultraleap_process.StartInfo.CreateNoWindow = true; // <- imp. line
-        ultraleap_process.StartInfo.UseShellExecute = true;
-        ultraleap_process.StartInfo.WindowStyle = ProcessWindowStyle.Minimized;
-        ultraleap_process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
-        ultraleap_process.Start();
+        if (ultraleap_active == false && SavingData_launch.appSelected != 1) //Si la app es Gestures no inicio el Ultraleap
+        {
+            //      Process p1 = new Process();
+            //      //  p1.StartInfo.FileName = "C:\\Users\\hugoa\\OneDrive\\Escritorio\\c.bat";
+            //      p1.StartInfo.FileName = Application.dataPath + "/Bat/c.bat";
+            //      p1.StartInfo.Verb = "runas";
+            //      p1.StartInfo.WindowStyle = ProcessWindowStyle.Minimized;
+            //      p1.Start();
+
+            //OJO QUE AHORA TIENE OTRO PATH A PARTIR DE LA VERSIÓN 5.6.1 DEL TRACKING
+            ultraleap_process.StartInfo.FileName = "C:\\Program Files\\Ultraleap\\TrackingControlPanel\\bin\\TrackingControlPanel.exe";
+            ultraleap_process.StartInfo.CreateNoWindow = true; // <- imp. line
+            ultraleap_process.StartInfo.UseShellExecute = true;
+            ultraleap_process.StartInfo.WindowStyle = ProcessWindowStyle.Minimized;
+            ultraleap_process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+            ultraleap_process.Start();
+        }
 
 
 
@@ -99,7 +120,7 @@ public class TestProcess : MonoBehaviour
 
     private void OnApplicationQuit()
     {
-       // KillProcessByName("Leap");
+        // KillProcessByName("Leap");
     }
 
     bool KillProcessByName(string name)
@@ -119,6 +140,7 @@ public class TestProcess : MonoBehaviour
     public void SetUltraleap()
     {
         if (KillProcessByName("Leap")) { UnityEngine.Debug.Log("Leap found"); }
+        //OJO QUE AHORA TIENE OTRO PATH A PARTIR DE LA VERSIÓN 5.6.1 DEL TRACKING
         ultraleap_process.StartInfo.FileName = "C:\\Program Files\\Ultraleap\\TrackingControlPanel\\bin\\TrackingControlPanel.exe";
 
         ultraleap_process.Start();

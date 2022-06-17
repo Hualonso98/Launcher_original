@@ -59,24 +59,29 @@ public class LaunchApps : MonoBehaviour
             case 1:
                 panel_reminder.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = "Recuerde conectar las gafas VR ahora si se van a utilizar\n\nPresione Enter cuando esté correcto";
                 //   wait_enter_coroutine = StartCoroutine(WaitInput(0));
+                Calls.instance.CallLeap();
                 break;
 
             case 2:
                 panel_reminder.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = "Recuerde conectar las gafas VR ahora si se van a utilizar\n\nPresione Enter cuando esté correcto";
                 //   wait_enter_coroutine = StartCoroutine(WaitInput(2));
+                Calls.instance.CallUltraleap();
                 break;
 
             case 3:
                 panel_reminder.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = "Recuerde conectar las gafas VR ahora si se van a utilizar\n\nPresione Enter cuando esté correcto";
                 //   wait_enter_coroutine = StartCoroutine(WaitInput(2));
+                Calls.instance.CallUltraleap();
                 break;
 
             case 4:
                 panel_reminder.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = "Recuerde tener conectadas las gafas VR\n\nPresione Enter cuando esté correcto";
                 //   wait_enter_coroutine = StartCoroutine(WaitInput(1));
+                Calls.instance.CallUltraleap();
                 break;
             case 5:
                 panel_reminder.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = "Recuerde conectar las gafas VR ahora si se van a utilizar\n\nPresione Enter cuando esté correcto";
+                Calls.instance.CallUltraleap();
                 break;
         }
 
@@ -92,6 +97,8 @@ public class LaunchApps : MonoBehaviour
         LoadPatientMenu();
 
         StopCoroutine(wait_enter_coroutine);
+
+
         //Código para comprobar si está o no conectadas las VR, pero solo puedo comprobar si se han desconectado, no puedo comprobar si se han conectado (no aparecen reflejadas)
         /* List<UnityEngine.XR.XRDisplaySubsystem> xRDisplaySubsystems = new List<UnityEngine.XR.XRDisplaySubsystem>();
          SubsystemManager.GetInstances<UnityEngine.XR.XRDisplaySubsystem>(xRDisplaySubsystems);

@@ -359,7 +359,7 @@ public class PatientMenu : MonoBehaviour
     }
     public void StartGame()
     {
-       StartCoroutine(CoroutineForStartGame());
+        StartCoroutine(CoroutineForStartGame());
     }
 
     IEnumerator CoroutineForStartGame()
@@ -369,11 +369,8 @@ public class PatientMenu : MonoBehaviour
         {//Actualizo la sesión
             case 1:
                 //Seteo el tipo de Tracking que quiero
-                TestProcess.Instance.SetLeapControl();
-                
-                startGamePanel.GetComponentInChildren<TextMeshProUGUI>().text = "Desconecte y vuelva conectar el Leap, por favor";
+           //     TestProcess.Instance.SetLeapControl();
 
-                yield return new WaitForSeconds(3f);
                 SaveInfoPatients_launch.Instance.SelectedPatient.LastSession_Gestures++;
                 break;
 
@@ -392,6 +389,18 @@ public class PatientMenu : MonoBehaviour
                 SaveInfoPatients_launch.Instance.SelectedPatient.LastSession_Fruits++;
                 break;
         }
+
+
+      /*  startGamePanel.GetComponentInChildren<TextMeshProUGUI>().text = "Desconecte y vuelva conectar el Leap, por favor";
+        startGamePanel.GetComponentInChildren<TextMeshProUGUI>().fontSize = 58;
+        startGamePanel.GetComponentInChildren<TextMeshProUGUI>().transform.position += new Vector3(0, -90f, 0);
+        startGamePanel.GetComponentInChildren<TextMeshProUGUI>().color = new Color(0, 220f / 255f, 1, 1);
+        startGamePanel.transform.Find("Sí").gameObject.SetActive(false);
+        startGamePanel.transform.Find("No").gameObject.SetActive(false);
+
+        yield return new WaitForSeconds(3f);*/
+
+
         //SavingData.session = SaveInfoPatients.Instance.SelectedPatient.LastSession; //La guardo en el SavingData para usarla (así evito crashes si no empiezo por esta escena)
         //SavingData.ID_Patient = SaveInfoPatients.Instance.SelectedPatient.ID1;
 
@@ -404,8 +413,17 @@ public class PatientMenu : MonoBehaviour
         //Lanzco la APP
         Application.OpenURL(SavingData_launch.pathSelected);
 
+       
+        /*TCPTestClient.instance.StartConnection();
+
+        yield return new WaitUntil(() => TCPTestClient.instance.connected); //Cliente activo y conectado
+
+        TCPTestClient.instance.SendMessageToApps(SavingData_launch.firstDate,SavingData_launch.lastDate);
+
+        yield return new WaitUntil(() => TCPTestClient.instance.confirmationRecived);*/
+    
         //Cierro el Launcher con retardo para que se cierre una vez abierta la APP
-        Invoke(nameof(ExitGame), 2f);
+        Invoke(nameof(ExitGame), 1f);
 
     }
 

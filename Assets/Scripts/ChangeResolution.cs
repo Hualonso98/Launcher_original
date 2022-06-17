@@ -63,15 +63,20 @@ public class ChangeResolution : MonoBehaviour
 
             Screen.fullScreen = !Screen.fullScreen;
 
-            // Debug.Log(Screen.fullScreen);
+            Debug.Log(Screen.fullScreen);
 
-            Invoke(nameof(RestartCoroutine), .5f); //Necesito para y reiniciar la corrutina porque entraba dos veces seguidas si no la paraba
+
+            /*   Invoke(nameof(*///RestartCoroutine()/*), .5f)*/; //Necesito para y reiniciar la corrutina porque entraba dos veces seguidas si no la paraba
+            StartCoroutine(RestartCoroutine()); //Aquí dentro está el delay ya
             StopCoroutine(changeResolution_coroutine);
+
+
         }
     }
 
-    void RestartCoroutine()
+    IEnumerator RestartCoroutine()
     {
+        yield return new WaitForSecondsRealtime(0.5f);
         changeResolution_coroutine = StartCoroutine(ChangeResolutionFunction());
     }
 

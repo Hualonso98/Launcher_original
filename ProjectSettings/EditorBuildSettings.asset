@@ -5,6 +5,9 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
+  - enabled: 0
+    path: Assets/Bat/New Scene.unity
+    guid: acf9dd6edc3044a459509a6edbfc6a22
   - enabled: 1
     path: Assets/Inicio/Scenes/INICIO/Start.unity
     guid: 7832e589a142b694fa31ad1136099230
@@ -14,4 +17,6 @@ EditorBuildSettings:
   - enabled: 1
     path: "Assets/Patient/Scenes/Men\xFA paciente/Patient Menu.unity"
     guid: a8a071aeaf3151e4b882795579062ae4
-  m_configObjects: {}
+  m_configObjects:
+    com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 4590f76c1c6f8e74fa1db71c5ec69215,
+      type: 2}
