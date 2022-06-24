@@ -5,7 +5,7 @@ using System.Diagnostics;
 public class Calls : MonoBehaviour
 {
     public static Calls instance;
-
+    public bool Gemini_version = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -23,7 +23,7 @@ public class Calls : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.L))
+        /*if (Input.GetKeyDown(KeyCode.L))
         {
 
         }
@@ -62,7 +62,7 @@ public class Calls : MonoBehaviour
             p1.StartInfo.Verb = "runas";
             p1.StartInfo.WindowStyle = ProcessWindowStyle.Minimized;
             p1.Start();
-        }
+        }*/
     }
 
     private void BatA()
@@ -96,38 +96,44 @@ public class Calls : MonoBehaviour
 
     public void CallLeap()
     {
-        foreach (Process p in Process.GetProcesses())
+        if (Gemini_version == false)
         {
-            if (p.ProcessName.Contains("LeapControl"))
+            foreach (Process p in Process.GetProcesses())
             {
-                UnityEngine.Debug.Log("Leap found");
-                p.Kill();
+                if (p.ProcessName.Contains("LeapControl"))
+                {
+                    UnityEngine.Debug.Log("Leap found");
+                    p.Kill();
+                }
             }
+
+            //Para la primera ejecución, después de reiniciar el Ordenador va perfecto.
+            //Para los sucesivos cambios va bien, pero se acaba abriendo el panel de control de Leap en vez de estar oculto
+            BatA();
+
+            Invoke(nameof(BatB), 2f);
+            // BatB();
         }
-
-        //Para la primera ejecución, después de reiniciar el Ordenador va perfecto.
-        //Para los sucesivos cambios va bien, pero se acaba abriendo el panel de control de Leap en vez de estar oculto
-        BatA();
-
-        Invoke(nameof(BatB), 2f);
-       // BatB();
     }
 
     void CallLeap2()
     {
         Process p1 = new Process();
         p1.StartInfo.FileName = "C:\\Program Files\\Leap Motion\\Core Services\\LeapControlPanel.exe";
-       
-          p1.StartInfo.WindowStyle = ProcessWindowStyle.Minimized;
-          p1.StartInfo.CreateNoWindow = true;
+
+        p1.StartInfo.WindowStyle = ProcessWindowStyle.Minimized;
+        p1.StartInfo.CreateNoWindow = true;
         p1.Start();
     }
 
     public void CallUltraleap()
     {
-        //Esto funciona perfecto para sucesivos cambios
-        BatA();
+        if (Gemini_version == false)
+        {
+            //Esto funciona perfecto para sucesivos cambios
+            BatA();
 
-       Invoke(nameof(BatC),1);
+            Invoke(nameof(BatC), 1);
+        }
     }
 }
