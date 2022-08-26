@@ -9,7 +9,7 @@ public class LaunchApps : MonoBehaviour
 
     public GameObject panel_reminder;
 
-    string[] paths = new string[6] { "", "", "", "", "", "" }; //0: Launcher, 1: Gestures, 2: MT, 3: BBT, 4: Clothespin
+    string[] paths = new string[7] { "", "", "", "", "", "", "" }; //0: Launcher, 1: Intermedio, 2: Gestures, 3: MT, 4: BBT, 5: Clothespin, 6: Fruits
     string path = "";
 
     string pathSelected = "";
@@ -51,8 +51,11 @@ public class LaunchApps : MonoBehaviour
     public void SelectGame(int number)
     { //EL 0 ES EL LAUNCHER
 
+        //****** El 1 ahora es la fase intermedia ********
+        //Por eso le sumo 1 al number, para coger el path correcto, pero dejando el resto de usos de la appselected como estaba antes
+
         appSelected = number; SavingData_launch.appSelected = appSelected;
-        pathSelected = paths[number]; SavingData_launch.pathSelected = pathSelected;
+        pathSelected = paths[number + 1]; SavingData_launch.pathSelected = pathSelected; 
 
         switch (number)
         {

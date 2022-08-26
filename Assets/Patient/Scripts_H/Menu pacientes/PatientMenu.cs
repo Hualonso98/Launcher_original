@@ -33,6 +33,8 @@ public class PatientMenu : MonoBehaviour
     public GameObject startGamePanel;
     public GameObject exitGamePanel;
 
+    public bool protocolMode = false;
+
     public static PatientMenu Instance { get => instance; set => instance = value; }
 
     // Start is called before the first frame update
@@ -45,7 +47,18 @@ public class PatientMenu : MonoBehaviour
         SaveInfoPatients_launch.Instance.ResetPatient(); //Reseteo el paciente que está seleccionado y el index de paciente
 
         EditDropdown();
-        LoadAppImage();
+
+
+        protocolMode = SavingData_launch.protocolMode;
+
+        if (protocolMode == false) //Si es modo protocolo solo me interesa cargar el paciente. Sin textos ni imágenes
+        {
+            LoadAppImage();
+        }
+        else
+        {
+            GameObject.Find("APP seleccionada").transform.parent.gameObject.SetActive(false);
+        }
     }
 
     public void LoadAppImage()
@@ -102,37 +115,42 @@ public class PatientMenu : MonoBehaviour
 
     public void ChangeDropValue() //función a la que llamo cuando cambio el drop, así evito meterlo en el update
     {
-        if (patientsDrop.value != SaveInfoPatients_launch.Instance.Index + 1)
+        if (protocolMode == false)
         {
-            deleteButton.interactable = false; //Evito borrar un paciente sin seleccionarlo
-            startButton.interactable = false;
-            sessionText.text = "Última sesión: ";
-        }
-        else
-        {
-            deleteButton.interactable = true;
-            startButton.interactable = true;
+            //Si es modo protocolo no quiero que parezcan los avisos de últimas sesiones
 
-            switch (SavingData_launch.appSelected)
-            {//Actualizo la sesión
-                case 1:
-                    sessionText.text = "Última sesión Gestures: " + SaveInfoPatients_launch.Instance.SelectedPatient.LastSession_Gestures;
-                    break;
+            if (patientsDrop.value != SaveInfoPatients_launch.Instance.Index + 1)
+            {
+                deleteButton.interactable = false; //Evito borrar un paciente sin seleccionarlo
+                startButton.interactable = false;
+                sessionText.text = "Última sesión: ";
+            }
+            else
+            {
+                deleteButton.interactable = true;
+                startButton.interactable = true;
 
-                case 2:
-                    sessionText.text = "Última sesión MT: " + SaveInfoPatients_launch.Instance.SelectedPatient.LastSession_MT;
-                    break;
+                switch (SavingData_launch.appSelected)
+                {//Actualizo la sesión
+                    case 1:
+                        sessionText.text = "Última sesión Gestures: " + SaveInfoPatients_launch.Instance.SelectedPatient.LastSession_Gestures;
+                        break;
 
-                case 3:
-                    sessionText.text = "Última sesión BBT: " + SaveInfoPatients_launch.Instance.SelectedPatient.LastSession_BBT;
-                    break;
+                    case 2:
+                        sessionText.text = "Última sesión MT: " + SaveInfoPatients_launch.Instance.SelectedPatient.LastSession_MT;
+                        break;
 
-                case 4:
-                    sessionText.text = "Última sesión Clothespin: " + SaveInfoPatients_launch.Instance.SelectedPatient.LastSession_Clothespin;
-                    break;
-                case 5:
-                    sessionText.text = "Última sesión Fruits: " + SaveInfoPatients_launch.Instance.SelectedPatient.LastSession_Fruits;
-                    break;
+                    case 3:
+                        sessionText.text = "Última sesión BBT: " + SaveInfoPatients_launch.Instance.SelectedPatient.LastSession_BBT;
+                        break;
+
+                    case 4:
+                        sessionText.text = "Última sesión Clothespin: " + SaveInfoPatients_launch.Instance.SelectedPatient.LastSession_Clothespin;
+                        break;
+                    case 5:
+                        sessionText.text = "Última sesión Fruits: " + SaveInfoPatients_launch.Instance.SelectedPatient.LastSession_Fruits;
+                        break;
+                }
             }
         }
     }
@@ -275,28 +293,31 @@ public class PatientMenu : MonoBehaviour
 
             //  SaveInfoPatients_launch.Instance.SelectedPatient.SetSavingDataValues(); //Con esto guardo los valores cargados en el fichero SavingData
 
-            sessionText.gameObject.SetActive(true);
+            if (protocolMode == false) //Si es modo protocolo no me interesa que aparezcan estos textos de aviso
+            {
+                sessionText.gameObject.SetActive(true);
 
-            switch (SavingData_launch.appSelected)
-            {//Actualizo la sesión
-                case 1:
-                    sessionText.text = "Última sesión Gestures:  " + selectedPatient.LastSession_Gestures;
-                    break;
+                switch (SavingData_launch.appSelected)
+                {//Actualizo la sesión
+                    case 1:
+                        sessionText.text = "Última sesión Gestures:  " + selectedPatient.LastSession_Gestures;
+                        break;
 
-                case 2:
-                    sessionText.text = "Última sesión MT:  " + selectedPatient.LastSession_MT;
-                    break;
+                    case 2:
+                        sessionText.text = "Última sesión MT:  " + selectedPatient.LastSession_MT;
+                        break;
 
-                case 3:
-                    sessionText.text = "Última sesión BBT:  " + selectedPatient.LastSession_BBT;
-                    break;
+                    case 3:
+                        sessionText.text = "Última sesión BBT:  " + selectedPatient.LastSession_BBT;
+                        break;
 
-                case 4:
-                    sessionText.text = "Última sesión Clothespin:  " + selectedPatient.LastSession_Clothespin;
-                    break;
-                case 5:
-                    sessionText.text = "Última sesión Fruits:  " + selectedPatient.LastSession_Fruits;
-                    break;
+                    case 4:
+                        sessionText.text = "Última sesión Clothespin:  " + selectedPatient.LastSession_Clothespin;
+                        break;
+                    case 5:
+                        sessionText.text = "Última sesión Fruits:  " + selectedPatient.LastSession_Fruits;
+                        break;
+                }
             }
 
             messageSelectedPatient.SetActive(true);
@@ -346,8 +367,16 @@ public class PatientMenu : MonoBehaviour
     {
         if (!startGamePanel.activeSelf)
         {
-            startGamePanel.GetComponentInChildren<TextMeshProUGUI>().text = "Si comienza se inciará una nueva sesión con el paciente:\n" +
+            if (protocolMode == false) //Si es modo protocolo, cambio el mensaje del panel de empezar
+            {
+                startGamePanel.GetComponentInChildren<TextMeshProUGUI>().text = "Si comienza se inciará una nueva sesión con el paciente:\n" +
             patientsDrop.captionText.text + "\n\n¿Desea continuar?";
+            }
+            else
+            {
+                startGamePanel.GetComponentInChildren<TextMeshProUGUI>().text = "Si continúa se pasará a seleccionar un <b><u>protocolo </b></u> para el paciente:\n" +
+            patientsDrop.captionText.text + "\n\n¿Desea continuar?";
+            }
         }
         else { }
 
@@ -359,61 +388,73 @@ public class PatientMenu : MonoBehaviour
     }
     public void StartGame()
     {
+        Debug.Log(SaveInfoPatients_launch.Instance.SelectedPatient.ID1);
         StartCoroutine(CoroutineForStartGame());
     }
 
     IEnumerator CoroutineForStartGame()
     {
         yield return new WaitForSeconds(0.1f);
-        switch (SavingData_launch.appSelected)
-        {//Actualizo la sesión
-            case 1:
-                //Seteo el tipo de Tracking que quiero
-           //     TestProcess.Instance.SetLeapControl();
-
-                SaveInfoPatients_launch.Instance.SelectedPatient.LastSession_Gestures++;
-                break;
-
-            case 2:
-                SaveInfoPatients_launch.Instance.SelectedPatient.LastSession_MT++;
-                break;
-
-            case 3:
-                SaveInfoPatients_launch.Instance.SelectedPatient.LastSession_BBT++;
-                break;
-
-            case 4:
-                SaveInfoPatients_launch.Instance.SelectedPatient.LastSession_Clothespin++;
-                break;
-            case 5:
-                SaveInfoPatients_launch.Instance.SelectedPatient.LastSession_Fruits++;
-                break;
-        }
-
-
-      /*  startGamePanel.GetComponentInChildren<TextMeshProUGUI>().text = "Desconecte y vuelva conectar el Leap, por favor";
-        startGamePanel.GetComponentInChildren<TextMeshProUGUI>().fontSize = 58;
-        startGamePanel.GetComponentInChildren<TextMeshProUGUI>().transform.position += new Vector3(0, -90f, 0);
-        startGamePanel.GetComponentInChildren<TextMeshProUGUI>().color = new Color(0, 220f / 255f, 1, 1);
-        startGamePanel.transform.Find("Sí").gameObject.SetActive(false);
-        startGamePanel.transform.Find("No").gameObject.SetActive(false);
-
-        yield return new WaitForSeconds(3f);*/
-
-
-        //SavingData.session = SaveInfoPatients.Instance.SelectedPatient.LastSession; //La guardo en el SavingData para usarla (así evito crashes si no empiezo por esta escena)
-        //SavingData.ID_Patient = SaveInfoPatients.Instance.SelectedPatient.ID1;
-
-        SaveInfoPatients_launch.Instance.SelectedPatient.SaveCsvPatient(); //Para actualizar la session
 
         //Guardo en el text el paciente que selecciono antes de lanzar la APP
         File.WriteAllText(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Desktop) + "/RoboticsLab_UC3M/Develop" + "/PatientSelected.txt",
-            SaveInfoPatients_launch.Instance.SelectedPatient.ID1.ToString() + System.Environment.NewLine + SavingData_launch.appSelected + System.Environment.NewLine + "0");
+            SaveInfoPatients_launch.Instance.SelectedPatient.ID1.ToString() + System.Environment.NewLine + SavingData_launch.appSelected + 
+            System.Environment.NewLine + "0" + System.Environment.NewLine + SavingData_launch.protocolMode);
 
-        //Lanzco la APP
-        Application.OpenURL(SavingData_launch.pathSelected);
+        if (protocolMode == false) //Si es modo protocolo, no quiero actualizar sesiones, ni actualizar csv, ni abrir aplicaciones todavía
+        {
+            switch (SavingData_launch.appSelected)
+            {//Actualizo la sesión
+                case 1:
+                    //Seteo el tipo de Tracking que quiero
+                    //     TestProcess.Instance.SetLeapControl();
 
-       
+                    SaveInfoPatients_launch.Instance.SelectedPatient.LastSession_Gestures++;
+                    break;
+
+                case 2:
+                    SaveInfoPatients_launch.Instance.SelectedPatient.LastSession_MT++;
+                    break;
+
+                case 3:
+                    SaveInfoPatients_launch.Instance.SelectedPatient.LastSession_BBT++;
+                    break;
+
+                case 4:
+                    SaveInfoPatients_launch.Instance.SelectedPatient.LastSession_Clothespin++;
+                    break;
+                case 5:
+                    SaveInfoPatients_launch.Instance.SelectedPatient.LastSession_Fruits++;
+                    break;
+            }
+
+            #region Aparecer el panel de Conectar Leap (desuso)
+            /*  startGamePanel.GetComponentInChildren<TextMeshProUGUI>().text = "Desconecte y vuelva conectar el Leap, por favor";
+              startGamePanel.GetComponentInChildren<TextMeshProUGUI>().fontSize = 58;
+              startGamePanel.GetComponentInChildren<TextMeshProUGUI>().transform.position += new Vector3(0, -90f, 0);
+              startGamePanel.GetComponentInChildren<TextMeshProUGUI>().color = new Color(0, 220f / 255f, 1, 1);
+              startGamePanel.transform.Find("Sí").gameObject.SetActive(false);
+              startGamePanel.transform.Find("No").gameObject.SetActive(false);
+
+              yield return new WaitForSeconds(3f);*/
+
+
+            //SavingData.session = SaveInfoPatients.Instance.SelectedPatient.LastSession; //La guardo en el SavingData para usarla (así evito crashes si no empiezo por esta escena)
+            //SavingData.ID_Patient = SaveInfoPatients.Instance.SelectedPatient.ID1;
+            #endregion
+
+            SaveInfoPatients_launch.Instance.SelectedPatient.SaveCsvPatient(); //Para actualizar la session
+
+            //Lanzco la APP
+            Application.OpenURL(SavingData_launch.pathSelected);
+
+            Invoke(nameof(ExitGame), 1f);
+        }
+        else
+        { //Si es modo protocolo abro la escena
+            SceneManager.LoadScene("Protocolo");
+        }
+
         /*TCPTestClient.instance.StartConnection();
 
         yield return new WaitUntil(() => TCPTestClient.instance.connected); //Cliente activo y conectado
@@ -421,9 +462,9 @@ public class PatientMenu : MonoBehaviour
         TCPTestClient.instance.SendMessageToApps(SavingData_launch.firstDate,SavingData_launch.lastDate);
 
         yield return new WaitUntil(() => TCPTestClient.instance.confirmationRecived);*/
-    
+
         //Cierro el Launcher con retardo para que se cierre una vez abierta la APP
-        Invoke(nameof(ExitGame), 1f);
+
 
     }
 

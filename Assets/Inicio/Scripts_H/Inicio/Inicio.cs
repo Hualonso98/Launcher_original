@@ -11,11 +11,11 @@ public class Inicio : MonoBehaviour
 
     string path = "";
     int app_selected = 0;
+  
     public void StartApplication()
     {
-        UnityEngine.SceneManagement.SceneManager.LoadScene(1);
+        UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenu");
     }
-
     private void Start()
     {
         path = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Desktop) + "/RoboticsLab_UC3M/Develop/Paths";
@@ -24,7 +24,7 @@ public class Inicio : MonoBehaviour
         {
             Directory.CreateDirectory(path);
         }
-      
+
         if (!File.Exists(path + "/ApplicationsPaths.txt"))
         {
             File.Create(path + "/ApplicationsPaths.txt").Dispose();
@@ -33,13 +33,13 @@ public class Inicio : MonoBehaviour
                 "0;" + System.Environment.NewLine + "0;" + System.Environment.NewLine + "0;";
             File.WriteAllText(path + "/ApplicationsPaths.txt", data);
         }
-    
+
         if (File.ReadAllText(path + "/ApplicationsPaths.txt").Contains("0;"))
         {
             canvas_error.SetActive(true);
             Invoke(nameof(CloseLauncher), 2f);
         }
-    
+
         if (File.Exists(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Desktop) + "/RoboticsLab_UC3M/Develop/" + "PatientSelected.txt"))
         {
             if ((File.ReadAllLines(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Desktop) + "/RoboticsLab_UC3M/Develop/" + "PatientSelected.txt"))[0] != "--")
@@ -86,11 +86,11 @@ public class Inicio : MonoBehaviour
                 {
                     //Es que quiero ir a escena pacientes directamente
                     string[] lines = File.ReadAllLines(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Desktop) + "/RoboticsLab_UC3M/Develop/" + "PatientSelected.txt");
-                   
-                    app_selected = int.Parse(lines[1]); 
+
+                    app_selected = int.Parse(lines[1]);
                     //Guardo la APP y el Path
                     SavingData_launch.appSelected = app_selected;
-                    SavingData_launch.pathSelected = File.ReadAllLines(path + "/ApplicationsPaths.txt")[app_selected];
+                    SavingData_launch.pathSelected = File.ReadAllLines(path + "/ApplicationsPaths.txt")[app_selected + 1]; //Como ahora el path de índice 1 es la fase intermedia, le sumo 1 a la appSelected
                     //Voy a escena pacientes directamente
                     UnityEngine.SceneManagement.SceneManager.LoadScene(2);
                 }
@@ -100,10 +100,12 @@ public class Inicio : MonoBehaviour
         {
             string path_patient = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Desktop) + "/RoboticsLab_UC3M/Develop/" + "PatientSelected.txt";
             File.Create(path_patient).Dispose();
-            File.WriteAllText(path_patient, "--" + System.Environment.NewLine + "0" + System.Environment.NewLine + "0");
+            File.WriteAllText(path_patient, "--" + System.Environment.NewLine + "0" + System.Environment.NewLine + "0" + 
+                System.Environment.NewLine + SavingData_launch.protocolMode);
             //La primera línea es el ID del paciente
             //La segunda línea es la aplicación donde estaba
             //La tercera línea es la escena a la que quiero que vaya al abrirse (por defecto 0 (inicio), 1 (Apps) o puede ser la 2 (pacientes)
+            //La cuarta línea es la que indica si he seleccionado protocolo
 
             Debug.Log("No existe");
         }
@@ -111,7 +113,7 @@ public class Inicio : MonoBehaviour
 
     public void ContinueSession()
     {
-        string path_selected = File.ReadAllLines(path + "/ApplicationsPaths.txt")[app_selected];
+        string path_selected = File.ReadAllLines(path + "/ApplicationsPaths.txt")[app_selected + 1]; //Como ahora el path de índice 1 es la fase intermedia, le sumo 1 a la appSelected
         Application.OpenURL(path_selected);
         CloseLauncher();
     }
@@ -119,8 +121,8 @@ public class Inicio : MonoBehaviour
     public void ExitSession()
     {
         //Sobreescribo la info: el patient selected a "--" y la app a 0
-        File.WriteAllText(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Desktop) + "/RoboticsLab_UC3M/Develop/" + "PatientSelected.txt", 
-            "--" + System.Environment.NewLine + "0" + System.Environment.NewLine + "0");
+        File.WriteAllText(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Desktop) + "/RoboticsLab_UC3M/Develop/" + "PatientSelected.txt",
+            "--" + System.Environment.NewLine + "0" + System.Environment.NewLine + "0" + System.Environment.NewLine + SavingData_launch.protocolMode);
         StartApplication();
     }
 

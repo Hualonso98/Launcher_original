@@ -60,7 +60,7 @@ public class SaveInfoPatients_launch: MonoBehaviour
         {
             Directory.CreateDirectory(Application.dataPath + "/Paths");
         }
-
+        Debug.Log("SaveInfopatients");
         if (!File.Exists(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Desktop) + "/RoboticsLab_UC3M/Develop" + "/PatientSelected.txt"))
         {
             File.Create(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Desktop) + "/RoboticsLab_UC3M/Develop" + "/PatientSelected.txt").Dispose();
@@ -68,7 +68,8 @@ public class SaveInfoPatients_launch: MonoBehaviour
         else
         {
             File.WriteAllText(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Desktop) + "/RoboticsLab_UC3M/Develop" + "/PatientSelected.txt", 
-                "--" + System.Environment.NewLine + SavingData_launch.appSelected + System.Environment.NewLine + "0");
+                "--" + System.Environment.NewLine + SavingData_launch.appSelected + System.Environment.NewLine + "0" + 
+                System.Environment.NewLine + SavingData_launch.protocolMode);
         }
     }
 
@@ -125,7 +126,7 @@ public class Patient
     [SerializeField] private string surname1;
     [SerializeField] private string surname2;
     [SerializeField] private string pathology;
-    [SerializeField] private int ID;
+    [SerializeField] private int ID = -1; //Porque sino por defecto era el 0
     [SerializeField] private string affectedHand;
 
     [SerializeField] private bool leftHandUsed;

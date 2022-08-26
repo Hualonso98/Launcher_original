@@ -88,6 +88,9 @@ public class LoadOnClick : MonoBehaviour
             case 3:
                 ExitGame();
                 break;
+            case 4: //Caso en el que estoy en el Protocolo y quiero volver al menú de inicio de selección
+                SceneManager.LoadScene("MainMenu");
+                break;
         }
     }
     public void LoadActualScene()
@@ -97,9 +100,19 @@ public class LoadOnClick : MonoBehaviour
 
     public void ExitGame()
     {
+        string [] contents = File.ReadAllLines(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Desktop) + "/RoboticsLab_UC3M/Develop/PatientSelected.txt");
+
+        contents[0] = "--"; contents[1] = "0"; contents[2] = "0";
+
         //Reseteo ID, App, y coloco la escena 0 de inicio
-        File.WriteAllText(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Desktop) + "/RoboticsLab_UC3M/Develop/PatientSelected.txt",
-            "--" + System.Environment.NewLine + "0" + System.Environment.NewLine + "0");
+
+
+       /* File.WriteAllText(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Desktop) + "/RoboticsLab_UC3M/Develop/PatientSelected.txt",
+           "--" + System.Environment.NewLine + "0" + System.Environment.NewLine + "0");
+       */
+
+        //Ahora uso el modo WriteAllLines para no sobreescrbir el valor de Protocolo, que es el 4º valor
+        File.WriteAllLines(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Desktop) + "/RoboticsLab_UC3M/Develop/PatientSelected.txt", contents);
 
         Application.Quit();
     }
