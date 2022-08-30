@@ -55,7 +55,7 @@ public class SetProtocol : MonoBehaviour
 
         try { patientId = SaveInfoPatients_launch.Instance.SelectedPatient.ID1; } catch { patientId = 0; }
 
-        patientId = 0;
+
     }
 
     // Start is called before the first frame update
@@ -70,7 +70,7 @@ public class SetProtocol : MonoBehaviour
     {
         yield return new WaitUntil(() => startConfigProtocols);
 
-        exercises_names = new List<string> {"Pinza indice", "Pinza medio", "Pinza anular" , "Pinza menique", "Apertura dedos","Cierre puno", "Flexion muneca",
+        exercises_names = new List<string> {"Pinza indice", "Pinza medio", "Pinza anular" , "Pinza menique", "Cierre puno","Apertura dedos", "Flexion muneca",
             "Extension muneca", "Desv. radial", "Desv. Cubital", "Pronacion", "Supinacion", "Alcance"};
 
         List<string> list = new List<string>(exercises_names);
@@ -86,8 +86,8 @@ public class SetProtocol : MonoBehaviour
         dictionary_gest_gest.Add("Pinza medio", true);
         dictionary_gest_gest.Add("Pinza anular", true);
         dictionary_gest_gest.Add("Pinza menique", true);
-        dictionary_gest_gest.Add("Apertura dedos", true);
         dictionary_gest_gest.Add("Cierre puno", true);
+        dictionary_gest_gest.Add("Apertura dedos", true);
         dictionary_gest_gest.Add("Flexion muneca", true);
         dictionary_gest_gest.Add("Extension muneca", true);
         dictionary_gest_gest.Add("Desv. Radial", true);
@@ -100,8 +100,8 @@ public class SetProtocol : MonoBehaviour
         dictionary_gest_ark.Add("Pinza medio", true);
         dictionary_gest_ark.Add("Pinza anular", true);
         dictionary_gest_ark.Add("Pinza menique", true);
-        dictionary_gest_ark.Add("Apertura dedos", true);
         dictionary_gest_ark.Add("Cierre puno", true);
+        dictionary_gest_ark.Add("Apertura dedos", true);
         dictionary_gest_ark.Add("Flexion muneca", true);
         dictionary_gest_ark.Add("Extension muneca", true);
         dictionary_gest_ark.Add("Desv. Radial", true);
@@ -114,8 +114,8 @@ public class SetProtocol : MonoBehaviour
         dictionary_gest_spa.Add("Pinza medio", true);
         dictionary_gest_spa.Add("Pinza anular", true);
         dictionary_gest_spa.Add("Pinza menique", true);
-        dictionary_gest_spa.Add("Apertura dedos", true);
         dictionary_gest_spa.Add("Cierre puno", true);
+        dictionary_gest_spa.Add("Apertura dedos", true);
         dictionary_gest_spa.Add("Flexion muneca", true);
         dictionary_gest_spa.Add("Extension muneca", true);
         dictionary_gest_spa.Add("Desv. Radial", true);
@@ -128,8 +128,8 @@ public class SetProtocol : MonoBehaviour
         dictionary_gest_cook.Add("Pinza medio", true);
         dictionary_gest_cook.Add("Pinza anular", true);
         dictionary_gest_cook.Add("Pinza menique", true);
-        dictionary_gest_cook.Add("Apertura dedos", true);
         dictionary_gest_cook.Add("Cierre puno", true);
+        dictionary_gest_cook.Add("Apertura dedos", true);
         dictionary_gest_cook.Add("Flexion muneca", true);
         dictionary_gest_cook.Add("Extension muneca", true);
         dictionary_gest_cook.Add("Desv. Radial", true);
@@ -142,8 +142,8 @@ public class SetProtocol : MonoBehaviour
         dictionary_gest_tres.Add("Pinza medio", true);
         dictionary_gest_tres.Add("Pinza anular", true);
         dictionary_gest_tres.Add("Pinza menique", true);
-        dictionary_gest_tres.Add("Apertura dedos", true);
         dictionary_gest_tres.Add("Cierre puno", true);
+        dictionary_gest_tres.Add("Apertura dedos", true);
         dictionary_gest_tres.Add("Flexion muneca", true);
         dictionary_gest_tres.Add("Extension muneca", true);
         dictionary_gest_tres.Add("Desv. Radial", true);
@@ -156,8 +156,8 @@ public class SetProtocol : MonoBehaviour
         dictionary_gest_flota.Add("Pinza medio", true);
         dictionary_gest_flota.Add("Pinza anular", true);
         dictionary_gest_flota.Add("Pinza menique", true);
-        dictionary_gest_flota.Add("Apertura dedos", true);
         dictionary_gest_flota.Add("Cierre puno", true);
+        dictionary_gest_flota.Add("Apertura dedos", true);
         dictionary_gest_flota.Add("Flexion muneca", true);
         dictionary_gest_flota.Add("Extension muneca", true);
         dictionary_gest_flota.Add("Desv. Radial", true);
@@ -171,8 +171,8 @@ public class SetProtocol : MonoBehaviour
         dictionary_bbt.Add("Pinza medio", true);
         dictionary_bbt.Add("Pinza anular", false);
         dictionary_bbt.Add("Pinza menique", false);
-        dictionary_bbt.Add("Apertura dedos", false);
         dictionary_bbt.Add("Cierre puno", false);
+        dictionary_bbt.Add("Apertura dedos", false);
         dictionary_bbt.Add("Flexion muneca", false);
         dictionary_bbt.Add("Extension muneca", false);
         dictionary_bbt.Add("Desv. Radial", false);
@@ -186,8 +186,8 @@ public class SetProtocol : MonoBehaviour
         dictionary_cloth.Add("Pinza medio", true);
         dictionary_cloth.Add("Pinza anular", false);
         dictionary_cloth.Add("Pinza menique", false);
-        dictionary_cloth.Add("Apertura dedos", false);
         dictionary_cloth.Add("Cierre puno", false);
+        dictionary_cloth.Add("Apertura dedos", false);
         dictionary_cloth.Add("Flexion muneca", false);
         dictionary_cloth.Add("Extension muneca", false);
         dictionary_cloth.Add("Desv. Radial", false);
@@ -201,8 +201,8 @@ public class SetProtocol : MonoBehaviour
         dictionary_fruits_alcance.Add("Pinza medio", false);
         dictionary_fruits_alcance.Add("Pinza anular", false);
         dictionary_fruits_alcance.Add("Pinza menique", false);
-        dictionary_fruits_alcance.Add("Apertura dedos", false);
         dictionary_fruits_alcance.Add("Cierre puno", false);
+        dictionary_fruits_alcance.Add("Apertura dedos", false);
         dictionary_fruits_alcance.Add("Flexion muneca", false);
         dictionary_fruits_alcance.Add("Extension muneca", false);
         dictionary_fruits_alcance.Add("Desv. Radial", false);
@@ -215,8 +215,8 @@ public class SetProtocol : MonoBehaviour
         dictionary_fruits_secuencia.Add("Pinza medio", false);
         dictionary_fruits_secuencia.Add("Pinza anular", false);
         dictionary_fruits_secuencia.Add("Pinza menique", false);
-        dictionary_fruits_secuencia.Add("Apertura dedos", false);
         dictionary_fruits_secuencia.Add("Cierre puno", false);
+        dictionary_fruits_secuencia.Add("Apertura dedos", false);
         dictionary_fruits_secuencia.Add("Flexion muneca", false);
         dictionary_fruits_secuencia.Add("Extension muneca", false);
         dictionary_fruits_secuencia.Add("Desv. Radial", false);
@@ -229,8 +229,8 @@ public class SetProtocol : MonoBehaviour
         dictionary_fruits_agarre.Add("Pinza medio", false);
         dictionary_fruits_agarre.Add("Pinza anular", false);
         dictionary_fruits_agarre.Add("Pinza menique", false);
-        dictionary_fruits_agarre.Add("Apertura dedos", true);
         dictionary_fruits_agarre.Add("Cierre puno", true);
+        dictionary_fruits_agarre.Add("Apertura dedos", true);
         dictionary_fruits_agarre.Add("Flexion muneca", false);
         dictionary_fruits_agarre.Add("Extension muneca", false);
         dictionary_fruits_agarre.Add("Desv. Radial", false);
@@ -243,8 +243,8 @@ public class SetProtocol : MonoBehaviour
         dictionary_fruits_volteo.Add("Pinza medio", false);
         dictionary_fruits_volteo.Add("Pinza anular", false);
         dictionary_fruits_volteo.Add("Pinza menique", false);
-        dictionary_fruits_volteo.Add("Apertura dedos", false);
         dictionary_fruits_volteo.Add("Cierre puno", false);
+        dictionary_fruits_volteo.Add("Apertura dedos", false);
         dictionary_fruits_volteo.Add("Flexion muneca", false);
         dictionary_fruits_volteo.Add("Extension muneca", false);
         dictionary_fruits_volteo.Add("Desv. Radial", false);
@@ -257,8 +257,8 @@ public class SetProtocol : MonoBehaviour
         dictionary_fruits_prension.Add("Pinza medio", false);
         dictionary_fruits_prension.Add("Pinza anular", false);
         dictionary_fruits_prension.Add("Pinza menique", false);
-        dictionary_fruits_prension.Add("Apertura dedos", true);
         dictionary_fruits_prension.Add("Cierre puno", true);
+        dictionary_fruits_prension.Add("Apertura dedos", true);
         dictionary_fruits_prension.Add("Flexion muneca", false);
         dictionary_fruits_prension.Add("Extension muneca", false);
         dictionary_fruits_prension.Add("Desv. Radial", false);
@@ -477,6 +477,8 @@ public class SetProtocol : MonoBehaviour
 
         protocols_drop.value = 0;
         loadProtocol_button.interactable = false;
+
+        ChangeProtocolDrop(0);
 
         OpenDeletePanel();
     }
