@@ -7,6 +7,7 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Linq;
+using System;
 public class SetProtocol : MonoBehaviour
 {
     [Header("Panel seleccionar protocolo")]
@@ -33,9 +34,13 @@ public class SetProtocol : MonoBehaviour
 
     public GameObject add_protocol_button;
 
-    List<string> exercises = new List<string>();
-    List<string> reps = new List<string>();
-    List<string> games = new List<string>();
+    public Button undoButton;
+
+    public TextMeshProUGUI message;
+
+    [SerializeField] List<string> exercises = new List<string>();
+    [SerializeField] List<string> reps = new List<string>();
+    [SerializeField] List<string> games = new List<string>();
     List<Dictionary<string, bool>> exerciseValues = new List<Dictionary<string, bool>>();
 
 
@@ -46,7 +51,12 @@ public class SetProtocol : MonoBehaviour
 
     bool startConfigProtocols = false;
 
-    List<string> exercises_names = new List<string>();
+    [SerializeField] List<int> indexDropsSelected = new List<int>();
+
+    [SerializeField] List<string> exercises_names = new List<string>();
+    [SerializeField] List<string> exercises_names_for_drop = new List<string>();
+
+    List<string> gameNames = new List<string>();
 
     private void Awake()
     {
@@ -71,7 +81,11 @@ public class SetProtocol : MonoBehaviour
         yield return new WaitUntil(() => startConfigProtocols);
 
         exercises_names = new List<string> {"Pinza indice", "Pinza medio", "Pinza anular" , "Pinza menique", "Cierre puno","Apertura dedos", "Flexion muneca",
-            "Extension muneca", "Desv. radial", "Desv. Cubital", "Pronacion", "Supinacion", "Alcance"};
+            "Extension muneca", "Desv. Radial", "Desv. Cubital", "Pronacion", "Supinacion", "Alcance"};
+
+        exercises_names_for_drop = new List<string>(exercises_names); //Hago una copia no referenciada
+
+        gameNames = new List<string> { "Gesture", "Arkanoid", "Space", "Cooking", "Tres", "Flota", "BBT", "Clothespin", "Alcance", "Secuencia", "Agarre", "Volteo", "Prension" };
 
         List<string> list = new List<string>(exercises_names);
         list.Insert(0, "Selecciona...");
@@ -401,18 +415,38 @@ public class SetProtocol : MonoBehaviour
         }
     }
 
-    public void OpenAddProtocolPanel(bool value)
+    public void OpenAddProtocolPanel()
     {
-        panel_add_protocol.SetActive(value);
-        panel_select_protocol.SetActive(!value);
+        panel_add_protocol.SetActive(!panel_add_protocol.activeSelf);
+        panel_select_protocol.SetActive(!panel_select_protocol.activeSelf);
 
-        if (value)
+        // panel_add_protocol.SetActive(value);
+        // panel_select_protocol.SetActive(!value);
+
+        if (panel_add_protocol.activeSelf)
         {
             exercises.Clear();
             reps.Clear();
             games.Clear();
             listExer.text = "";
             listReps.text = "";
+            protocol_name.text = "";
+
+            undoButton.interactable = false;
+
+            exercises_names_for_drop = new List<string>(exercises_names); //Rehago la copia por si he creado un protocolo y voy a crear otro
+            indexDropsSelected.Clear(); //Reseteo la lista de índices seleccionados
+
+            //Reseteo el drop de ejercicios
+            List<string> list = new List<string>(exercises_names);
+            list.Insert(0, "Selecciona...");
+            exerciseDrop.options.Clear();
+            foreach (string option in list)
+            {
+                exerciseDrop.options.Add(new TMP_Dropdown.OptionData(option));
+            }
+
+            message.gameObject.SetActive(false);
         }
     }
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -510,6 +544,8 @@ public class SetProtocol : MonoBehaviour
             numReps.interactable = true;
             if (numReps.text != "" && int.Parse(numReps.text) != 0) { addStep.interactable = true; }
             addExercise.transform.localScale = new Vector3(-1, 1, 1);
+
+            numReps.Select();
         }
         else
         {
@@ -548,10 +584,27 @@ public class SetProtocol : MonoBehaviour
 
     public void AddStepFunc()
     {
+        undoButton.interactable = true;
+
         exercises.Add(exerciseDrop.captionText.text);
         reps.Add(numReps.text);
 
         exerciseDrop.interactable = true;
+
+        indexDropsSelected.Add(exerciseDrop.value); //Lo guardo por si uso el Deshacer
+
+        ///Para quitar el ejercicio ya seleccionado del drop///
+        exercises_names_for_drop.RemoveAt(exerciseDrop.value - 1);
+        //Quito este ejercicio
+        List<string> list = new List<string>(exercises_names_for_drop);
+        list.Insert(0, "Selecciona...");
+        exerciseDrop.options.Clear();
+        foreach (string option in list)
+        {
+            exerciseDrop.options.Add(new TMP_Dropdown.OptionData(option));
+        }
+        ///////////////////////////////////////////////////////
+
         exerciseDrop.value = 0;
         addExercise.interactable = false;
         addExercise.transform.localScale = new Vector3(1, 1, 1);
@@ -559,7 +612,7 @@ public class SetProtocol : MonoBehaviour
         numReps.text = "";
         addStep.interactable = false;
 
-        AddTexts(exercises[exercises.Count - 1], reps[reps.Count - 1]);
+        AddTexts(exercises[exercises.Count - 1], reps[reps.Count - 1], true);
 
         bool value = false;
         exerciseValues[0].TryGetValue(exercises[exercises.Count - 1], out value);
@@ -591,25 +644,170 @@ public class SetProtocol : MonoBehaviour
 
     }
 
-    void AddTexts(string ex, string rep)
+    void AddTexts(string ex, string rep, bool add)
     {
-        listExer.text += ex + System.Environment.NewLine;
-        listReps.text += rep + System.Environment.NewLine;
+        if (add)
+        {
+            listExer.text += ex + "\n";
+            listReps.text += rep + "\n";
+        }
+        else
+        {
+            string[] arrayExerc = listExer.text.Split('\n');
+
+            List<string> listArrayExerc = arrayExerc.ToList();
+            listArrayExerc.RemoveAt(arrayExerc.Length - 2); //Es -2 porque el espacio en blanco lo detecta como uno
+            arrayExerc = listArrayExerc.ToArray();
+
+            listExer.text = String.Join("\n", arrayExerc);
+
+            string[] arrayRep = listReps.text.Split('\n');
+            List<string> listArrayRep = arrayRep.ToList();
+            listArrayRep.RemoveAt(arrayRep.Length - 2);
+            arrayRep = listArrayRep.ToArray();
+
+            listReps.text = String.Join("\n", arrayRep);
+        }
     }
 
     public void AddProtocol()
     {
-        Protocol new_protocol = new Protocol();
+        if (exercises.Count != 0)
+        {
+            if (FindProtocolByName(protocol_name.text) == false)
+            {
+                Protocol new_protocol = new Protocol();
 
-        new_protocol.Name = protocol_name.text;
-        new_protocol.Exercises = exercises;
-        new_protocol.Reps = reps;
-        new_protocol.Games = games.Distinct().ToList(); //Con esto quito duplicados
+                new_protocol.Name = protocol_name.text;
+                new_protocol.Exercises = exercises;
+                new_protocol.Reps = reps;
 
-        protocols.Protocols_list.Add(new_protocol);
 
-        SaveProtocols();
-        EditDropList();
+                List<string> gamesNoDuplicates = games.Distinct().ToList(); //Con esto quito duplicados
+                               
+                List<string> gamesOrdered = gamesNoDuplicates.OrderBy(g => gameNames.IndexOf(g)).ToList(); //Ordeno la lista de juegos según el índice global
+
+                new_protocol.Games = gamesOrdered;
+
+
+                protocols.Protocols_list.Add(new_protocol);
+
+                protocols.Protocols_list.Sort(SortProtocolByName); //La ordeno seggún el nombre
+
+                message.color = new Color(5f / 255f, 210f / 255f, 0f, 255f / 255f);
+                message.text = "Protocolo añadido correctamente.";
+                message.gameObject.SetActive(true);
+
+
+                SaveProtocols();
+                EditDropList();
+
+                Invoke(nameof(OpenAddProtocolPanel), 0.5f);
+            }
+            else
+            {
+                message.color = new Color(255f / 255f, 111f / 255f, 0f, 255f / 255f);
+                message.text = "Ya existe un protocolo con ese nombre.";
+                message.gameObject.SetActive(true);
+            }
+        }
+        else
+        {
+            message.color = new Color(255f / 255f, 111f / 255f, 0f, 255f / 255f);
+            message.text = "Debe añadir algún ejercicio al protocolo.";
+            message.gameObject.SetActive(true);
+        }
+    }
+
+    //Para ordenar la lista de protocolos cada vez que añado uno nuevo
+    int SortProtocolByName(Protocol p1, Protocol p2)
+    {
+        return p1.Name.CompareTo(p2.Name);
+    }
+
+    //Para ver si existe un protocolo con ese nombre
+    public bool FindProtocolByName(string name)
+    {
+        bool isFound = false;
+        Protocol protocol_founded = null;
+        protocol_founded = protocols.Protocols_list.Find(p => p.Name == name);
+        if (protocol_founded != null)
+        {
+            isFound = true;
+        }
+
+        return isFound;
+    }
+
+    public void UndoStep()
+    {
+        //Hago el proceso contrario al AddStep
+
+        //1º Borro del panel de ejercicios y reps, los últimos valores
+        AddTexts(exercises[exercises.Count - 1], reps[reps.Count - 1], false);
+
+        //2º Borro de la lista de Games los juegos que he añadido
+        bool value = false;
+        exerciseValues[0].TryGetValue(exercises[exercises.Count - 1], out value);
+        if (value == true) { games.Remove("Gesture"); }
+        exerciseValues[1].TryGetValue(exercises[exercises.Count - 1], out value);
+        if (value == true) { games.Remove("Arkanoid"); }
+        exerciseValues[2].TryGetValue(exercises[exercises.Count - 1], out value);
+        if (value == true) { games.Remove("Space"); }
+        exerciseValues[3].TryGetValue(exercises[exercises.Count - 1], out value);
+        if (value == true) { games.Remove("Cooking"); }
+        exerciseValues[4].TryGetValue(exercises[exercises.Count - 1], out value);
+        if (value == true) { games.Remove("Tres"); }
+        exerciseValues[5].TryGetValue(exercises[exercises.Count - 1], out value);
+        if (value == true) { games.Remove("Flota"); }
+        exerciseValues[6].TryGetValue(exercises[exercises.Count - 1], out value);
+        if (value == true) { games.Remove("BBT"); }
+        exerciseValues[7].TryGetValue(exercises[exercises.Count - 1], out value);
+        if (value == true) { games.Remove("Clothespin"); }
+        exerciseValues[8].TryGetValue(exercises[exercises.Count - 1], out value);
+        if (value == true) { games.Remove("Alcance"); }
+        exerciseValues[9].TryGetValue(exercises[exercises.Count - 1], out value);
+        if (value == true) { games.Remove("Secuencia"); }
+        exerciseValues[10].TryGetValue(exercises[exercises.Count - 1], out value);
+        if (value == true) { games.Remove("Agarre"); }
+        exerciseValues[11].TryGetValue(exercises[exercises.Count - 1], out value);
+        if (value == true) { games.Remove("Volteo"); }
+        exerciseValues[12].TryGetValue(exercises[exercises.Count - 1], out value);
+        if (value == true) { games.Remove("Prension"); }
+
+        //3º Recojo el último índice del drop usado
+        int indexExercise = indexDropsSelected[indexDropsSelected.Count - 1] - 1;
+
+        //Añado de nuevo el ejercicio a la lista, usando el último índice como referencia
+        exercises_names_for_drop.Insert(indexExercise, exercises[exercises.Count - 1]);
+
+        List<string> list = new List<string>(exercises_names_for_drop);
+        list.Insert(0, "Selecciona...");
+        exerciseDrop.options.Clear();
+        foreach (string option in list)
+        {
+            exerciseDrop.options.Add(new TMP_Dropdown.OptionData(option));
+        }
+
+        exerciseDrop.interactable = false;
+
+        exerciseDrop.value = indexDropsSelected[indexDropsSelected.Count - 1];
+        exerciseDrop.captionText.text = list[exerciseDrop.value]; //Necesario porque el texto del drop no se actualiza al deshacer cuando deshago más de 1 vez
+        addExercise.interactable = true;
+        addExercise.transform.localScale = new Vector3(-1, 1, 1);
+        numReps.interactable = true;
+        numReps.text = reps[reps.Count - 1];
+        addStep.interactable = true;
+
+        //Borro el último index guardado
+        indexDropsSelected.RemoveAt(indexDropsSelected.Count - 1);
+
+        //Borro el ejercicio y las repeticiones de la lista
+        exercises.RemoveAt(exercises.Count - 1);
+        reps.RemoveAt(reps.Count - 1);
+
+
+        if (exercises.Count == 0) { undoButton.interactable = false; }
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -681,12 +879,17 @@ public class SetProtocol : MonoBehaviour
     {
         string desktopPath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Desktop) + "/RoboticsLab_UC3M";
         string path = desktopPath + "/Patients_Data/Exported Data/Patients/" + patientId + "/Protocol_Data/";
-        string filename = System.DateTime.Now.ToString("dd-MM-yyyy__HH-mm") + "__" + patientProtocol.Name + ".csv";
 
         if (!Directory.Exists(path))
         {
             Directory.CreateDirectory(path);
         }
+
+        int indexCSV = Directory.GetFiles(path).Length; //Este índice irá delante del nombre de los archivos para ordenarlos
+
+        string filename = indexCSV + "__" + System.DateTime.Now.ToString("dd-MM-yyyy__HH-mm") + "__" + patientProtocol.Name + ".csv";
+
+
 
         path += filename;
 

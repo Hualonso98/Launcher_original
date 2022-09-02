@@ -42,7 +42,8 @@ public class Inicio : MonoBehaviour
 
         if (File.Exists(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Desktop) + "/RoboticsLab_UC3M/Develop/" + "PatientSelected.txt"))
         {
-            if ((File.ReadAllLines(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Desktop) + "/RoboticsLab_UC3M/Develop/" + "PatientSelected.txt"))[0] != "--")
+            if (((File.ReadAllLines(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Desktop) + "/RoboticsLab_UC3M/Develop/" + "PatientSelected.txt"))[0] != "--")
+                && (bool.Parse(File.ReadAllLines(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Desktop) + "/RoboticsLab_UC3M/Develop/" + "PatientSelected.txt")[3]) == false))
             {
                 string[] lines = File.ReadAllLines(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Desktop) + "/RoboticsLab_UC3M/Develop/" + "PatientSelected.txt");
                 int ID = int.Parse(lines[0]);

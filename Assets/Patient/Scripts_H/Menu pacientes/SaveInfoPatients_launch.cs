@@ -60,7 +60,7 @@ public class SaveInfoPatients_launch: MonoBehaviour
         {
             Directory.CreateDirectory(Application.dataPath + "/Paths");
         }
-        Debug.Log("SaveInfopatients");
+        
         if (!File.Exists(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Desktop) + "/RoboticsLab_UC3M/Develop" + "/PatientSelected.txt"))
         {
             File.Create(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Desktop) + "/RoboticsLab_UC3M/Develop" + "/PatientSelected.txt").Dispose();

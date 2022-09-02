@@ -388,7 +388,6 @@ public class PatientMenu : MonoBehaviour
     }
     public void StartGame()
     {
-        Debug.Log(SaveInfoPatients_launch.Instance.SelectedPatient.ID1);
         StartCoroutine(CoroutineForStartGame());
     }
 
