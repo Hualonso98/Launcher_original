@@ -38,7 +38,10 @@ public class SetProtocol : MonoBehaviour
 
     public TextMeshProUGUI message;
 
+    //Listas de nombres de ejercicios para el protocolo
     [SerializeField] List<string> exercises = new List<string>();
+    [SerializeField] List<string> exercises_display = new List<string>();
+
     [SerializeField] List<string> reps = new List<string>();
     [SerializeField] List<string> games = new List<string>();
     List<Dictionary<string, bool>> exerciseValues = new List<Dictionary<string, bool>>();
@@ -53,8 +56,10 @@ public class SetProtocol : MonoBehaviour
 
     [SerializeField] List<int> indexDropsSelected = new List<int>();
 
+    //Listas de nombres de ejercicios completas
     [SerializeField] List<string> exercises_names = new List<string>();
     [SerializeField] List<string> exercises_names_for_drop = new List<string>();
+    [SerializeField] List<string> exercises_names_to_display = new List<string>();
 
     List<string> gameNames = new List<string>();
 
@@ -83,11 +88,14 @@ public class SetProtocol : MonoBehaviour
         exercises_names = new List<string> {"Pinza indice", "Pinza medio", "Pinza anular" , "Pinza menique", "Cierre puno","Apertura dedos", "Flexion muneca",
             "Extension muneca", "Desv. Radial", "Desv. Cubital", "Pronacion", "Supinacion", "Alcance"};
 
-        exercises_names_for_drop = new List<string>(exercises_names); //Hago una copia no referenciada
+        exercises_names_to_display = new List<string> {"Pinza índice", "Pinza medio", "Pinza anular" , "Pinza meñique", "Cierre puño","Apertura dedos", "Flexión muñeca",
+            "Extensión muñeca", "Desv. Radial", "Desv. Cubital", "Pronación", "Supinación", "Alcance"};
+
+        exercises_names_for_drop = new List<string>(exercises_names_to_display); //Hago una copia no referenciada
 
         gameNames = new List<string> { "Gesture", "Arkanoid", "Space", "Cooking", "Tres", "Flota", "BBT", "Clothespin", "Alcance", "Secuencia", "Agarre", "Volteo", "Prension" };
 
-        List<string> list = new List<string>(exercises_names);
+        List<string> list = new List<string>(exercises_names_to_display); //Hago la copia de los nombres para displya (con tildes, y 'ñ')
         list.Insert(0, "Selecciona...");
         exerciseDrop.options.Clear();
         foreach (string option in list)
@@ -96,189 +104,189 @@ public class SetProtocol : MonoBehaviour
         }
 
         Dictionary<string, bool> dictionary_gest_gest = new Dictionary<string, bool>();
-        dictionary_gest_gest.Add("Pinza indice", true);
+        dictionary_gest_gest.Add("Pinza índice", true);
         dictionary_gest_gest.Add("Pinza medio", true);
         dictionary_gest_gest.Add("Pinza anular", true);
-        dictionary_gest_gest.Add("Pinza menique", true);
-        dictionary_gest_gest.Add("Cierre puno", true);
+        dictionary_gest_gest.Add("Pinza meñique", true);
+        dictionary_gest_gest.Add("Cierre puño", true);
         dictionary_gest_gest.Add("Apertura dedos", true);
-        dictionary_gest_gest.Add("Flexion muneca", true);
-        dictionary_gest_gest.Add("Extension muneca", true);
+        dictionary_gest_gest.Add("Flexión muñeca", true);
+        dictionary_gest_gest.Add("Extensión muñeca", true);
         dictionary_gest_gest.Add("Desv. Radial", true);
         dictionary_gest_gest.Add("Desv. Cubital", true);
-        dictionary_gest_gest.Add("Pronacion", false);
-        dictionary_gest_gest.Add("Supinacion", false);
+        dictionary_gest_gest.Add("Pronación", false);
+        dictionary_gest_gest.Add("Supinación", false);
         dictionary_gest_gest.Add("Alcance", false);
         Dictionary<string, bool> dictionary_gest_ark = new Dictionary<string, bool>();
-        dictionary_gest_ark.Add("Pinza indice", true);
+        dictionary_gest_ark.Add("Pinza índice", true);
         dictionary_gest_ark.Add("Pinza medio", true);
         dictionary_gest_ark.Add("Pinza anular", true);
-        dictionary_gest_ark.Add("Pinza menique", true);
-        dictionary_gest_ark.Add("Cierre puno", true);
+        dictionary_gest_ark.Add("Pinza meñique", true);
+        dictionary_gest_ark.Add("Cierre puño", true);
         dictionary_gest_ark.Add("Apertura dedos", true);
-        dictionary_gest_ark.Add("Flexion muneca", true);
-        dictionary_gest_ark.Add("Extension muneca", true);
+        dictionary_gest_ark.Add("Flexión muñeca", true);
+        dictionary_gest_ark.Add("Extensión muñeca", true);
         dictionary_gest_ark.Add("Desv. Radial", true);
         dictionary_gest_ark.Add("Desv. Cubital", true);
-        dictionary_gest_ark.Add("Pronacion", true);
-        dictionary_gest_ark.Add("Supinacion", true);
+        dictionary_gest_ark.Add("Pronación", true);
+        dictionary_gest_ark.Add("Supinación", true);
         dictionary_gest_ark.Add("Alcance", false);
         Dictionary<string, bool> dictionary_gest_spa = new Dictionary<string, bool>();
-        dictionary_gest_spa.Add("Pinza indice", true);
+        dictionary_gest_spa.Add("Pinza índice", true);
         dictionary_gest_spa.Add("Pinza medio", true);
         dictionary_gest_spa.Add("Pinza anular", true);
-        dictionary_gest_spa.Add("Pinza menique", true);
-        dictionary_gest_spa.Add("Cierre puno", true);
+        dictionary_gest_spa.Add("Pinza meñique", true);
+        dictionary_gest_spa.Add("Cierre puño", true);
         dictionary_gest_spa.Add("Apertura dedos", true);
-        dictionary_gest_spa.Add("Flexion muneca", true);
-        dictionary_gest_spa.Add("Extension muneca", true);
+        dictionary_gest_spa.Add("Flexión muñeca", true);
+        dictionary_gest_spa.Add("Extensión muñeca", true);
         dictionary_gest_spa.Add("Desv. Radial", true);
         dictionary_gest_spa.Add("Desv. Cubital", true);
-        dictionary_gest_spa.Add("Pronacion", true);
-        dictionary_gest_spa.Add("Supinacion", true);
+        dictionary_gest_spa.Add("Pronación", true);
+        dictionary_gest_spa.Add("Supinación", true);
         dictionary_gest_spa.Add("Alcance", false);
         Dictionary<string, bool> dictionary_gest_cook = new Dictionary<string, bool>();
-        dictionary_gest_cook.Add("Pinza indice", true);
+        dictionary_gest_cook.Add("Pinza índice", true);
         dictionary_gest_cook.Add("Pinza medio", true);
         dictionary_gest_cook.Add("Pinza anular", true);
-        dictionary_gest_cook.Add("Pinza menique", true);
-        dictionary_gest_cook.Add("Cierre puno", true);
+        dictionary_gest_cook.Add("Pinza meñique", true);
+        dictionary_gest_cook.Add("Cierre puño", true);
         dictionary_gest_cook.Add("Apertura dedos", true);
-        dictionary_gest_cook.Add("Flexion muneca", true);
-        dictionary_gest_cook.Add("Extension muneca", true);
+        dictionary_gest_cook.Add("Flexión muñeca", true);
+        dictionary_gest_cook.Add("Extensión muñeca", true);
         dictionary_gest_cook.Add("Desv. Radial", true);
         dictionary_gest_cook.Add("Desv. Cubital", true);
-        dictionary_gest_cook.Add("Pronacion", false);
-        dictionary_gest_cook.Add("Supinacion", false);
+        dictionary_gest_cook.Add("Pronación", false);
+        dictionary_gest_cook.Add("Supinación", false);
         dictionary_gest_cook.Add("Alcance", false);
         Dictionary<string, bool> dictionary_gest_tres = new Dictionary<string, bool>();
-        dictionary_gest_tres.Add("Pinza indice", true);
+        dictionary_gest_tres.Add("Pinza índice", true);
         dictionary_gest_tres.Add("Pinza medio", true);
         dictionary_gest_tres.Add("Pinza anular", true);
-        dictionary_gest_tres.Add("Pinza menique", true);
-        dictionary_gest_tres.Add("Cierre puno", true);
+        dictionary_gest_tres.Add("Pinza meñique", true);
+        dictionary_gest_tres.Add("Cierre puño", true);
         dictionary_gest_tres.Add("Apertura dedos", true);
-        dictionary_gest_tres.Add("Flexion muneca", true);
-        dictionary_gest_tres.Add("Extension muneca", true);
+        dictionary_gest_tres.Add("Flexión muñeca", true);
+        dictionary_gest_tres.Add("Extensión muñeca", true);
         dictionary_gest_tres.Add("Desv. Radial", true);
         dictionary_gest_tres.Add("Desv. Cubital", true);
-        dictionary_gest_tres.Add("Pronacion", false);
-        dictionary_gest_tres.Add("Supinacion", false);
+        dictionary_gest_tres.Add("Pronación", false);
+        dictionary_gest_tres.Add("Supinación", false);
         dictionary_gest_tres.Add("Alcance", false);
         Dictionary<string, bool> dictionary_gest_flota = new Dictionary<string, bool>();
-        dictionary_gest_flota.Add("Pinza indice", true);
+        dictionary_gest_flota.Add("Pinza índice", true);
         dictionary_gest_flota.Add("Pinza medio", true);
         dictionary_gest_flota.Add("Pinza anular", true);
-        dictionary_gest_flota.Add("Pinza menique", true);
-        dictionary_gest_flota.Add("Cierre puno", true);
+        dictionary_gest_flota.Add("Pinza meñique", true);
+        dictionary_gest_flota.Add("Cierre puño", true);
         dictionary_gest_flota.Add("Apertura dedos", true);
-        dictionary_gest_flota.Add("Flexion muneca", true);
-        dictionary_gest_flota.Add("Extension muneca", true);
+        dictionary_gest_flota.Add("Flexión muñeca", true);
+        dictionary_gest_flota.Add("Extensión muñeca", true);
         dictionary_gest_flota.Add("Desv. Radial", true);
         dictionary_gest_flota.Add("Desv. Cubital", true);
-        dictionary_gest_flota.Add("Pronacion", false);
-        dictionary_gest_flota.Add("Supinacion", false);
+        dictionary_gest_flota.Add("Pronación", false);
+        dictionary_gest_flota.Add("Supinación", false);
         dictionary_gest_flota.Add("Alcance", false);
 
         Dictionary<string, bool> dictionary_bbt = new Dictionary<string, bool>();
-        dictionary_bbt.Add("Pinza indice", true);
+        dictionary_bbt.Add("Pinza índice", true);
         dictionary_bbt.Add("Pinza medio", true);
         dictionary_bbt.Add("Pinza anular", false);
-        dictionary_bbt.Add("Pinza menique", false);
-        dictionary_bbt.Add("Cierre puno", false);
+        dictionary_bbt.Add("Pinza meñique", false);
+        dictionary_bbt.Add("Cierre puño", false);
         dictionary_bbt.Add("Apertura dedos", false);
-        dictionary_bbt.Add("Flexion muneca", false);
-        dictionary_bbt.Add("Extension muneca", false);
+        dictionary_bbt.Add("Flexión muñeca", false);
+        dictionary_bbt.Add("Extensión muñeca", false);
         dictionary_bbt.Add("Desv. Radial", false);
         dictionary_bbt.Add("Desv. Cubital", false);
-        dictionary_bbt.Add("Pronacion", false);
-        dictionary_bbt.Add("Supinacion", false);
+        dictionary_bbt.Add("Pronación", false);
+        dictionary_bbt.Add("Supinación", false);
         dictionary_bbt.Add("Alcance", true);
 
         Dictionary<string, bool> dictionary_cloth = new Dictionary<string, bool>();
-        dictionary_cloth.Add("Pinza indice", true);
+        dictionary_cloth.Add("Pinza índice", true);
         dictionary_cloth.Add("Pinza medio", true);
         dictionary_cloth.Add("Pinza anular", false);
-        dictionary_cloth.Add("Pinza menique", false);
-        dictionary_cloth.Add("Cierre puno", false);
+        dictionary_cloth.Add("Pinza meñique", false);
+        dictionary_cloth.Add("Cierre puño", false);
         dictionary_cloth.Add("Apertura dedos", false);
-        dictionary_cloth.Add("Flexion muneca", false);
-        dictionary_cloth.Add("Extension muneca", false);
+        dictionary_cloth.Add("Flexión muñeca", false);
+        dictionary_cloth.Add("Extensión muñeca", false);
         dictionary_cloth.Add("Desv. Radial", false);
         dictionary_cloth.Add("Desv. Cubital", false);
-        dictionary_cloth.Add("Pronacion", false);
-        dictionary_cloth.Add("Supinacion", false);
+        dictionary_cloth.Add("Pronación", false);
+        dictionary_cloth.Add("Supinación", false);
         dictionary_cloth.Add("Alcance", true);
 
         Dictionary<string, bool> dictionary_fruits_alcance = new Dictionary<string, bool>();
-        dictionary_fruits_alcance.Add("Pinza indice", false);
+        dictionary_fruits_alcance.Add("Pinza índice", false);
         dictionary_fruits_alcance.Add("Pinza medio", false);
         dictionary_fruits_alcance.Add("Pinza anular", false);
-        dictionary_fruits_alcance.Add("Pinza menique", false);
-        dictionary_fruits_alcance.Add("Cierre puno", false);
+        dictionary_fruits_alcance.Add("Pinza meñique", false);
+        dictionary_fruits_alcance.Add("Cierre puño", false);
         dictionary_fruits_alcance.Add("Apertura dedos", false);
-        dictionary_fruits_alcance.Add("Flexion muneca", false);
-        dictionary_fruits_alcance.Add("Extension muneca", false);
+        dictionary_fruits_alcance.Add("Flexión muñeca", false);
+        dictionary_fruits_alcance.Add("Extensión muñeca", false);
         dictionary_fruits_alcance.Add("Desv. Radial", false);
         dictionary_fruits_alcance.Add("Desv. Cubital", false);
-        dictionary_fruits_alcance.Add("Pronacion", false);
-        dictionary_fruits_alcance.Add("Supinacion", false);
+        dictionary_fruits_alcance.Add("Pronación", false);
+        dictionary_fruits_alcance.Add("Supinación", false);
         dictionary_fruits_alcance.Add("Alcance", true);
         Dictionary<string, bool> dictionary_fruits_secuencia = new Dictionary<string, bool>();
-        dictionary_fruits_secuencia.Add("Pinza indice", false);
+        dictionary_fruits_secuencia.Add("Pinza índice", false);
         dictionary_fruits_secuencia.Add("Pinza medio", false);
         dictionary_fruits_secuencia.Add("Pinza anular", false);
-        dictionary_fruits_secuencia.Add("Pinza menique", false);
-        dictionary_fruits_secuencia.Add("Cierre puno", false);
+        dictionary_fruits_secuencia.Add("Pinza meñique", false);
+        dictionary_fruits_secuencia.Add("Cierre puño", false);
         dictionary_fruits_secuencia.Add("Apertura dedos", false);
-        dictionary_fruits_secuencia.Add("Flexion muneca", false);
-        dictionary_fruits_secuencia.Add("Extension muneca", false);
+        dictionary_fruits_secuencia.Add("Flexión muñeca", false);
+        dictionary_fruits_secuencia.Add("Extensión muñeca", false);
         dictionary_fruits_secuencia.Add("Desv. Radial", false);
         dictionary_fruits_secuencia.Add("Desv. Cubital", false);
-        dictionary_fruits_secuencia.Add("Pronacion", false);
-        dictionary_fruits_secuencia.Add("Supinacion", false);
+        dictionary_fruits_secuencia.Add("Pronación", false);
+        dictionary_fruits_secuencia.Add("Supinación", false);
         dictionary_fruits_secuencia.Add("Alcance", true);
         Dictionary<string, bool> dictionary_fruits_agarre = new Dictionary<string, bool>();
-        dictionary_fruits_agarre.Add("Pinza indice", false);
+        dictionary_fruits_agarre.Add("Pinza índice", false);
         dictionary_fruits_agarre.Add("Pinza medio", false);
         dictionary_fruits_agarre.Add("Pinza anular", false);
-        dictionary_fruits_agarre.Add("Pinza menique", false);
-        dictionary_fruits_agarre.Add("Cierre puno", true);
+        dictionary_fruits_agarre.Add("Pinza meñique", false);
+        dictionary_fruits_agarre.Add("Cierre puño", true);
         dictionary_fruits_agarre.Add("Apertura dedos", true);
-        dictionary_fruits_agarre.Add("Flexion muneca", false);
-        dictionary_fruits_agarre.Add("Extension muneca", false);
+        dictionary_fruits_agarre.Add("Flexión muñeca", false);
+        dictionary_fruits_agarre.Add("Extensión muñeca", false);
         dictionary_fruits_agarre.Add("Desv. Radial", false);
         dictionary_fruits_agarre.Add("Desv. Cubital", false);
-        dictionary_fruits_agarre.Add("Pronacion", false);
-        dictionary_fruits_agarre.Add("Supinacion", false);
+        dictionary_fruits_agarre.Add("Pronación", false);
+        dictionary_fruits_agarre.Add("Supinación", false);
         dictionary_fruits_agarre.Add("Alcance", true);
         Dictionary<string, bool> dictionary_fruits_volteo = new Dictionary<string, bool>();
-        dictionary_fruits_volteo.Add("Pinza indice", false);
+        dictionary_fruits_volteo.Add("Pinza índice", false);
         dictionary_fruits_volteo.Add("Pinza medio", false);
         dictionary_fruits_volteo.Add("Pinza anular", false);
-        dictionary_fruits_volteo.Add("Pinza menique", false);
-        dictionary_fruits_volteo.Add("Cierre puno", false);
+        dictionary_fruits_volteo.Add("Pinza meñique", false);
+        dictionary_fruits_volteo.Add("Cierre puño", false);
         dictionary_fruits_volteo.Add("Apertura dedos", false);
-        dictionary_fruits_volteo.Add("Flexion muneca", false);
-        dictionary_fruits_volteo.Add("Extension muneca", false);
+        dictionary_fruits_volteo.Add("Flexión muñeca", false);
+        dictionary_fruits_volteo.Add("Extensión muñeca", false);
         dictionary_fruits_volteo.Add("Desv. Radial", false);
         dictionary_fruits_volteo.Add("Desv. Cubital", false);
-        dictionary_fruits_volteo.Add("Pronacion", true);
-        dictionary_fruits_volteo.Add("Supinacion", true);
+        dictionary_fruits_volteo.Add("Pronación", true);
+        dictionary_fruits_volteo.Add("Supinación", true);
         dictionary_fruits_volteo.Add("Alcance", true);
         Dictionary<string, bool> dictionary_fruits_prension = new Dictionary<string, bool>();
-        dictionary_fruits_prension.Add("Pinza indice", false);
+        dictionary_fruits_prension.Add("Pinza índice", false);
         dictionary_fruits_prension.Add("Pinza medio", false);
         dictionary_fruits_prension.Add("Pinza anular", false);
-        dictionary_fruits_prension.Add("Pinza menique", false);
-        dictionary_fruits_prension.Add("Cierre puno", true);
+        dictionary_fruits_prension.Add("Pinza meñique", false);
+        dictionary_fruits_prension.Add("Cierre puño", true);
         dictionary_fruits_prension.Add("Apertura dedos", true);
-        dictionary_fruits_prension.Add("Flexion muneca", false);
-        dictionary_fruits_prension.Add("Extension muneca", false);
+        dictionary_fruits_prension.Add("Flexión muñeca", false);
+        dictionary_fruits_prension.Add("Extensión muñeca", false);
         dictionary_fruits_prension.Add("Desv. Radial", false);
         dictionary_fruits_prension.Add("Desv. Cubital", false);
-        dictionary_fruits_prension.Add("Pronacion", false);
-        dictionary_fruits_prension.Add("Supinacion", false);
+        dictionary_fruits_prension.Add("Pronación", false);
+        dictionary_fruits_prension.Add("Supinación", false);
         dictionary_fruits_prension.Add("Alcance", true);
 
         exerciseValues.Add(dictionary_gest_gest);
@@ -402,6 +410,7 @@ public class SetProtocol : MonoBehaviour
 
             for (int i = 0; i < protocols.Protocols_list[value - 1].Exercises.Count; i++)
             {
+                //string exercise_from_exercises_to_display = exercises_names_to_display[exercises_names.IndexOf(protocols.Protocols_list[value - 1].Exercises[i])]; //Busco el nombre del ejercicio en la lista con tildes y 'ñ'
                 table_view_protocol.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text += protocols.Protocols_list[value - 1].Exercises[i] + System.Environment.NewLine;
                 table_view_protocol.transform.GetChild(3).GetComponent<TextMeshProUGUI>().text += protocols.Protocols_list[value - 1].Reps[i] + System.Environment.NewLine;
             }
@@ -434,11 +443,11 @@ public class SetProtocol : MonoBehaviour
 
             undoButton.interactable = false;
 
-            exercises_names_for_drop = new List<string>(exercises_names); //Rehago la copia por si he creado un protocolo y voy a crear otro
+            exercises_names_for_drop = new List<string>(exercises_names_to_display); //Rehago la copia por si he creado un protocolo y voy a crear otro
             indexDropsSelected.Clear(); //Reseteo la lista de índices seleccionados
 
             //Reseteo el drop de ejercicios
-            List<string> list = new List<string>(exercises_names);
+            List<string> list = new List<string>(exercises_names_to_display);
             list.Insert(0, "Selecciona...");
             exerciseDrop.options.Clear();
             foreach (string option in list)
@@ -492,9 +501,9 @@ public class SetProtocol : MonoBehaviour
         }
         else
         {
-            for (int i = 0; i < FindObjectsOfType<ShowWhenButtonHighlighted>().Length; i++)
+            for (int i = 0; i < Resources.FindObjectsOfTypeAll<ShowWhenButtonHighlighted>().Length; i++) //Uso el TypeAll porque al estar inactivos, con el Type no los encontraba
             {
-                FindObjectsOfType<ShowWhenButtonHighlighted>()[i].enabled = true;
+                Resources.FindObjectsOfTypeAll<ShowWhenButtonHighlighted>()[i].enabled = true;
             }
         }
     }
@@ -586,8 +595,22 @@ public class SetProtocol : MonoBehaviour
     {
         undoButton.interactable = true;
 
+        // exercises.Add(exerciseDrop.captionText.text);
+
+        //Busco en la lista de nombres sin tildes, el índice que saco de buscar el ejercicio con tildes en la lista con tildes
+       // exercises.Add(exercises_names[exercises_names_to_display.IndexOf(exerciseDrop.captionText.text)]);
+       // exercises_display.Add(exerciseDrop.captionText.text); //Recojo los nombres con tildes, para las listas de display
+
+        //****Prueba para guardar textos con tildes y ñ
         exercises.Add(exerciseDrop.captionText.text);
+        
+        
+        
         reps.Add(numReps.text);
+
+
+
+
 
         exerciseDrop.interactable = true;
 
@@ -595,6 +618,7 @@ public class SetProtocol : MonoBehaviour
 
         ///Para quitar el ejercicio ya seleccionado del drop///
         exercises_names_for_drop.RemoveAt(exerciseDrop.value - 1);
+
         //Quito este ejercicio
         List<string> list = new List<string>(exercises_names_for_drop);
         list.Insert(0, "Selecciona...");
@@ -611,8 +635,11 @@ public class SetProtocol : MonoBehaviour
         numReps.interactable = false;
         numReps.text = "";
         addStep.interactable = false;
-
+                
         AddTexts(exercises[exercises.Count - 1], reps[reps.Count - 1], true);
+
+
+     //   AddTexts(exercises_display[exercises.Count - 1], reps[reps.Count - 1], true);
 
         bool value = false;
         exerciseValues[0].TryGetValue(exercises[exercises.Count - 1], out value);
@@ -684,7 +711,7 @@ public class SetProtocol : MonoBehaviour
 
 
                 List<string> gamesNoDuplicates = games.Distinct().ToList(); //Con esto quito duplicados
-                               
+
                 List<string> gamesOrdered = gamesNoDuplicates.OrderBy(g => gameNames.IndexOf(g)).ToList(); //Ordeno la lista de juegos según el índice global
 
                 new_protocol.Games = gamesOrdered;
@@ -692,7 +719,7 @@ public class SetProtocol : MonoBehaviour
 
                 protocols.Protocols_list.Add(new_protocol);
 
-                protocols.Protocols_list.Sort(SortProtocolByName); //La ordeno seggún el nombre
+                protocols.Protocols_list.Sort(SortProtocolByName); //La ordeno según el nombre
 
                 message.color = new Color(5f / 255f, 210f / 255f, 0f, 255f / 255f);
                 message.text = "Protocolo añadido correctamente.";
@@ -744,7 +771,8 @@ public class SetProtocol : MonoBehaviour
         //Hago el proceso contrario al AddStep
 
         //1º Borro del panel de ejercicios y reps, los últimos valores
-        AddTexts(exercises[exercises.Count - 1], reps[reps.Count - 1], false);
+         AddTexts(exercises[exercises.Count - 1], reps[reps.Count - 1], false);
+       // AddTexts(exercises_display[exercises.Count - 1], reps[reps.Count - 1], false);
 
         //2º Borro de la lista de Games los juegos que he añadido
         bool value = false;
@@ -780,6 +808,7 @@ public class SetProtocol : MonoBehaviour
 
         //Añado de nuevo el ejercicio a la lista, usando el último índice como referencia
         exercises_names_for_drop.Insert(indexExercise, exercises[exercises.Count - 1]);
+      //  exercises_names_for_drop.Insert(indexExercise, exercises_display[exercises_display.Count - 1]);
 
         List<string> list = new List<string>(exercises_names_for_drop);
         list.Insert(0, "Selecciona...");
@@ -804,6 +833,7 @@ public class SetProtocol : MonoBehaviour
 
         //Borro el ejercicio y las repeticiones de la lista
         exercises.RemoveAt(exercises.Count - 1);
+        exercises_display.RemoveAt(exercises_display.Count - 1);
         reps.RemoveAt(reps.Count - 1);
 
 
@@ -873,6 +903,9 @@ public class SetProtocol : MonoBehaviour
         bf.Serialize(file, patientProtocol);
 
         file.Close();
+
+
+       File.WriteAllText(path.Replace(".dat",".json"), JsonUtility.ToJson(patientProtocol));
     }
 
     public void CreateProtocolDataCsv()
@@ -896,7 +929,7 @@ public class SetProtocol : MonoBehaviour
         /* try
          {*/
 
-        var f1 = File.CreateText(path);
+       // var f1 = File.CreateText(path);
 
         string data = "Ficha de protocolo" + System.Environment.NewLine;
         data += System.Environment.NewLine;
@@ -905,7 +938,7 @@ public class SetProtocol : MonoBehaviour
         data += System.Environment.NewLine;
 
         data += "Fecha de inicio de protocolo;" + System.DateTime.Now.ToString("g") + System.Environment.NewLine;
-        data += "Ultima sesion;" + System.DateTime.Now.ToString("g") + System.Environment.NewLine;
+        data += "Última sesión;" + System.DateTime.Now.ToString("g") + System.Environment.NewLine;
 
         data += System.Environment.NewLine;
 
@@ -936,7 +969,7 @@ public class SetProtocol : MonoBehaviour
         data += System.Environment.NewLine;
         data += System.Environment.NewLine;
 
-        data += "Historico de repeticiones por sesion" + System.Environment.NewLine;
+        data += "Histórico de repeticiones por sesión" + System.Environment.NewLine;
         data += System.Environment.NewLine;
         data += "Ejercicios;Subjuegos" + System.Environment.NewLine;
         data += System.Environment.NewLine;
@@ -948,9 +981,12 @@ public class SetProtocol : MonoBehaviour
 
         //VER EXCEL DEL MODELO DE CSV
 
-        f1.Write(data);
+        //f1.Write(data);
 
-        f1.Close();
+        //****Prueba para guardar textos con tildes y ñ
+        File.WriteAllText(path, data, System.Text.Encoding.UTF8);
+
+       // f1.Close();
     }
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -964,6 +1000,17 @@ public class SetProtocol : MonoBehaviour
         string[] data = File.ReadAllLines(path + "/ApplicationsPaths.txt");
 
         Application.OpenURL(data[1]); //La fase intermedia para cuando modifique el orden de los paths
+
+        Invoke(nameof(Finish), .5f);
+    }
+
+    void Finish()
+    {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.ExitPlaymode();
+        //  UnityEditor.EditorApplication.isPlaying = false;
+#endif
+        Application.Quit();
     }
     #endregion
 }
@@ -971,15 +1018,15 @@ public class SetProtocol : MonoBehaviour
 [System.Serializable]
 public class Protocol
 {
-    int index_protocol_selected_in_protocols = -1;
-
-    string name = "";
-    List<string> exercises = new List<string>();
-    List<string> reps = new List<string>();
-    List<string> games = new List<string>();
-    int index_subgame_selected = -1;
-    int index_game_selected = -1;
-    List<string> games_already_Selected = new List<string>();
+   [SerializeField] int index_protocol_selected_in_protocols = -1;
+ 
+   [SerializeField] string name = "";
+   [SerializeField] List<string> exercises = new List<string>();
+   [SerializeField] List<string> reps = new List<string>();
+   [SerializeField] List<string> games = new List<string>();
+   [SerializeField] int index_subgame_selected = -1;
+   [SerializeField] int index_game_selected = -1;
+   [SerializeField] List<string> games_already_Selected = new List<string>();
 
     public string Name { get => name; set => name = value; }
     public List<string> Exercises { get => exercises; set => exercises = value; }

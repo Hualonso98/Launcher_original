@@ -11,7 +11,7 @@ public class Inicio : MonoBehaviour
 
     string path = "";
     int app_selected = 0;
-  
+
     public void StartApplication()
     {
         UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenu");
@@ -30,7 +30,7 @@ public class Inicio : MonoBehaviour
             File.Create(path + "/ApplicationsPaths.txt").Dispose();
 
             string data = "0;" + System.Environment.NewLine + "0;" + System.Environment.NewLine + "0;" + System.Environment.NewLine +
-                "0;" + System.Environment.NewLine + "0;" + System.Environment.NewLine + "0;";
+                "0;" + System.Environment.NewLine + "0;" + System.Environment.NewLine + "0;" + System.Environment.NewLine + "0;";
             File.WriteAllText(path + "/ApplicationsPaths.txt", data);
         }
 
@@ -101,7 +101,7 @@ public class Inicio : MonoBehaviour
         {
             string path_patient = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Desktop) + "/RoboticsLab_UC3M/Develop/" + "PatientSelected.txt";
             File.Create(path_patient).Dispose();
-            File.WriteAllText(path_patient, "--" + System.Environment.NewLine + "0" + System.Environment.NewLine + "0" + 
+            File.WriteAllText(path_patient, "--" + System.Environment.NewLine + "0" + System.Environment.NewLine + "0" +
                 System.Environment.NewLine + SavingData_launch.protocolMode);
             //La primera línea es el ID del paciente
             //La segunda línea es la aplicación donde estaba
