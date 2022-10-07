@@ -25,7 +25,7 @@ public class SetProtocol : MonoBehaviour
     [Space]
     public Button addExercise;
     public Button addStep;
-    public TMP_InputField numReps;
+    public TMP_InputField[] numReps = new TMP_InputField[2];
 
     public TMP_Dropdown exerciseDrop;
     public TextMeshProUGUI listExer;
@@ -42,7 +42,8 @@ public class SetProtocol : MonoBehaviour
     [SerializeField] List<string> exercises = new List<string>();
     [SerializeField] List<string> exercises_display = new List<string>();
 
-    [SerializeField] List<string> reps = new List<string>();
+    [SerializeField] List<string> left_reps = new List<string>();
+    [SerializeField] List<string> right_reps = new List<string>();
     [SerializeField] List<string> games = new List<string>();
     List<Dictionary<string, bool>> exerciseValues = new List<Dictionary<string, bool>>();
 
@@ -57,7 +58,7 @@ public class SetProtocol : MonoBehaviour
     [SerializeField] List<int> indexDropsSelected = new List<int>();
 
     //Listas de nombres de ejercicios completas
-    [SerializeField] List<string> exercises_names = new List<string>();
+  //  [SerializeField] List<string> exercises_names = new List<string>();
     [SerializeField] List<string> exercises_names_for_drop = new List<string>();
     [SerializeField] List<string> exercises_names_to_display = new List<string>();
 
@@ -85,8 +86,8 @@ public class SetProtocol : MonoBehaviour
     {
         yield return new WaitUntil(() => startConfigProtocols);
 
-        exercises_names = new List<string> {"Pinza indice", "Pinza medio", "Pinza anular" , "Pinza menique", "Cierre puno","Apertura dedos", "Flexion muneca",
-            "Extension muneca", "Desv. Radial", "Desv. Cubital", "Pronacion", "Supinacion", "Alcance"};
+      //  exercises_names = new List<string> {"Pinza indice", "Pinza medio", "Pinza anular" , "Pinza menique", "Cierre puno","Apertura dedos", "Flexion muneca",
+      //      "Extension muneca", "Desv. Radial", "Desv. Cubital", "Pronacion", "Supinacion", "Alcance"};
 
         exercises_names_to_display = new List<string> {"Pinza índice", "Pinza medio", "Pinza anular" , "Pinza meñique", "Cierre puño","Apertura dedos", "Flexión muñeca",
             "Extensión muñeca", "Desv. Radial", "Desv. Cubital", "Pronación", "Supinación", "Alcance"};
@@ -95,7 +96,7 @@ public class SetProtocol : MonoBehaviour
 
         gameNames = new List<string> { "Gesture", "Arkanoid", "Space", "Cooking", "Tres", "Flota", "BBT", "Clothespin", "Alcance", "Secuencia", "Agarre", "Volteo", "Prension" };
 
-        List<string> list = new List<string>(exercises_names_to_display); //Hago la copia de los nombres para displya (con tildes, y 'ñ')
+        List<string> list = new List<string>(exercises_names_to_display); //Hago la copia de los nombres para display (con tildes, y 'ñ')
         list.Insert(0, "Selecciona...");
         exerciseDrop.options.Clear();
         foreach (string option in list)
@@ -309,7 +310,11 @@ public class SetProtocol : MonoBehaviour
             addExercise.GetComponentInChildren<Image>().color = Color.grey;
         }
 
-        if (numReps.text == "")
+        if (numReps[0].text == "")
+        {
+            addStep.interactable = false;
+        }
+        if (numReps[1].text == "")
         {
             addStep.interactable = false;
         }
@@ -412,7 +417,7 @@ public class SetProtocol : MonoBehaviour
             {
                 //string exercise_from_exercises_to_display = exercises_names_to_display[exercises_names.IndexOf(protocols.Protocols_list[value - 1].Exercises[i])]; //Busco el nombre del ejercicio en la lista con tildes y 'ñ'
                 table_view_protocol.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text += protocols.Protocols_list[value - 1].Exercises[i] + System.Environment.NewLine;
-                table_view_protocol.transform.GetChild(3).GetComponent<TextMeshProUGUI>().text += protocols.Protocols_list[value - 1].Reps[i] + System.Environment.NewLine;
+                table_view_protocol.transform.GetChild(3).GetComponent<TextMeshProUGUI>().text += protocols.Protocols_list[value - 1].Left_reps[i] + " / " + protocols.Protocols_list[value - 1].Right_reps[i] + System.Environment.NewLine;
             }
         }
         else
@@ -435,7 +440,8 @@ public class SetProtocol : MonoBehaviour
         if (panel_add_protocol.activeSelf)
         {
             exercises.Clear();
-            reps.Clear();
+            left_reps.Clear();
+            right_reps.Clear();
             games.Clear();
             listExer.text = "";
             listReps.text = "";
@@ -456,8 +462,24 @@ public class SetProtocol : MonoBehaviour
             }
 
             message.gameObject.SetActive(false);
+
+            StartCoroutine(TabInputs());
         }
+        
     }
+
+   IEnumerator TabInputs()
+    {
+        yield return new WaitUntil(()=>Input.GetKeyDown(KeyCode.Tab));
+
+        if (numReps[0].isFocused)
+        {
+            numReps[1].Select();
+        }
+
+        StartCoroutine(TabInputs());
+    }
+
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
     #endregion
@@ -547,19 +569,21 @@ public class SetProtocol : MonoBehaviour
 
     public void AddExercise()
     {
-        if (!numReps.IsInteractable())
+        if (!numReps[0].IsInteractable())
         {
             exerciseDrop.interactable = false;
-            numReps.interactable = true;
-            if (numReps.text != "" && int.Parse(numReps.text) != 0) { addStep.interactable = true; }
+            numReps[0].interactable = true;
+            numReps[1].interactable = true;
+            if ((numReps[0].text != "" && int.Parse(numReps[0].text) != 0) || (numReps[1].text != "" && int.Parse(numReps[1].text) != 0)) { addStep.interactable = true; }
             addExercise.transform.localScale = new Vector3(-1, 1, 1);
 
-            numReps.Select();
+            numReps[0].Select();
         }
         else
         {
             exerciseDrop.interactable = true;
-            numReps.interactable = false;
+            numReps[0].interactable = false;
+            numReps[1].interactable = false;
             addStep.interactable = false;
             addExercise.transform.localScale = new Vector3(1, 1, 1);
         }
@@ -581,7 +605,7 @@ public class SetProtocol : MonoBehaviour
 
     public void ChangeRepsInput(string value)
     {
-        if (value != "" && int.Parse(value) != 0)
+        if ((numReps[0].text != "" && int.Parse(numReps[0].text) != 0) || (numReps[1].text != "" && int.Parse(numReps[1].text) != 0))
         {
             addStep.interactable = true;
         }
@@ -589,6 +613,16 @@ public class SetProtocol : MonoBehaviour
         {
             addStep.interactable = false;
         }
+
+
+        //   if (value != "" && int.Parse(value) != 0)
+        //   {
+        //       addStep.interactable = true;
+        //   }
+        //   else
+        //   {
+        //       addStep.interactable = false;
+        //   }
     }
 
     public void AddStepFunc()
@@ -598,16 +632,17 @@ public class SetProtocol : MonoBehaviour
         // exercises.Add(exerciseDrop.captionText.text);
 
         //Busco en la lista de nombres sin tildes, el índice que saco de buscar el ejercicio con tildes en la lista con tildes
-       // exercises.Add(exercises_names[exercises_names_to_display.IndexOf(exerciseDrop.captionText.text)]);
-       // exercises_display.Add(exerciseDrop.captionText.text); //Recojo los nombres con tildes, para las listas de display
+        // exercises.Add(exercises_names[exercises_names_to_display.IndexOf(exerciseDrop.captionText.text)]);
+        // exercises_display.Add(exerciseDrop.captionText.text); //Recojo los nombres con tildes, para las listas de display
 
         //****Prueba para guardar textos con tildes y ñ
         exercises.Add(exerciseDrop.captionText.text);
-        
-        
-        
-        reps.Add(numReps.text);
 
+
+        string aux = (numReps[0].text == "") ? "0" : numReps[0].text;
+        left_reps.Add(aux);
+        aux = (numReps[1].text == "") ? "0" : numReps[1].text; //Si está vacío, es que es un 0
+        right_reps.Add(aux);
 
 
 
@@ -632,14 +667,16 @@ public class SetProtocol : MonoBehaviour
         exerciseDrop.value = 0;
         addExercise.interactable = false;
         addExercise.transform.localScale = new Vector3(1, 1, 1);
-        numReps.interactable = false;
-        numReps.text = "";
+        numReps[0].interactable = false;
+        numReps[0].text = "";
+        numReps[1].interactable = false;
+        numReps[1].text = "";
         addStep.interactable = false;
-                
-        AddTexts(exercises[exercises.Count - 1], reps[reps.Count - 1], true);
+
+        AddTexts(exercises[exercises.Count - 1], left_reps[left_reps.Count - 1], right_reps[right_reps.Count - 1], true);
 
 
-     //   AddTexts(exercises_display[exercises.Count - 1], reps[reps.Count - 1], true);
+        //   AddTexts(exercises_display[exercises.Count - 1], reps[reps.Count - 1], true);
 
         bool value = false;
         exerciseValues[0].TryGetValue(exercises[exercises.Count - 1], out value);
@@ -671,12 +708,12 @@ public class SetProtocol : MonoBehaviour
 
     }
 
-    void AddTexts(string ex, string rep, bool add)
+    void AddTexts(string ex, string leftReps, string rightReps, bool add)
     {
         if (add)
         {
             listExer.text += ex + "\n";
-            listReps.text += rep + "\n";
+            listReps.text += leftReps + " / " + rightReps + "\n";
         }
         else
         {
@@ -707,8 +744,10 @@ public class SetProtocol : MonoBehaviour
 
                 new_protocol.Name = protocol_name.text;
                 new_protocol.Exercises = exercises;
-                new_protocol.Reps = reps;
-
+                new_protocol.Left_reps = left_reps;
+                new_protocol.Left_reps_done = new List<string> { "0", "0", "0", "0" };
+                new_protocol.Right_reps = right_reps;
+                new_protocol.Right_reps_done = new List<string> { "0", "0", "0", "0" };
 
                 List<string> gamesNoDuplicates = games.Distinct().ToList(); //Con esto quito duplicados
 
@@ -771,8 +810,8 @@ public class SetProtocol : MonoBehaviour
         //Hago el proceso contrario al AddStep
 
         //1º Borro del panel de ejercicios y reps, los últimos valores
-         AddTexts(exercises[exercises.Count - 1], reps[reps.Count - 1], false);
-       // AddTexts(exercises_display[exercises.Count - 1], reps[reps.Count - 1], false);
+        AddTexts(exercises[exercises.Count - 1], left_reps[left_reps.Count - 1], right_reps[right_reps.Count - 1], false);
+        // AddTexts(exercises_display[exercises.Count - 1], reps[reps.Count - 1], false);
 
         //2º Borro de la lista de Games los juegos que he añadido
         bool value = false;
@@ -808,7 +847,7 @@ public class SetProtocol : MonoBehaviour
 
         //Añado de nuevo el ejercicio a la lista, usando el último índice como referencia
         exercises_names_for_drop.Insert(indexExercise, exercises[exercises.Count - 1]);
-      //  exercises_names_for_drop.Insert(indexExercise, exercises_display[exercises_display.Count - 1]);
+        //  exercises_names_for_drop.Insert(indexExercise, exercises_display[exercises_display.Count - 1]);
 
         List<string> list = new List<string>(exercises_names_for_drop);
         list.Insert(0, "Selecciona...");
@@ -824,8 +863,10 @@ public class SetProtocol : MonoBehaviour
         exerciseDrop.captionText.text = list[exerciseDrop.value]; //Necesario porque el texto del drop no se actualiza al deshacer cuando deshago más de 1 vez
         addExercise.interactable = true;
         addExercise.transform.localScale = new Vector3(-1, 1, 1);
-        numReps.interactable = true;
-        numReps.text = reps[reps.Count - 1];
+        numReps[0].interactable = true;
+        numReps[0].text = left_reps[left_reps.Count - 1];
+        numReps[1].interactable = true;
+        numReps[1].text = right_reps[right_reps.Count - 1];
         addStep.interactable = true;
 
         //Borro el último index guardado
@@ -833,9 +874,10 @@ public class SetProtocol : MonoBehaviour
 
         //Borro el ejercicio y las repeticiones de la lista
         exercises.RemoveAt(exercises.Count - 1);
-        exercises_display.RemoveAt(exercises_display.Count - 1);
-        reps.RemoveAt(reps.Count - 1);
+        //  exercises_display.RemoveAt(exercises_display.Count - 1);
 
+        left_reps.RemoveAt(left_reps.Count - 1);
+        right_reps.RemoveAt(right_reps.Count - 1);
 
         if (exercises.Count == 0) { undoButton.interactable = false; }
     }
@@ -905,7 +947,7 @@ public class SetProtocol : MonoBehaviour
         file.Close();
 
 
-       File.WriteAllText(path.Replace(".dat",".json"), JsonUtility.ToJson(patientProtocol));
+        File.WriteAllText(path.Replace(".dat", ".json"), JsonUtility.ToJson(patientProtocol));
     }
 
     public void CreateProtocolDataCsv()
@@ -929,7 +971,7 @@ public class SetProtocol : MonoBehaviour
         /* try
          {*/
 
-       // var f1 = File.CreateText(path);
+        // var f1 = File.CreateText(path);
 
         string data = "Ficha de protocolo" + System.Environment.NewLine;
         data += System.Environment.NewLine;
@@ -943,7 +985,7 @@ public class SetProtocol : MonoBehaviour
         data += System.Environment.NewLine;
 
         //  data += "Ejercicios" + System.Environment.NewLine;
-        data += "Ejercicios;";
+        data += "Tratamiento;Repeticiones;;";
         for (int i = 0; i < patientProtocol.Exercises.Count; i++)
         {
             // data += ";" + patientProtocol.Exercises[i];
@@ -951,15 +993,30 @@ public class SetProtocol : MonoBehaviour
         }
         data += System.Environment.NewLine;
         //  data += "Repeticiones objetivo" + System.Environment.NewLine;
-        data += "Repeticiones objetivo;";
-        for (int i = 0; i < patientProtocol.Reps.Count; i++)
+        data += ";Mano izquierda; Objetivo;";
+        for (int i = 0; i < patientProtocol.Left_reps.Count; i++)
         {
             // data += ";" + patientProtocol.Reps[i];
-            data += patientProtocol.Reps[i] + ";";
+            data += patientProtocol.Left_reps[i] + ";";
         }
         data += System.Environment.NewLine;
         //  data += "Repeticiones realizadas" + System.Environment.NewLine;
-        data += "Repeticiones realizadas;";
+        data += ";;Realizadas;";
+        for (int i = 0; i < patientProtocol.Exercises.Count; i++)
+        {
+            // data += ";" + 0;
+            data += 0 + ";";
+        }
+        data += System.Environment.NewLine;
+        data += ";Mano derecha; Objetivo;";
+        for (int i = 0; i < patientProtocol.Right_reps.Count; i++)
+        {
+            // data += ";" + patientProtocol.Reps[i];
+            data += patientProtocol.Right_reps[i] + ";";
+        }
+        data += System.Environment.NewLine;
+        //  data += "Repeticiones realizadas" + System.Environment.NewLine;
+        data += ";;Realizadas;";
         for (int i = 0; i < patientProtocol.Exercises.Count; i++)
         {
             // data += ";" + 0;
@@ -978,15 +1035,16 @@ public class SetProtocol : MonoBehaviour
         {
             data += patientProtocol.Exercises[i] + ";" + System.Environment.NewLine;
         }
-
-        //VER EXCEL DEL MODELO DE CSV
+        data += ";"; //Esto es para que la última línea sea una vacía para los tags izq. o dcha.
+        
+      
 
         //f1.Write(data);
 
         //****Prueba para guardar textos con tildes y ñ
         File.WriteAllText(path, data, System.Text.Encoding.UTF8);
 
-       // f1.Close();
+        // f1.Close();
     }
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -1018,23 +1076,31 @@ public class SetProtocol : MonoBehaviour
 [System.Serializable]
 public class Protocol
 {
-   [SerializeField] int index_protocol_selected_in_protocols = -1;
- 
-   [SerializeField] string name = "";
-   [SerializeField] List<string> exercises = new List<string>();
-   [SerializeField] List<string> reps = new List<string>();
-   [SerializeField] List<string> games = new List<string>();
-   [SerializeField] int index_subgame_selected = -1;
-   [SerializeField] int index_game_selected = -1;
-   [SerializeField] List<string> games_already_Selected = new List<string>();
+    [SerializeField] int index_protocol_selected_in_protocols = -1;
+
+    [SerializeField] string name = "";
+    [SerializeField] List<string> exercises = new List<string>();
+    [SerializeField] List<string> left_reps = new List<string>();
+    [SerializeField] List<string> left_reps_done = new List<string>();
+    [SerializeField] List<string> right_reps = new List<string>();
+    [SerializeField] List<string> right_reps_done = new List<string>();
+    [SerializeField] List<string> games = new List<string>();
+    [SerializeField] int index_subgame_selected = -1;
+    [SerializeField] int index_game_selected = -1;
+    [SerializeField] List<string> games_already_Selected = new List<string>();
+    [SerializeField] bool protocolLeftHand = false; //Booleano para determinar qué mano del protocolo toca
 
     public string Name { get => name; set => name = value; }
     public List<string> Exercises { get => exercises; set => exercises = value; }
-    public List<string> Reps { get => reps; set => reps = value; }
+    public List<string> Left_reps { get => left_reps; set => left_reps = value; }
+    public List<string> Left_reps_done { get => left_reps_done; set => left_reps_done = value; }
+    public List<string> Right_reps { get => right_reps; set => right_reps = value; }
+    public List<string> Right_reps_done { get => right_reps_done; set => right_reps_done = value; }
     public List<string> Games { get => games; set => games = value; }
     public int Index_subgame_selected { get => index_subgame_selected; set => index_subgame_selected = value; }
     public int Index_protocol_selected_in_protocols { get => index_protocol_selected_in_protocols; set => index_protocol_selected_in_protocols = value; }
     public int Index_game_selected { get => index_game_selected; set => index_game_selected = value; }
+    public bool ProtocolLeftHand { get => protocolLeftHand; set => protocolLeftHand = value; }
 }
 
 [System.Serializable]
