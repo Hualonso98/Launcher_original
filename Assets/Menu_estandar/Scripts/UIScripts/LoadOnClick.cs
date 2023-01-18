@@ -73,14 +73,22 @@ public class LoadOnClick : MonoBehaviour
     public void ChargeOption()
     {
         Time.timeScale = 1;
-        Debug.Log(option_Selected);
+   
         switch (option_Selected)
         {
             case 0:
                 SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
                 break;
-            case 1:Debug.Log(SceneManager.GetActiveScene().buildIndex - 1);
-                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
+            case 1:
+                if (!SavingData_launch.protocolMode)
+                {
+                    SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
+                }
+                else
+                {
+                    Debug.Log(SceneManager.GetActiveScene().buildIndex - 2);
+                    SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 2);
+                }
                 break;
             case 2:
                 ReturnToLauncher();

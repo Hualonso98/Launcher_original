@@ -20,11 +20,11 @@ public class MainMenu : MonoBehaviour
     {
         SavingData_launch.protocolMode = true;
 
-        UnityEngine.SceneManagement.SceneManager.LoadScene(2);
+        UnityEngine.SceneManagement.SceneManager.LoadScene("Patient Menu");
     }
     public void CallLaunchAppsScene()
     {
         SavingData_launch.protocolMode = false; //Aunque por defecto sea false, por si vuelvo desde el protocolo al menú con los botones
-        UnityEngine.SceneManagement.SceneManager.LoadScene(1);
+        UnityEngine.SceneManagement.SceneManager.LoadScene("LauncherMenu");
     }
 }

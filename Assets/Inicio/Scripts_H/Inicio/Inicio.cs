@@ -80,7 +80,7 @@ public class Inicio : MonoBehaviour
                 if ((File.ReadAllLines(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Desktop) + "/RoboticsLab_UC3M/Develop/" + "PatientSelected.txt"))[2] == "1")
                 {
                     //Es que quiero ir a la escena de Apps directamente
-                    UnityEngine.SceneManagement.SceneManager.LoadScene(1);
+                    UnityEngine.SceneManagement.SceneManager.LoadScene("LauncherMenu");
                 }
 
                 if ((File.ReadAllLines(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Desktop) + "/RoboticsLab_UC3M/Develop/" + "PatientSelected.txt"))[2] == "2")
@@ -93,7 +93,7 @@ public class Inicio : MonoBehaviour
                     SavingData_launch.appSelected = app_selected;
                     SavingData_launch.pathSelected = File.ReadAllLines(path + "/ApplicationsPaths.txt")[app_selected + 1]; //Como ahora el path de índice 1 es la fase intermedia, le sumo 1 a la appSelected
                     //Voy a escena pacientes directamente
-                    UnityEngine.SceneManagement.SceneManager.LoadScene(2);
+                    UnityEngine.SceneManagement.SceneManager.LoadScene("Patient Menu");
                 }
             }
         }

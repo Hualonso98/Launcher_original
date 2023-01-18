@@ -1588,6 +1588,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: "Men\xFA_prefab"
       objectReference: {fileID: 0}
+    - target: {fileID: 5997254616988997575, guid: 4c89239c36fa7cd4a8311c4c57d7b958,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5997254616988997575, guid: 4c89239c36fa7cd4a8311c4c57d7b958,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5997254616988997575, guid: 4c89239c36fa7cd4a8311c4c57d7b958,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6409512080432017357, guid: 4c89239c36fa7cd4a8311c4c57d7b958,
         type: 3}
       propertyPath: m_RootOrder
@@ -1646,7 +1661,7 @@ PrefabInstance:
     - target: {fileID: 8352655230781693075, guid: 4c89239c36fa7cd4a8311c4c57d7b958,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8709632321477169104, guid: 4c89239c36fa7cd4a8311c4c57d7b958,
         type: 3}
@@ -1706,7 +1721,7 @@ PrefabInstance:
     - target: {fileID: 8709632321912747775, guid: 4c89239c36fa7cd4a8311c4c57d7b958,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 324
+      value: 203.18
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4c89239c36fa7cd4a8311c4c57d7b958, type: 3}
