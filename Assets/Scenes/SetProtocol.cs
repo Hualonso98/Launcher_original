@@ -745,10 +745,11 @@ public class SetProtocol : MonoBehaviour
                 new_protocol.Name = protocol_name.text;
                 new_protocol.Exercises = exercises;
                 new_protocol.Left_reps = left_reps;
-                new_protocol.Left_reps_done = new List<string> { "0", "0", "0", "0" };
+                new_protocol.Left_reps_done = Enumerable.Repeat("0", left_reps.Count).ToList(); /*new List<string>(left_reps.Count);*/
                 new_protocol.Right_reps = right_reps;
-                new_protocol.Right_reps_done = new List<string> { "0", "0", "0", "0" };
+                new_protocol.Right_reps_done = Enumerable.Repeat("0", right_reps.Count).ToList(); /*new List<string>(right_reps.Count);*/
 
+                
                 List<string> gamesNoDuplicates = games.Distinct().ToList(); //Con esto quito duplicados
 
                 List<string> gamesOrdered = gamesNoDuplicates.OrderBy(g => gameNames.IndexOf(g)).ToList(); //Ordeno la lista de juegos según el índice global
@@ -1089,7 +1090,7 @@ public class Protocol
     [SerializeField] int index_game_selected = -1;
     [SerializeField] List<string> games_already_Selected = new List<string>();
     [SerializeField] bool protocolLeftHand = false; //Booleano para determinar qué mano del protocolo toca
-
+    [SerializeField] bool setGesturesByLessUse = false;
     public string Name { get => name; set => name = value; }
     public List<string> Exercises { get => exercises; set => exercises = value; }
     public List<string> Left_reps { get => left_reps; set => left_reps = value; }
