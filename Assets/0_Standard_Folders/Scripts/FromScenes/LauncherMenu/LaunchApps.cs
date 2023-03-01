@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
+using UnityEngine.UI;
 
 public class LaunchApps : MonoBehaviour
 {
@@ -66,34 +67,51 @@ public class LaunchApps : MonoBehaviour
         switch (number)
         {
             case 1:
-                panel_reminder.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = "Recuerde conectar las gafas VR ahora si se van a utilizar\n\nPresione Enter cuando esté correcto";
+                panel_reminder.GetComponentsInChildren<TMPro.TextMeshProUGUI>()[1].text = "Conecte las gafas VR ahora si se van a utilizar.";
+
+                panel_reminder.transform.Find("Panel_aviso/Icons").GetChild(2).gameObject.SetActive(true);
                 //   wait_enter_coroutine = StartCoroutine(WaitInput(0));
                 //  Calls.instance.CallLeap();
                 break;
 
             case 2:
-                panel_reminder.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = "Recuerde tener conectadas las gafas VR\n\nPresione Enter cuando esté correcto";
+                panel_reminder.GetComponentsInChildren<TMPro.TextMeshProUGUI>()[1].text = "Recuerde tener conectadas las gafas VR";
+
+                panel_reminder.transform.Find("Panel_aviso/Icons").GetChild(0).gameObject.SetActive(true);
+
                 //   wait_enter_coroutine = StartCoroutine(WaitInput(2));
                 //  Calls.instance.CallUltraleap();
                 break;
 
             case 3:
-                panel_reminder.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = "Recuerde conectar las gafas VR ahora si se van a utilizar\n\nPresione Enter cuando esté correcto";
+                panel_reminder.GetComponentsInChildren<TMPro.TextMeshProUGUI>()[1].text = "Conecte las gafas VR ahora si se van a utilizar.";
+
+                panel_reminder.transform.Find("Panel_aviso/Icons").GetChild(2).gameObject.SetActive(true);
+
                 //   wait_enter_coroutine = StartCoroutine(WaitInput(2));
                 //  Calls.instance.CallUltraleap();
                 break;
 
             case 4:
-                panel_reminder.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = "Recuerde tener conectadas las gafas VR\n\nPresione Enter cuando esté correcto";
+                panel_reminder.GetComponentsInChildren<TMPro.TextMeshProUGUI>()[1].text = "Recuerde tener conectadas las gafas VR";
+
+                panel_reminder.transform.Find("Panel_aviso/Icons").GetChild(0).gameObject.SetActive(true);
+
                 //   wait_enter_coroutine = StartCoroutine(WaitInput(1));
                 //   Calls.instance.CallUltraleap();
                 break;
             case 5:
-                panel_reminder.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = "Recuerde conectar las gafas VR ahora si se van a utilizar\n\nPresione Enter cuando esté correcto";
+                panel_reminder.GetComponentsInChildren<TMPro.TextMeshProUGUI>()[1].text = "Conecte las gafas VR ahora si se van a utilizar.";
+
+                panel_reminder.transform.Find("Panel_aviso/Icons").GetChild(2).gameObject.SetActive(true);
+
                 //  Calls.instance.CallUltraleap();
                 break;
             case 6:
-                panel_reminder.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = "Recuerde conectar las gafas VR ahora si se van a utilizar\n\nPresione Enter cuando esté correcto";
+                panel_reminder.GetComponentsInChildren<TMPro.TextMeshProUGUI>()[1].text = "Recuerde desconectar las gafas.";
+
+                panel_reminder.transform.Find("Panel_aviso/Icons").GetChild(1).gameObject.SetActive(true);
+
                 //  Calls.instance.CallUltraleap();
                 break;
                 //TAG: Modificar para añadir juego al Launcher
@@ -102,6 +120,8 @@ public class LaunchApps : MonoBehaviour
         wait_enter_coroutine = StartCoroutine(WaitInput());
 
         panel_reminder.SetActive(true);
+
+        panel_reminder.transform.Find("Panel_aviso/Continue").GetComponent<Button>().Select();
     }
 
     IEnumerator WaitInput()
@@ -143,7 +163,7 @@ public class LaunchApps : MonoBehaviour
         */
     }
 
-    void LoadPatientMenu()
+    public void LoadPatientMenu()
     {
         UnityEngine.SceneManagement.SceneManager.LoadScene("Patient Menu");
     }
