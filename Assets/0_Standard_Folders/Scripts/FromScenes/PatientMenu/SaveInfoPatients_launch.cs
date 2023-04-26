@@ -4,7 +4,7 @@ using UnityEngine;
 using System.IO;
 using UnityEditor;
 
-public class SaveInfoPatients_launch: MonoBehaviour
+public class SaveInfoPatients_launch : MonoBehaviour
 {
     ////////////////OBJETOS DE LA INTERFAZ////////////////
 
@@ -60,15 +60,15 @@ public class SaveInfoPatients_launch: MonoBehaviour
         {
             Directory.CreateDirectory(Application.dataPath + "/Paths");
         }
-        
+
         if (!File.Exists(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Desktop) + "/RoboticsLab_UC3M/Develop" + "/PatientSelected.txt"))
         {
             File.Create(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Desktop) + "/RoboticsLab_UC3M/Develop" + "/PatientSelected.txt").Dispose();
         }
         else
         {
-            File.WriteAllText(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Desktop) + "/RoboticsLab_UC3M/Develop" + "/PatientSelected.txt", 
-                "--" + System.Environment.NewLine + SavingData_launch.appSelected + System.Environment.NewLine + "0" + 
+            File.WriteAllText(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Desktop) + "/RoboticsLab_UC3M/Develop" + "/PatientSelected.txt",
+                "--" + System.Environment.NewLine + SavingData_launch.appSelected + System.Environment.NewLine + "0" +
                 System.Environment.NewLine + SavingData_launch.protocolMode);
         }
     }
@@ -126,7 +126,8 @@ public class Patient
     [SerializeField] private string surname1;
     [SerializeField] private string surname2;
     [SerializeField] private string pathology;
-    [SerializeField] private int ID = -1; //Porque sino por defecto era el 0
+    //  [SerializeField] private int ID = -1; //Porque sino por defecto era el 0 //CAMBIO DE ID A ALFANUMÉRICO
+    [SerializeField] private string ID = "";
     [SerializeField] private string affectedHand;
 
     [SerializeField] private bool leftHandUsed;
@@ -145,7 +146,7 @@ public class Patient
 
 
     public Patient() { } //Constructor base
-    public Patient(string name, string surname1, string surname2, string pathology, int ID, string affectedHand)
+    public Patient(string name, string surname1, string surname2, string pathology, string ID, string affectedHand)
     {
         this.name = name;
         this.surname1 = surname1;
@@ -161,11 +162,11 @@ public class Patient
         this.surname1 = surname1;
         this.surname2 = surname2;
     }
-    public Patient(int ID) //constructor para cuando vaya a cargar un paciente por el id del drop
+    public Patient(string ID) //constructor para cuando vaya a cargar un paciente por el id del drop
     {
         this.ID = ID;
     }
-    public Patient(string name, string surname1, string surname2, int ID)
+    public Patient(string name, string surname1, string surname2, string ID)
     {
         this.name = name;
         this.name = name;
@@ -178,7 +179,7 @@ public class Patient
     public string Name { get => name; set => name = value; }
     public string Surname1 { get => surname1; set => surname1 = value; }
     public string Surname2 { get => surname2; set => surname2 = value; }
-    public int ID1 { get => ID; set => ID = value; }
+    public string ID1 { get => ID; set => ID = value; }
     public string AffectedHand { get => affectedHand; set => affectedHand = value; }
 
     public int LastSession_Gestures { get => lastSession_Gestures; set => lastSession_Gestures = value; }
@@ -204,7 +205,7 @@ public class Patient
         }
 
         string path = desktopPath + "/Patients_Data/Exported Data/Patients/" + patientFolder + "/" + patientFolder + ".csv";
-      
+
         if (!File.Exists(path)) //si no existe el archivo, es que es la primera vez
         {
             var ff = File.CreateText(path);
@@ -273,7 +274,7 @@ public class Patient
             return;
         }
 
-        
+
         int line = 0;
         string[] lines = File.ReadAllLines(path);
 
@@ -284,7 +285,7 @@ public class Patient
             //Línea 2: salto (¿lo detectará como endOfFile?)
             //Línea 3: cabecera de los datos
             //Línea 4: los datos
-            
+
 
             string targetLine = lines[line];
             string[] targetLineSplitted = targetLine.Split(';');
@@ -308,7 +309,9 @@ public class Patient
                     /* name = targetLineSplitted[0];
                      surname1 = targetLineSplitted[1];
                      surname2 = targetLineSplitted[2];*/
-                    ID = int.Parse(targetLineSplitted[0]);
+                  
+                    //  ID = int.Parse(targetLineSplitted[0]);  //CAMBIO DE ID A ALFANUMÉRICO
+                    ID = targetLineSplitted[0];
                     pathology = targetLineSplitted[1];
                     affectedHand = targetLineSplitted[2];
                     break;
@@ -412,7 +415,8 @@ public class PatientsNamesID
                 //patientsIdList.Add(int.Parse(dataStringSplitted[0]));
                 //patientsNamesList.Add(dataStringSplitted[1]); //Añado directamente la línea porque no hay puntos y coma
 
-                int id = int.Parse(dataStringSplitted[0]);
+                // int id = int.Parse(dataStringSplitted[0]); //CAMBIO DE ID A ALFANUMÉRICO
+                string id = dataStringSplitted[0];
                 string name = dataStringSplitted[1].Split(' ')[0]; //la segunda columna la separo también en espacios
                 string surname1 = dataStringSplitted[1].Split(' ')[1];
                 string surname2 = dataStringSplitted[1].Split(' ')[2];

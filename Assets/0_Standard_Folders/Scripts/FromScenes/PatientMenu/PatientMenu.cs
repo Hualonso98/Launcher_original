@@ -215,7 +215,12 @@ public class PatientMenu : MonoBehaviour
                     existsName = true;
                 }
 
-                if (SaveInfoPatients_launch.Instance.PatientsNamesId.Patients[i].ID1 == int.Parse(patientIdInput.text))
+                /* if (SaveInfoPatients_launch.Instance.PatientsNamesId.Patients[i].ID1 == int.Parse(patientIdInput.text))  //CAMBIO DE ID A ALFANUMÉRICO
+                 {
+                     existsId = true;
+                 }*/
+
+                if (SaveInfoPatients_launch.Instance.PatientsNamesId.Patients[i].ID1 == patientIdInput.text)
                 {
                     existsId = true;
                 }
@@ -230,7 +235,7 @@ public class PatientMenu : MonoBehaviour
                 messageAddedPatient.GetComponent<TextMeshProUGUI>().color = new Color(5f / 255f, 166f / 255f, 0f, 255f / 255f);
 
 
-                Patient newPatient = new Patient(patientNameInput.text, patientSurname1Input.text, patientSurname2Input.text, patientPathologyInput.text, int.Parse(patientIdInput.text), (missLimb_toggle.isOn) ? (((leftHandAffected.isOn) ? "IZQUIERDA" : "DERECHA")) : "-");
+                Patient newPatient = new Patient(patientNameInput.text, patientSurname1Input.text, patientSurname2Input.text, patientPathologyInput.text, patientIdInput.text, (missLimb_toggle.isOn) ? (((leftHandAffected.isOn) ? "IZQUIERDA" : "DERECHA")) : "-");
 
                 newPatient.SaveCsvPatient(); //Guardo el nuevo paciente, le paso null porque no voy a hacer append de ningún juego
 
@@ -287,7 +292,8 @@ public class PatientMenu : MonoBehaviour
             string surname1 = identity[1];
             string surname2 = identity[2];*/
 
-            int id = int.Parse(patientsDrop.captionText.text);
+         //   int id = int.Parse(patientsDrop.captionText.text); //CAMBIO DE ID A ALFANUMÉRICO
+            string id = patientsDrop.captionText.text; 
 
             Patient selectedPatient = new Patient(id);
 

@@ -53,7 +53,8 @@ public class SetProtocol : MonoBehaviour
     Protocols protocols = new Protocols();
     Protocol patientProtocol = new Protocol();
 
-    int patientId = -1;
+  //  int patientId = -1; //CAMBIO DE ID A ALFANUMÉRICO
+    string patientId = "";
 
     bool startConfigProtocols = false;
 
@@ -75,7 +76,7 @@ public class SetProtocol : MonoBehaviour
         LoadProtocols();
         EditDropList();
 
-        try { patientId = SaveInfoPatients_launch.Instance.SelectedPatient.ID1; } catch { patientId = 0; }
+        try { patientId = SaveInfoPatients_launch.Instance.SelectedPatient.ID1; } catch { patientId = ""; }
 
 
     }

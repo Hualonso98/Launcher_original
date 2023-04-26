@@ -32,8 +32,8 @@ public class SetHospitalLogo : MonoBehaviour
     }
     void ChangeImageSprite()
     {
-        asepeyoLogo = transform.Find("Logo Asepeyo").gameObject;
-        mutuaLogo = transform.Find("Logo Mutua").gameObject;
+        asepeyoLogo = transform.Find("Logo ASEPEYO").gameObject;
+        mutuaLogo = transform.Find("Logo MUTUA").gameObject;
 
         if (activeLogo)
         {
