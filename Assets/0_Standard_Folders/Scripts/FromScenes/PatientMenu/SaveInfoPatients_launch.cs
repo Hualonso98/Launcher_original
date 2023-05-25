@@ -239,7 +239,7 @@ public class Patient
         }
         else
         {
-            //Esto es para modificar la Last Session 
+            //Esto es para modificar la Last Session o al editar el ID, patología o mano amputada del paciente
 
             string[] arrLine = File.ReadAllLines(path);
 
@@ -252,12 +252,24 @@ public class Patient
 
             arrLine[1] = lastSession_Gestures + ";" + lastSession_MT + ";" + lastSession_BBT + ";" + lastSession_Clothespin + ";" + lastSession_Fruits;
 
-          
+            arrLine[4] = ID + ";" + pathology + ";" + affectedHand;
+
             File.WriteAllLines(path, arrLine);
         }
     }
 
-   
+    public void EditPatientFolders(string prevId)
+    {
+        string desktopPath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Desktop) + "/RoboticsLab_UC3M";
+
+        //Cambio directorios de nombre
+        string prevPath = desktopPath + "/Patients_Data/Exported Data/Patients/" + prevId;
+        string newPath = desktopPath + "/Patients_Data/Exported Data/Patients/" + ID;
+
+        Directory.Move(prevPath, newPath);
+
+        Directory.Move(newPath + "/" + prevId + ".csv", newPath + "/" + ID + ".csv");
+    }
 
     public void LoadCsvPatient()
     {
@@ -328,6 +340,9 @@ public class Patient
             line++;
         }
 
+        name = SaveInfoPatients_launch.Instance.PatientsNamesId.Patients.Find(p => p.ID == ID).name;
+        surname1 = SaveInfoPatients_launch.Instance.PatientsNamesId.Patients.Find(p => p.ID == ID).surname1;
+        surname2 = SaveInfoPatients_launch.Instance.PatientsNamesId.Patients.Find(p => p.ID == ID).Surname2;
         //strReader.Close();
     }
 }

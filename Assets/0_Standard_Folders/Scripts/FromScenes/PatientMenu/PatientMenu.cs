@@ -7,7 +7,6 @@ using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
 using System.IO;
 
-
 public class PatientMenu : MonoBehaviour
 {
     private static PatientMenu instance;
@@ -32,6 +31,17 @@ public class PatientMenu : MonoBehaviour
 
     public GameObject startGamePanel;
     public GameObject exitGamePanel;
+
+    public Button editButton;
+    public GameObject editPanel;
+    public TMP_InputField editNameInput;
+    public TMP_InputField editSurname1Input;
+    public TMP_InputField editSurname2Input;
+    public TMP_InputField editPathologyInput;
+    public TMP_InputField editIdInput;
+    public Toggle editLeftHandToggle;
+    public Toggle editMissLimbToggle;
+    public GameObject messageEditPatient;
 
     public bool protocolMode = false;
 
@@ -125,12 +135,14 @@ public class PatientMenu : MonoBehaviour
             {
                 deleteButton.interactable = false; //Evito borrar un paciente sin seleccionarlo
                 startButton.interactable = false;
+                editButton.interactable = false;
                 sessionText.text = "Última sesión: ";
             }
             else
             {
                 deleteButton.interactable = true;
                 startButton.interactable = true;
+                editButton.interactable = true;
 
                 switch (SavingData_launch.appSelected)
                 {//Actualizo la sesión
@@ -207,9 +219,11 @@ public class PatientMenu : MonoBehaviour
             bool existsId = false;
             int i = 0;
 
+
             while (existsName == false && existsId == false && i < SaveInfoPatients_launch.Instance.PatientsNamesId.Patients.Count)
             {
                 auxFullname = SaveInfoPatients_launch.Instance.PatientsNamesId.Patients[i].Name + " " + SaveInfoPatients_launch.Instance.PatientsNamesId.Patients[i].Surname1 + " " + SaveInfoPatients_launch.Instance.PatientsNamesId.Patients[i].Surname2;
+
                 if (auxFullname == fullName)
                 {
                     existsName = true;
@@ -292,8 +306,8 @@ public class PatientMenu : MonoBehaviour
             string surname1 = identity[1];
             string surname2 = identity[2];*/
 
-         //   int id = int.Parse(patientsDrop.captionText.text); //CAMBIO DE ID A ALFANUMÉRICO
-            string id = patientsDrop.captionText.text; 
+            //   int id = int.Parse(patientsDrop.captionText.text); //CAMBIO DE ID A ALFANUMÉRICO
+            string id = patientsDrop.captionText.text;
 
             Patient selectedPatient = new Patient(id);
 
@@ -303,7 +317,7 @@ public class PatientMenu : MonoBehaviour
             SaveInfoPatients_launch.Instance.Index = patientsDrop.value - 1; //El -1 es por la cabecera de Pacientes...
             startButton.interactable = true;
             deleteButton.interactable = true;
-
+            editButton.interactable = true;
             //  SaveInfoPatients_launch.Instance.SelectedPatient.SetSavingDataValues(); //Con esto guardo los valores cargados en el fichero SavingData
 
             if (protocolMode == false) //Si es modo protocolo no me interesa que aparezcan estos textos de aviso
@@ -369,7 +383,7 @@ public class PatientMenu : MonoBehaviour
         SaveInfoPatients_launch.Instance.ResetPatient();
         deleteButton.interactable = false;
         startButton.interactable = false;
-
+        editButton.interactable = false;
         sessionText.text = "Última sesión: ";
         sessionText.gameObject.SetActive(false);
 
@@ -409,13 +423,155 @@ public class PatientMenu : MonoBehaviour
         StartCoroutine(CoroutineForStartGame());
     }
 
+    public void OpenEditPatientPanel()
+    {
+        if (!editPanel.activeSelf)
+        {
+            editNameInput.text = SaveInfoPatients_launch.Instance.SelectedPatient.Name;
+            editSurname1Input.text = SaveInfoPatients_launch.Instance.SelectedPatient.Surname1;
+            editSurname2Input.text = SaveInfoPatients_launch.Instance.SelectedPatient.Surname2;
+            editPathologyInput.text = SaveInfoPatients_launch.Instance.SelectedPatient.Pathology;
+            editIdInput.text = SaveInfoPatients_launch.Instance.SelectedPatient.ID1;
+            editMissLimbToggle.isOn = ((SaveInfoPatients_launch.Instance.SelectedPatient.AffectedHand == "-") ? false : true);
+            editLeftHandToggle.isOn = (SaveInfoPatients_launch.Instance.SelectedPatient.AffectedHand == "IZQUIERDA") ? true : false;
+            editLeftHandToggle.transform.parent.Find("Derecha").GetComponent<Toggle>().isOn = (SaveInfoPatients_launch.Instance.SelectedPatient.AffectedHand == "IZQUIERDA") ? false : true;
+        }
+        else
+        {
+
+        }
+
+        editPanel.SetActive(!editPanel.activeSelf);
+    }
+
+    public void EditPatient()
+    {
+        bool nameExists = false;
+        bool IDExists = false;
+        string prevId = SaveInfoPatients_launch.Instance.SelectedPatient.ID1;
+
+        if ((SaveInfoPatients_launch.Instance.SelectedPatient.Name != editNameInput.text && editNameInput.text != "") ||
+            (SaveInfoPatients_launch.Instance.SelectedPatient.Surname1 != editSurname1Input.text && editSurname1Input.text != "") ||
+            (SaveInfoPatients_launch.Instance.SelectedPatient.Surname2 != editSurname2Input.text && editSurname1Input.text != ""))
+        {
+            string newFullName = editNameInput.text + " " + editSurname1Input.text + " " + editSurname2Input.text;
+            int i = 0;
+
+            while (nameExists == false && i < SaveInfoPatients_launch.Instance.PatientsNamesId.Patients.Count)
+            {
+                if (newFullName == (SaveInfoPatients_launch.Instance.PatientsNamesId.Patients[i].Name + " " + SaveInfoPatients_launch.Instance.PatientsNamesId.Patients[i].Surname1 + " " + SaveInfoPatients_launch.Instance.PatientsNamesId.Patients[i].Surname2))
+                {
+                    nameExists = true;
+                }
+
+                i++;
+            }
+
+            if (nameExists)
+            {
+                messageEditPatient.SetActive(true);
+                messageEditPatient.GetComponent<TextMeshProUGUI>().text = "El nombre de este paciente ya existe.";
+                messageEditPatient.GetComponent<TextMeshProUGUI>().color = new Color(202f / 255f, 111f / 255f, 0f, 255f / 255f);
+
+                //Reseteo los campos de nombre
+                editNameInput.text = SaveInfoPatients_launch.Instance.SelectedPatient.Name;
+                editSurname1Input.text = SaveInfoPatients_launch.Instance.SelectedPatient?.Surname1;
+                editSurname2Input.text = SaveInfoPatients_launch.Instance.SelectedPatient?.Surname2;
+            }
+            else
+            {
+                SaveInfoPatients_launch.Instance.SelectedPatient.Name = editNameInput.text;
+                SaveInfoPatients_launch.Instance.SelectedPatient.Surname1 = editSurname1Input.text;
+                SaveInfoPatients_launch.Instance.SelectedPatient.Surname2 = editSurname2Input.text;
+            }
+        }
+
+        if (SaveInfoPatients_launch.Instance.SelectedPatient.ID1 != editIdInput.text &&
+            editIdInput.text != "")
+        {
+            string newID = editIdInput.text;
+            int i = 0;
+
+            while (IDExists == false && i < SaveInfoPatients_launch.Instance.PatientsNamesId.Patients.Count)
+            {
+                if (newID == SaveInfoPatients_launch.Instance.PatientsNamesId.Patients[i].ID1)
+                {
+                    IDExists = true;
+                }
+
+                i++;
+            }
+
+            if (IDExists)
+            {
+                messageEditPatient.SetActive(true);
+                messageEditPatient.GetComponent<TextMeshProUGUI>().text = "El ID de este paciente ya existe.";
+                messageEditPatient.GetComponent<TextMeshProUGUI>().color = new Color(202f / 255f, 111f / 255f, 0f, 255f / 255f);
+
+                //Reseteo el ID
+                editIdInput.text = SaveInfoPatients_launch.Instance.SelectedPatient.ID1;
+            }
+            else
+            {
+                SaveInfoPatients_launch.Instance.SelectedPatient.ID1 = editIdInput.text;
+            }
+        }
+
+        if (SaveInfoPatients_launch.Instance.SelectedPatient.Pathology != editPathologyInput.text &&
+            editPathologyInput.text != "")
+        {
+            SaveInfoPatients_launch.Instance.SelectedPatient.Pathology = editPathologyInput.text;
+        }
+
+        if (editMissLimbToggle.isOn == true)
+        {
+            SaveInfoPatients_launch.Instance.SelectedPatient.AffectedHand = (editLeftHandToggle.isOn == true) ? "IZQUIERDA" : "DERECHA";
+        }
+        else
+        {
+            SaveInfoPatients_launch.Instance.SelectedPatient.AffectedHand = "-";
+        }
+
+        //Sustituyo el paciente de la lista de pacientes, por el seleccionado pero editado
+        SaveInfoPatients_launch.Instance.PatientsNamesId.Patients[SaveInfoPatients_launch.Instance.Index] = SaveInfoPatients_launch.Instance.SelectedPatient;
+
+        if (IDExists == false)
+        {
+            //Si he cambiado el ID
+
+            //Ordena la lista de pacientes según ID
+            SaveInfoPatients_launch.Instance.PatientsNamesId.Patients.Sort(SortPatientsByID);
+
+            //Recalcula el índice según la lista nueva de pacientes ordenados
+            SaveInfoPatients_launch.Instance.Index = SaveInfoPatients_launch.Instance.PatientsNamesId.Patients.IndexOf(SaveInfoPatients_launch.Instance.SelectedPatient);
+
+            //Edito el dropdown según ID
+            EditDropdown();
+
+            //Cambio el value del drop según el nuevo Index
+            patientsDrop.value = SaveInfoPatients_launch.Instance.Index + 1;
+
+            //Cambia de nombre las carpetas según el nuevo ID, y cambia el nombre del fichero .csv que tiene el ID
+            SaveInfoPatients_launch.Instance.SelectedPatient.EditPatientFolders(prevId);
+        }
+
+        //Reescribo el CSV del paciente para guardar los datos editados (una vez ya cambiado de ruta)
+        SaveInfoPatients_launch.Instance.SelectedPatient.SaveCsvPatient(); //Actualiza el ID, patología o mano
+        SaveInfoPatients_launch.Instance.PatientsNamesId.SaveCsvPatientsName(); //Guardo la nueva lista completa del nombre de pacientes
+
+        if (nameExists == false && IDExists == false)
+        {
+            Invoke(nameof(OpenEditPatientPanel), 0.5f);
+        }
+    }
+
     IEnumerator CoroutineForStartGame()
     {
         yield return new WaitForSeconds(0.1f);
 
         //Guardo en el text el paciente que selecciono antes de lanzar la APP
         File.WriteAllText(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Desktop) + "/RoboticsLab_UC3M/Develop" + "/PatientSelected.txt",
-            SaveInfoPatients_launch.Instance.SelectedPatient.ID1.ToString() + System.Environment.NewLine + SavingData_launch.appSelected + 
+            SaveInfoPatients_launch.Instance.SelectedPatient.ID1.ToString() + System.Environment.NewLine + SavingData_launch.appSelected +
             System.Environment.NewLine + "0" + System.Environment.NewLine + SavingData_launch.protocolMode);
 
         if (protocolMode == false) //Si es modo protocolo, no quiero actualizar sesiones, ni actualizar csv, ni abrir aplicaciones todavía
