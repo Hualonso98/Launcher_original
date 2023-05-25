@@ -267,7 +267,10 @@ public class PatientMenu : MonoBehaviour
                 //Para que si había un paciente seleccionado, como tras el EditDropdown se resetea el drop, vuelva a poner cuál es el paciente
                 if (SaveInfoPatients_launch.Instance.Index != -1)
                 {
-                    patientsDrop.value = SaveInfoPatients_launch.Instance.Index + 1;
+                    //Calculo el nuevo index al haber reordenado la lista de pacientes y dropdown
+                    int newIndex = SaveInfoPatients_launch.Instance.PatientsNamesId.Patients.IndexOf(SaveInfoPatients_launch.Instance.SelectedPatient);
+                    SaveInfoPatients_launch.Instance.Index = newIndex;
+                    patientsDrop.value = newIndex + 1;
                 }
 
                 Invoke(nameof(OpenAddPatientPanel), 1.3f);
