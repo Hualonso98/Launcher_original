@@ -58,7 +58,8 @@ public class Inicio : MonoBehaviour
                 && (bool.Parse(File.ReadAllLines(patientSelectedPath)[3]) == false))
             {
                 string[] lines = File.ReadAllLines(patientSelectedPath);
-                int ID = int.Parse(lines[0]);
+                // int ID = int.Parse(lines[0]); //CAMBIO DE ID A ALFANUMÉRICO
+                string ID = lines[0];
                 app_selected = int.Parse(lines[1]);
 
                 string name_app = "";

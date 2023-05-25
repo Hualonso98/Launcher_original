@@ -187,6 +187,9 @@ public class Patient
     public int LastSession_BBT { get => lastSession_BBT; set => lastSession_BBT = value; }
     public int LastSession_Clothespin { get => lastSession_Clothespin; set => lastSession_Clothespin = value; }
     public int LastSession_Fruits { get => lastSession_Fruits; set => lastSession_Fruits = value; }
+    public string Pathology { get => pathology; set => pathology = value; }
+
+    public bool LeftHandUsed { get => leftHandUsed; set => leftHandUsed = value; }
 
     /////////////////////////////////////////////////
     ///
@@ -236,7 +239,7 @@ public class Patient
         }
         else
         {
-            //Esto es para modificar la Last Session nada más.
+            //Esto es para modificar la Last Session 
 
             string[] arrLine = File.ReadAllLines(path);
 
@@ -249,9 +252,12 @@ public class Patient
 
             arrLine[1] = lastSession_Gestures + ";" + lastSession_MT + ";" + lastSession_BBT + ";" + lastSession_Clothespin + ";" + lastSession_Fruits;
 
+          
             File.WriteAllLines(path, arrLine);
         }
     }
+
+   
 
     public void LoadCsvPatient()
     {
@@ -309,7 +315,7 @@ public class Patient
                     /* name = targetLineSplitted[0];
                      surname1 = targetLineSplitted[1];
                      surname2 = targetLineSplitted[2];*/
-                  
+
                     //  ID = int.Parse(targetLineSplitted[0]);  //CAMBIO DE ID A ALFANUMÉRICO
                     ID = targetLineSplitted[0];
                     pathology = targetLineSplitted[1];
@@ -321,6 +327,7 @@ public class Patient
 
             line++;
         }
+
         //strReader.Close();
     }
 }
@@ -339,11 +346,11 @@ public class Patients
 [System.Serializable]
 public class PatientsNamesID
 {
-    [SerializeField] private List<int> patientsIdList = new List<int>();
+    [SerializeField] private List<string> patientsIdList = new List<string>();
     [SerializeField] private List<string> patientsNamesList = new List<string>();
     [SerializeField] private List<Patient> patients = new List<Patient>();
     ////////////////GETTERS Y SETTERS////////////////
-    public List<int> PatientsIdList { get => patientsIdList; set => patientsIdList = value; }
+    public List<string> PatientsIdList { get => patientsIdList; set => patientsIdList = value; }
     public List<string> PatientsNamesList { get => patientsNamesList; set => patientsNamesList = value; }
     public List<Patient> Patients { get => patients; set => patients = value; }
 
