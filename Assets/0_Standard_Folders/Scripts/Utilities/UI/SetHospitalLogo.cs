@@ -15,17 +15,21 @@ public class SetHospitalLogo : MonoBehaviour
     private void Awake()
     {
         string path = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Desktop) + "/RoboticsLab_UC3M/Develop/Logo/logo.dat";
-        //TRUE: Asepeyo FALSE: Mutua
+        //ASE: Asepeyo MUT: Mutua
         if (!File.Exists(path))
         {
             File.Create(path).Dispose();
-            File.WriteAllText(path, "true");
+            File.WriteAllText(path, "ASE");
 
             //Voy con los valores por defecto
         }
         else
         {
-            activeLogo = bool.TryParse(File.ReadAllText(path), out isAsepeyo);
+            // activeLogo = bool.TryParse(File.ReadAllText(path), out isAsepeyo);
+
+            string hospital = File.ReadAllText(path);
+            //Sería asepeyo si no es mutua o si está corrupto el fichero
+            if(hospital == "MUT") { activeLogo = true; } else { activeLogo = false; }
         }
 
         ChangeImageSprite();
