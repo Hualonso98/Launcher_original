@@ -22,6 +22,8 @@ public class LaunchApps : MonoBehaviour
 
     Coroutine wait_enter_coroutine;
 
+    public Transform gameButtons;
+
     //public string[] Paths { get => paths; set => paths = value; }
     public List<string> Paths1 { get => paths; set => paths = value; }
 
@@ -36,22 +38,26 @@ public class LaunchApps : MonoBehaviour
         path = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Desktop) + "/RoboticsLab_UC3M/Develop/Paths";
         // path = Application.dataPath + "/Paths";
         ReadPaths();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
+        DisableNotAllowedGames();
     }
 
     public void ReadPaths()
     {
         string[] data = File.ReadAllLines(path + "/ApplicationsPaths.txt");
 
-
         for (int i = 0; i < data.Length; i++)
         {
-            paths.Add(data[i]); Debug.Log(paths[i]);
+            paths.Add(data[i]);
+        }
+    }
+
+    public void DisableNotAllowedGames()
+    {
+        for (int i = 0; i < gameButtons.childCount; i++)
+        {
+            //Activo o desactivo el botón según lo guardado tras verificar los paths
+            //Sumo 2 al índice del array de SavingData para saltarme el Launcher y protocolo
+            gameButtons.GetChild(i).gameObject.SetActive(SavingData_launch.gamesAllowed[i + 2]);
         }
     }
 

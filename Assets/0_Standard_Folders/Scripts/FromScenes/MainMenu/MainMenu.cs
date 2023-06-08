@@ -4,12 +4,16 @@ using UnityEngine;
 
 public class MainMenu : MonoBehaviour
 {
+    public Transform buttons;
     // Start is called before the first frame update
     void Start()
     {
-       
+       DisableProtocolIfNotAllowed();
     }
-
+    public void DisableProtocolIfNotAllowed()
+    {
+        buttons.GetChild(1).gameObject.SetActive(SavingData_launch.gamesAllowed[1]);
+    }
     // Update is called once per frame
     void Update()
     {
