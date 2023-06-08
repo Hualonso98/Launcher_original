@@ -14,7 +14,7 @@ public class TestGetPaths : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-#if PLATFORM_STANDALONE_WIN //&& !UNITY_EDITOR
+#if PLATFORM_STANDALONE_WIN && !UNITY_EDITOR
 
         //Recojo path del Launcher y lo divido
         string[] splittedPath = Application.dataPath.Split('/');
