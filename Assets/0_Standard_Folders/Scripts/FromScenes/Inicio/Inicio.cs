@@ -36,7 +36,7 @@ public class Inicio : MonoBehaviour
             Directory.CreateDirectory(pathsRoot);
         }
 
-        ///Compruebo fichero de paths: false, lo creo
+        ///Compruebo fichero de paths: false, lo creo; true, lo leo y cargo paths
         if (!File.Exists(pathsRoot + "/ApplicationsPaths.txt"))
         {
             File.Create(pathsRoot + "/ApplicationsPaths.txt").Dispose();
@@ -48,6 +48,12 @@ public class Inicio : MonoBehaviour
 
             File.WriteAllText(pathsRoot + "/ApplicationsPaths.txt", data);
         }
+        else
+        {
+            //Compruebo los paths para deshabilitar juegos si ese path no está
+            ReadPaths();
+        }
+
         ///Compruebo que no hay path sin rellenar (si está vacío es que no se incluye, si tiene un 0 es que se ha olvidado)
         if (File.ReadAllText(pathsRoot + "/ApplicationsPaths.txt").Contains("0;"))
         {
@@ -142,6 +148,21 @@ public class Inicio : MonoBehaviour
             //La cuarta línea es la que indica si he seleccionado protocolo
 
             Debug.Log("No existe");
+        }
+    }
+
+    public void ReadPaths()
+    {
+        applicationPaths = new List<string>(File.ReadAllLines(pathsRoot + "/ApplicationsPaths.txt"));
+
+        for (int i = 0; i < applicationPaths.Count; i++)
+        {
+            Debug.Log(applicationPaths[i]);
+            if (applicationPaths[i] == "")
+            {
+                //Si ese path no se ha encontrado. No habilito jugarlo
+                SavingData_launch.gamesAllowed[i] = false;
+            }
         }
     }
 
