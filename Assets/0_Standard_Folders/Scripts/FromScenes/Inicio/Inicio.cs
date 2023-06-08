@@ -10,7 +10,15 @@ public class Inicio : MonoBehaviour
     public GameObject yes_button;
     public GameObject no_button;
 
-    string path = "";
+    //  string path = "";
+
+    ///Para paths
+    string pathsRoot = "";
+    List<string> applicationPaths = new List<string>();
+
+    ///Para patientSelected txt
+    string patientSelectedPath = "";
+    List<string> patientSelectedLines = new List<string>();
     int app_selected = 0;
 
     public void StartApplication()
@@ -19,48 +27,54 @@ public class Inicio : MonoBehaviour
     }
     private void Start()
     {
-        path = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Desktop) + "/RoboticsLab_UC3M/Develop/Paths";
-        // path = Application.dataPath + "/Paths";
-        if (!Directory.Exists(path))
+        pathsRoot = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Desktop) + "/RoboticsLab_UC3M/Develop/Paths";
+        patientSelectedPath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Desktop) + "/RoboticsLab_UC3M/Develop/" + "PatientSelected.txt";
+
+        ///Compruebo directorio de paths
+        if (!Directory.Exists(pathsRoot))
         {
-            Directory.CreateDirectory(path);
+            Directory.CreateDirectory(pathsRoot);
         }
 
-        if (!File.Exists(path + "/ApplicationsPaths.txt"))
+        ///Compruebo fichero de paths: false, lo creo
+        if (!File.Exists(pathsRoot + "/ApplicationsPaths.txt"))
         {
-            File.Create(path + "/ApplicationsPaths.txt").Dispose();
+            File.Create(pathsRoot + "/ApplicationsPaths.txt").Dispose();
 
             //TAG: Modificar para añadir juego al Launcher
             string data = "0;" + System.Environment.NewLine + "0;" + System.Environment.NewLine + "0;" + System.Environment.NewLine +
                 "0;" + System.Environment.NewLine + "0;" + System.Environment.NewLine + "0;" + System.Environment.NewLine + "0;" +
                 System.Environment.NewLine + "0;";
 
-            File.WriteAllText(path + "/ApplicationsPaths.txt", data);
+            File.WriteAllText(pathsRoot + "/ApplicationsPaths.txt", data);
         }
-
-        if (File.ReadAllText(path + "/ApplicationsPaths.txt").Contains("0;"))
+        ///Compruebo que no hay path sin rellenar (si está vacío es que no se incluye, si tiene un 0 es que se ha olvidado)
+        if (File.ReadAllText(pathsRoot + "/ApplicationsPaths.txt").Contains("0;"))
         {
             canvas_error.SetActive(true);
             Invoke(nameof(CloseLauncher), 2f);
         }
 
-        string patientSelectedPath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Desktop) + "/RoboticsLab_UC3M/Develop/" + "PatientSelected.txt";
-
         if (File.Exists(patientSelectedPath))
         {
-            //Commpruebo la cantidad de líneas del array, para ver si es una versión antigua y añadir el campo del protocolo
-            string[] linesRead = File.ReadAllLines(patientSelectedPath);
-            if (linesRead.Length < 4) { linesRead = linesRead.Append("False").ToArray(); }
-            File.WriteAllLines(patientSelectedPath, linesRead);
+            //Cargo 
+            patientSelectedLines = File.ReadAllLines(patientSelectedPath).ToList();
 
-
-            if (((File.ReadAllLines(patientSelectedPath))[0] != "--")
-                && (bool.Parse(File.ReadAllLines(patientSelectedPath)[3]) == false))
+            //Compruebo la cantidad de líneas del array, para ver si es una versión antigua y añadir el campo del protocolo
+            if (patientSelectedLines.Count < 4)
             {
-                string[] lines = File.ReadAllLines(patientSelectedPath);
+                //patientSelectedLines = patientSelectedLines.Append("False").ToArray();
+                patientSelectedLines.Add("False");
+                File.WriteAllLines(patientSelectedPath, patientSelectedLines);
+            }
+
+            //Si el ID del paciente no es -- es que había uno seleccionado, y si la línea 3 es false, es que no es protocolo
+            if ((patientSelectedLines[0] != "--")
+                && (bool.Parse(patientSelectedLines[3]) == false))
+            {
                 // int ID = int.Parse(lines[0]); //CAMBIO DE ID A ALFANUMÉRICO
-                string ID = lines[0];
-                app_selected = int.Parse(lines[1]);
+                string ID = patientSelectedLines[0];
+                app_selected = int.Parse(patientSelectedLines[1]);
 
                 string name_app = "";
                 switch (app_selected)
@@ -94,13 +108,15 @@ public class Inicio : MonoBehaviour
             }
             else
             {
-                if ((File.ReadAllLines(patientSelectedPath))[2] == "1")
+                //Compruebo la línea 2, que es a qué escena del Launcher quiero ir
+
+                if (patientSelectedLines[2] == "1")
                 {
                     //Es que quiero ir a la escena de Apps directamente
                     UnityEngine.SceneManagement.SceneManager.LoadScene("LauncherMenu");
                 }
 
-                if ((File.ReadAllLines(patientSelectedPath))[2] == "2")
+                if (patientSelectedLines[2] == "2")
                 {
                     //Es que quiero ir a escena pacientes directamente
                     string[] lines = File.ReadAllLines(patientSelectedPath);
@@ -108,7 +124,8 @@ public class Inicio : MonoBehaviour
                     app_selected = int.Parse(lines[1]);
                     //Guardo la APP y el Path
                     SavingData_launch.appSelected = app_selected;
-                    SavingData_launch.pathSelected = File.ReadAllLines(path + "/ApplicationsPaths.txt")[app_selected + 1]; //Como ahora el path de índice 1 es la fase intermedia, le sumo 1 a la appSelected
+                    SavingData_launch.pathSelected = applicationPaths[app_selected + 1]; //Como ahora el path de índice 1 es la fase intermedia, le sumo 1 a la appSelected
+
                     //Voy a escena pacientes directamente
                     UnityEngine.SceneManagement.SceneManager.LoadScene("Patient Menu");
                 }
@@ -130,7 +147,7 @@ public class Inicio : MonoBehaviour
 
     public void ContinueSession()
     {
-        string path_selected = File.ReadAllLines(path + "/ApplicationsPaths.txt")[app_selected + 1]; //Como ahora el path de índice 1 es la fase intermedia, le sumo 1 a la appSelected
+        string path_selected = applicationPaths[app_selected + 1]; //Como ahora el path de índice 1 es la fase intermedia, le sumo 1 a la appSelected
 
         //Pongo a True el state de que vengo del Launcher
         ReadSaveLauncherState.instance.SaveState(true);
