@@ -11,4 +11,7 @@ public static class SavingData_launch
 
     public static string firstDate;
     public static string lastDate;
+
+    //Launcher, Protocolo, Gestures, MT, BBT, Clothespin, Fruits, Supermarket
+    public static bool[] gamesAllowed = new bool[] { true, true, true, true, true, true, true, true };
 }
