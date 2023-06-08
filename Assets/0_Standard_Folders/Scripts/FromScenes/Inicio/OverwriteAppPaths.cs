@@ -5,7 +5,7 @@ using System.IO;
 using System.Linq;
 using UnityEngine;
 
-public class TestGetPaths : MonoBehaviour
+public class OverwriteAppPaths : MonoBehaviour
 {
     string[] applicationNames = new string[] { "Launcher", "Fase_Intermedia", "Gestures", "MT", "BBT", "Clothespin", "Fruits", "Supermarket" };
 

@@ -18,6 +18,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using System.IO;
 using System.IO.MemoryMappedFiles;
 using UnityEditor;
@@ -27,7 +28,7 @@ using UnityEngine;
 public class SetStandardFolders : MonoBehaviour
 {
 #if UNITY_EDITOR
-    List<string> folders = new List<string>() { };
+    List<string> folders = new List<string>();
     public TextAsset readme; //Solo lo creo para attachearlo desde Editor y que se añada como dependencia para exportar el package.
     private void Awake()
     {
@@ -72,15 +73,6 @@ public class SetStandardFolders : MonoBehaviour
         folders.Add("Tests");
 
         CreateFolders();
-
-        //string a = "Scripts/Data/Static";
-        //string b = a.Substring(0, a.LastIndexOf('/'));
-        //string c = a.Substring(a.LastIndexOf('/') + 1, (a.Length - 1 - a.LastIndexOf('/')));
-
-        //Debug.Log("A: " + a);
-        //Debug.Log("B: " + b);
-        //Debug.Log("C: " + c);
-        //Debug.Log("B + C: " + b + "/" + c);
     }
 
     [MenuItem("Assets/Create Asset Folders")]
