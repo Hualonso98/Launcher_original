@@ -61,7 +61,12 @@ public class SetStandardFolders : MonoBehaviour
         folders.Add("Sounds/EventsSounds");
         folders.Add("Sounds/Themes");
         folders.Add("Sprites");
+        folders.Add("Sprites/Figures");
+        folders.Add("Sprites/Figures/FromScenes");
+        folders.Add("Sprites/Figures/FromPrefabs");
+        folders.Add("Sprites/Backgrounds");
         folders.Add("Sprites/Menu_UI");
+        folders.Add("Sprites/Menu_UI/Figures");
         folders.Add("Sprites/Menu_UI/StandardButtons");
         folders.Add("Sprites/Menu_UI/Logos");
         folders.Add("Sprites/Menu_UI/Panels");
