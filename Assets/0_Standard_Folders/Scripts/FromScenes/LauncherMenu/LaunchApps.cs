@@ -81,9 +81,9 @@ public class LaunchApps : MonoBehaviour
                 break;
 
             case 2:
-                panel_reminder.GetComponentsInChildren<TMPro.TextMeshProUGUI>()[1].text = "Recuerde tener conectadas las gafas VR";
+                panel_reminder.GetComponentsInChildren<TMPro.TextMeshProUGUI>()[1].text = "Conecte las gafas VR ahora si se van a utilizar.";
 
-                panel_reminder.transform.Find("Panel_aviso/Icons").GetChild(0).gameObject.SetActive(true);
+                panel_reminder.transform.Find("Panel_aviso/Icons").GetChild(2).gameObject.SetActive(true);
 
                 //   wait_enter_coroutine = StartCoroutine(WaitInput(2));
                 //  Calls.instance.CallUltraleap();
