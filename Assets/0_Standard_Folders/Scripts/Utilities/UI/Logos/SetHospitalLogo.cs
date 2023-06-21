@@ -19,7 +19,7 @@ public class SetHospitalLogo : MonoBehaviour
         if (!File.Exists(path))
         {
             File.Create(path).Dispose();
-            File.WriteAllText(path, "ASE");
+            File.WriteAllText(path, "MUT");
 
             //Voy con los valores por defecto
         }
@@ -40,12 +40,13 @@ public class SetHospitalLogo : MonoBehaviour
         mutuaLogo = transform.Find("Logo MUTUA").gameObject;
 
         if (activeLogo)
-        {
-            if (isAsepeyo) { asepeyoLogo.SetActive(true); } else { mutuaLogo.SetActive(true); }
+        {//Mutua
+            asepeyoLogo.SetActive(false);
+            mutuaLogo.SetActive(true);
         }
         else
-        {
-            asepeyoLogo.SetActive(false);
+        {//Asepeyo
+            asepeyoLogo.SetActive(true);
             mutuaLogo.SetActive(false);
         }
     }
