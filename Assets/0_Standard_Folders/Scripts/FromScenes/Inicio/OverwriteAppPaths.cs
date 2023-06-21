@@ -14,24 +14,23 @@ public class OverwriteAppPaths : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-#if PLATFORM_STANDALONE_WIN && !UNITY_EDITOR
-
+#if PLATFORM_STANDALONE && !UNITY_EDITOR
         //Recojo path del Launcher y lo divido
         string[] splittedPath = Application.dataPath.Split('/');
-
+       
         //Me quedo con las partes del path que hacen la ruta donde están el resto de carpetas de ejecutables
         string[] rootSplittedPath = new string[splittedPath.Length - 2];
         Array.Copy(splittedPath, rootSplittedPath, splittedPath.Length - 2);
-
+       
         //Creo el path de raiz
         string rootPath = string.Join("/", rootSplittedPath);
 
         //Recojo los directorios de todos los juegos
         string[] applicationPaths = Directory.GetDirectories(rootPath);
-
+       
         //Voy a buscar el directorio por orden de juego, y buscar el archivo dentro de él que tiene un .exe
         //Guardo en una listalos paths de ejecutables
-        for (int i = 0; i < applicationPaths.Length; i++)
+        for (int i = 0; i < applicationNames.Length; i++)
         {
             string dir = Array.Find(applicationPaths, p => p.Contains(applicationNames[i]));
 
@@ -39,7 +38,7 @@ public class OverwriteAppPaths : MonoBehaviour
             {
                 string exeFile = Directory.GetFiles(dir).First(f => f.Contains(".exe"));
 
-                exePaths.Add(dir + "/" + exeFile);
+                exePaths.Add(exeFile);
             }
             else
             {
@@ -48,8 +47,8 @@ public class OverwriteAppPaths : MonoBehaviour
                 exePaths.Add("");
             }
         }
-
-        //Por último sobreescribo el .txt de paths
+        
+       //Por último sobreescribo el .txt de paths
         File.WriteAllLines(System.Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "/RoboticsLab_UC3M/Develop/Paths/ApplicationsPaths.txt", exePaths.ToArray());
 #endif
 
