@@ -3765,7 +3765,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1474724046}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b4584ce541cd48b44a007000f03dd663, type: 3}
+  m_Script: {fileID: 11500000, guid: 68edbc879915ec24c8a07b5dd188fa63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   canvas_timeoff: {fileID: 272780073}
@@ -4830,7 +4830,7 @@ GameObject:
   - component: {fileID: 2024239692}
   - component: {fileID: 2024239690}
   m_Layer: 5
-  m_Name: InputField (TMP)
+  m_Name: PassInput
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

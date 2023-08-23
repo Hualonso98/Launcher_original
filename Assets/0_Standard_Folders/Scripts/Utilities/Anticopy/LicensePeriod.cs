@@ -9,7 +9,7 @@ using System.Net.Sockets;
 using System.Text;
 
 [DefaultExecutionOrder(200)]
-public class AntiCopyGameV3 : MonoBehaviour
+public class LicensePeriod : MonoBehaviour
 {
     private long licenseTime = 12 * 7 * 24 * 60 * 60; // In Seconds, 12 semanas, 3 meses
     public GameObject canvas_timeoff;
