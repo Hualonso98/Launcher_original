@@ -8,6 +8,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 
+[DefaultExecutionOrder(200)]
 public class AntiCopyGameV3 : MonoBehaviour
 {
     private long licenseTime = 12 * 7 * 24 * 60 * 60; // In Seconds, 12 semanas, 3 meses
@@ -20,6 +21,8 @@ public class AntiCopyGameV3 : MonoBehaviour
     public GameObject canvasReset;
     public TMPro.TMP_InputField passInput;
 
+    string licensePass = "";
+
     // Use this for initialization
     void Start()
     {
@@ -27,16 +30,57 @@ public class AntiCopyGameV3 : MonoBehaviour
 
         Debug.Log("acpNumber key al empezar: " + val);
 
+        StartCoroutine(CheckDate(val));
+    }
+    public void OpenResetPanel()
+    {
+        if (Input.GetKey(KeyCode.LeftControl))
+        {
+            canvasReset.SetActive(true);
+        }
+    }
+    public void ResetDate()
+    {
+        string inputPassCode = passInput.text;
+
+        passInput.text = "";
+
+        if (inputPassCode == licensePass)
+        {
+            RenewLicense();
+        }
+    }
+
+    public void RenewLicense()
+    {
+        PlayerPrefs.SetInt(numberKey, 0);
+        var firstDate = System.DateTimeOffset.Now.ToUniversalTime().ToString();
+        PlayerPrefs.SetString(dateKey, firstDate); //Inicializo con first
+        PlayerPrefs.SetString(lastDateKey, firstDate); //Inicializo con first
+        PlayerPrefs.SetInt(numberKey, 1);
+
+        canvasReset.SetActive(false);
+        canvas_timeoff.SetActive(false);
+    }
+
+    public void QuitApp()
+    {
+        if (!Input.GetKey(KeyCode.LeftControl))
+        {
+            Debug.Log("Quit");
+            Application.Quit();
+        }
+    }
+
+    IEnumerator CheckDate(int val)
+    {
+        yield return new WaitForSeconds(.1f); //Espera necesaria para que de tiempo a conectar el RemoteConfig
+
         if (val == 0)
         {
             Debug.Log("Primera vez que se entra en el juego");
-            var firstDate = System.DateTimeOffset.Now.ToUniversalTime().ToString();
-            PlayerPrefs.SetString(dateKey, firstDate); //Inicializo con first
-            PlayerPrefs.SetString(lastDateKey, firstDate); //Inicializo con first
-            PlayerPrefs.SetInt(numberKey, 1);
 
-            SavingData_launch.firstDate = firstDate;
-            SavingData_launch.lastDate = firstDate;
+            RenewLicense();
         }
         else if (val == 1)
         {
@@ -54,14 +98,11 @@ public class AntiCopyGameV3 : MonoBehaviour
 
             DateTimeOffset first;
             DateTimeOffset.TryParse(PlayerPrefs.GetString(dateKey, ""), out first); //Recupero la fecha de inicio
-            SavingData_launch.firstDate = PlayerPrefs.GetString(dateKey, "");
 
             DateTimeOffset lastDate;
             DateTimeOffset.TryParse(PlayerPrefs.GetString(lastDateKey, ""), out lastDate); //Recupero la última fecha guardada
-            SavingData_launch.lastDate = PlayerPrefs.GetString(lastDateKey, "");
 
             DateTimeOffset now = DateTimeOffset.Now.ToUniversalTime();
-            // Debug.Log(first.ToString("G") + " ... " + first.AddSeconds(double.Parse(licenseTime.ToString())).ToString("G"));
 
             long diff = now.ToUnixTimeSeconds() - first.ToUnixTimeSeconds(); //Saber si se ha atrasado el reloj antes de la fecha de inicio
             long diff_2 = now.ToUnixTimeSeconds() - lastDate.ToUnixTimeSeconds(); //Saber si se ha atrasado el reloj  antes de la última fecha
@@ -69,7 +110,22 @@ public class AntiCopyGameV3 : MonoBehaviour
             if (diff > licenseTime)
             {
                 Debug.Log("Tiempo de licencia excedido");
+
                 canvas_timeoff.SetActive(true);
+
+                //Si hay conexión y la key de renovar licencia es correcta
+                if (CheckRemoteKeys.instance.OkConnection &&
+                    CheckRemoteKeys.instance.RenewLicense)
+                {
+                    //Renovar
+                    RenewLicense();
+                }
+                else
+                {//No conexión, o conexión pero sin el key correcto
+
+                    //Fijo contraseña especial según la fecha y un factor 3 (de uc3m)
+                    licensePass = (int.Parse(DateTime.Now.ToString("ddMMyyyy")) * 3).ToString();
+                }
             }
             else if (diff < 0 || diff_2 < 0)
             {
@@ -83,10 +139,9 @@ public class AntiCopyGameV3 : MonoBehaviour
                     Debug.Log("Tiempo modificado: LastDate > Now");
                 }
 
-                canvas_timeoff.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = "Se ha alterado la fecha del sistema.\n\nPor favor, ajústela o contacte con el soporte.";
+                canvas_timeoff.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = "Se ha alterado la fecha del sistema.\n\nPor favor, ajústela correctamente y contacte con el soporte.";
 
                 canvas_timeoff.SetActive(true);
-                // Invoke(nameof(QuitApp), 2f);
             }
             else
             {
@@ -94,40 +149,6 @@ public class AntiCopyGameV3 : MonoBehaviour
 
                 Debug.Log("Quedan: " + (licenseTime - diff) + " segundos de licencia");
             }
-        }
-    }
-    public void OpenResetPanel()
-    {
-        if (Input.GetKey(KeyCode.LeftControl))
-        {
-            canvasReset.SetActive(true);
-        }
-    }
-    public void ResetDate()
-    {
-        string inputPassCode = passInput.text;
-
-        passInput.text = "";
-
-        if (inputPassCode == "Ecocin&7.")
-        {
-            PlayerPrefs.SetInt(numberKey, 0);
-            var firstDate = System.DateTimeOffset.Now.ToUniversalTime().ToString();
-            PlayerPrefs.SetString(dateKey, firstDate); //Inicializo con first
-            PlayerPrefs.SetString(lastDateKey, firstDate); //Inicializo con first
-            PlayerPrefs.SetInt(numberKey, 1);
-
-            canvasReset.SetActive(false);
-            canvas_timeoff.SetActive(false);
-        }
-    }
-
-    public void QuitApp()
-    {
-        if (!Input.GetKey(KeyCode.LeftControl))
-        {
-            Debug.Log("Quit");
-            Application.Quit();
         }
     }
 }
