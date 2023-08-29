@@ -6,23 +6,25 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 0
-    path: Assets/Bat/New Scene.unity
+    path: Assets/0_Standard_Folders/Scripts/Old/Bat/New Scene.unity
     guid: acf9dd6edc3044a459509a6edbfc6a22
   - enabled: 1
-    path: Assets/Inicio/Scenes/INICIO/Start.unity
+    path: Assets/0_Standard_Folders/Scenes/Start.unity
     guid: 7832e589a142b694fa31ad1136099230
   - enabled: 1
-    path: Assets/Scenes/Launcher_Menu.unity
-    guid: 2cda990e2423bbf4892e6590ba056729
-  - enabled: 1
-    path: "Assets/Patient/Scenes/Men\xFA paciente/Patient Menu.unity"
-    guid: a8a071aeaf3151e4b882795579062ae4
-  - enabled: 1
-    path: Assets/Scenes/MainMenu.unity
+    path: Assets/0_Standard_Folders/Scenes/MainMenu.unity
     guid: 454002e9db6d3d6458a31fc797a117a8
   - enabled: 1
-    path: Assets/Scenes/Protocolo.unity
+    path: Assets/0_Standard_Folders/Scenes/LauncherMenu.unity
+    guid: 2cda990e2423bbf4892e6590ba056729
+  - enabled: 1
+    path: Assets/0_Standard_Folders/Scenes/Patient Menu.unity
+    guid: a8a071aeaf3151e4b882795579062ae4
+  - enabled: 1
+    path: Assets/0_Standard_Folders/Scenes/Protocolo.unity
     guid: ad970961dd9ffe144b799a062dd15f0d
   m_configObjects:
+    Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 70ad26ae3dd774a46b879534f05764e6,
+      type: 2}
     com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 4590f76c1c6f8e74fa1db71c5ec69215,
       type: 2}
